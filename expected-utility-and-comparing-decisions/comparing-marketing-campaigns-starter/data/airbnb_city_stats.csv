@@ -1,0 +1,19 @@
+city,country,total_listings,median_price_usd,median_reviews_per_month,pct_entire_home
+New York City,United States,37000,200,0.70,52
+Los Angeles,United States,30000,240,0.50,68
+Austin,United States,13000,240,0.55,72
+Vancouver,Canada,5500,170,0.55,55
+Mexico City,Mexico,25000,60,0.85,80
+Buenos Aires,Argentina,15000,55,0.65,75
+Rio de Janeiro,Brazil,22000,70,0.70,65
+Cape Town,South Africa,22000,100,0.70,80
+Paris,France,85000,110,0.60,85
+London,United Kingdom,80000,120,0.50,60
+Berlin,Germany,22000,80,0.55,45
+Amsterdam,Netherlands,9000,200,0.55,82
+Barcelona,Spain,17000,130,0.90,55
+Madrid,Spain,22000,110,0.75,68
+Rome,Italy,28000,125,0.85,75
+Lisbon,Portugal,25000,100,1.00,75
+Tokyo,Japan,12000,95,0.40,55
+Sydney,Australia,15000,195,0.50,70
