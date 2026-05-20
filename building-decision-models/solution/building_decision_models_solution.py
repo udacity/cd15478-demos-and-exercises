@@ -215,16 +215,3 @@ print(f"Pessimistic-case EV winner: {ev_pess.idxmax()}  (${ev_pess.max():.2f}M)"
 # profile. Any recommendation based on the base-case weights should note this threshold:
 # if the team believes P(Low) exceeds roughly 40%, Regional Rollout becomes the
 # stronger choice on expected profit grounds.
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# Step 6 of the Nimbus project follows the same pattern you just built:
-# define `OPTIONS` and `STATES` (derived from the posterior distribution),
-# call `option_profit(option, lift, margin, cac)` for every option × state
-# combination to populate a payoff DataFrame, and draw the decision tree with
-# `boxstyle="round"` node labels. The key transfer: writing `option_profit`
-# as a reusable function that takes the option name and uncertain inputs as
-# arguments — instead of hardcoding a table — is exactly what makes the
-# project's tree extensible to new options or new state assumptions.

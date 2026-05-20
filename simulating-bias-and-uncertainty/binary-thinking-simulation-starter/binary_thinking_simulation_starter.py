@@ -199,20 +199,3 @@ print(f"Systematic gap:                            ${ev_ev - binary_ev:,.0f}K pe
 # *TODO: Write 2–3 sentences. Use specific numbers from steps 3–6. Explain:*
 # - *What the coin-flip simulations (steps 3–4) revealed about binary thinking.*
 # - *Why the analytical gap (step 6) matters more than the single-season result (step 5).*
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# In the capstone project, you'll analyze a pricing decision for **Nimbus Streaming**,
-# a fictional 4M-subscriber video service. At every step of that analysis — estimating
-# churn probability from pilot data, computing expected revenue impact under different
-# price scenarios, running sensitivity tests — you'll be working with probability
-# estimates that sit in the same uncertain 30–60% range you just simulated.
-#
-# The biases you quantified here don't disappear just because the analysis is more
-# sophisticated. An analyst who thinks "we have a 54% chance this price increase pays
-# off, so it'll pay off" is making the same mistake as WaveForm's editorial team.
-# The decision framework you'll build in the project exists precisely to avoid that:
-# to make recommendations that are grounded in the full uncertainty — the hit rate
-# *and* the miss rate — not a rounded-up certainty.

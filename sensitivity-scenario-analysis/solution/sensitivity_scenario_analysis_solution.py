@@ -187,15 +187,3 @@ scenario_results
 # financial case disappears entirely. A recommendation that ignores this threshold
 # is overconfident; a well-grounded memo should state the exact condition that would
 # flip the recommendation and flag it as the primary risk to monitor.
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# Step 8 of the Nimbus project runs the same analysis on the pricing decision: flex
-# each uncertain input (churn lift, contribution margin, CAC, LTV months) one at a time
-# and plot a tornado of how much each moves the recommended option's expected profit.
-# The code structure — a `flex` list of `(driver, low_value, high_value, kwarg)` tuples,
-# a loop that calls the profit function twice per driver, and a DataFrame sorted by range —
-# is identical to what you built here. The Nimbus tornado also uses `brentq` to find the
-# break-even churn lift, mirroring step 5 above.

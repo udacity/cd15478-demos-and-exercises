@@ -169,16 +169,3 @@ print(f"Pessimistic-case EV winner: {ev_pess.idxmax()}")
 # %% [markdown]
 # *TODO: Write 1–2 sentences. Does the EV-maximizing option change? Under what
 # specific condition would you switch from the base-case recommendation?*
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# Step 6 of the Nimbus project follows the same pattern you just built:
-# define `OPTIONS` and `STATES` (derived from the posterior distribution),
-# call `option_profit(option, lift, margin, cac)` for every option × state
-# combination to populate a payoff DataFrame, and draw the decision tree with
-# `boxstyle="round"` node labels. The key transfer: writing `option_profit`
-# as a reusable function that takes the option name and uncertain inputs as
-# arguments — instead of hardcoding a table — is exactly what makes the
-# project's tree extensible to new options or new state assumptions.

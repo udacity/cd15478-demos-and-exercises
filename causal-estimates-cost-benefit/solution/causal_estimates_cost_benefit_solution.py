@@ -241,17 +241,3 @@ print(f"Experimental benchmark: ${EXPERIMENTAL_BENCH:+,.0f}/year → ROI {bench_
 # to "strongly expand" (experimental benchmark). The IPW estimate lands in the middle with
 # high uncertainty. The key lesson: the business decision depends entirely on which causal
 # estimate you use, which makes methodological rigor non-optional.
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# The Nimbus project's Step 2 solves the same problem on a different domain: the pilot
-# markets were non-randomly assigned (urban/higher-income areas), so the junior analyst's
-# naive churn-lift estimate is biased. The project uses IPW — with the same
-# `ipw_estimate` function signature you implemented here — to correct for that
-# confounding before feeding the lift into the cost-benefit model.
-#
-# Step 4 of the project then builds the cost-benefit function (`option_profit`) that
-# translates the corrected churn lift directly into 12-month incremental profit — the
-# same ROI logic you applied in steps 8 and 9 above, scaled to Nimbus's 4M-subscriber base.

@@ -170,16 +170,3 @@ print(f"P(Lease NPV > 0): {p_lease_pos:.1%}")
 # resale value to exceed roughly 50% of purchase price (above the mean assumption of
 # 40%), Buy becomes competitive; below that, Lease dominates. Both EV options are
 # robustly better than Hold across essentially all simulated conditions.
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# Step 5 of the Nimbus project runs this exact pattern on the pricing decision:
-# `sim_lift`, `sim_margin`, `sim_cac`, and `sim_ltv` are drawn from Normal distributions,
-# and `option_profit(option, l, m, c, ltv)` is evaluated across all 10,000 draws.
-# The resulting `sim_profits` DataFrame (options × N_SIMS) feeds into both the
-# decision-theory step (CRRA utility, Minimax regret) and the robustness step (% of
-# simulations where the recommended option wins). The code structure you used here —
-# one `np.random.default_rng(seed)`, vectorized draws, and a single `zip` loop —
-# is identical to the project's Monte Carlo implementation.

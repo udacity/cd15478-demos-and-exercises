@@ -131,16 +131,3 @@ summary
 # *TODO: Write 2–3 sentences. State which option the simulation favors (higher mean,
 # lower risk, or both). Quantify P(Buy > Lease). State the condition under which Buy
 # would outperform Lease (hint: resale value).*
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# Step 5 of the Nimbus project runs this exact pattern on the pricing decision:
-# `sim_lift`, `sim_margin`, `sim_cac`, and `sim_ltv` are drawn from Normal distributions,
-# and `option_profit(option, l, m, c, ltv)` is evaluated across all 10,000 draws.
-# The resulting `sim_profits` DataFrame (options × N_SIMS) feeds into both the
-# decision-theory step (CRRA utility, Minimax regret) and the robustness step (% of
-# simulations where the recommended option wins). The code structure you used here —
-# one `np.random.default_rng(seed)`, vectorized draws, and a single `zip` loop —
-# is identical to the project's Monte Carlo implementation.

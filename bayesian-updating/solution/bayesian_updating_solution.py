@@ -193,19 +193,3 @@ print()
 print("A wider prior assigns less precision to the prior belief, so the likelihood")
 print("(batch-1 data) gets proportionally more weight. The posterior shifts closer to")
 print("the batch-1 mean and arrives with a slightly different uncertainty level.")
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# In the capstone project, you'll apply the same `normal_update` function to the Nimbus
-# Streaming pricing decision. Step 3 of that project builds a Normal prior on the
-# 3-month churn-lift estimate from comparable industry pricing events, then updates it
-# twice in sequence: first with the IPW-corrected pilot estimate (likelihood 1), then
-# with a pre-announcement survey signal (likelihood 2). The structure is identical to
-# what you built here — prior → Posterior 1 → Posterior 2 — with the posterior mean
-# feeding directly into the cost-benefit model as the central churn-lift assumption.
-#
-# The key transfer: the `normal_update` signature and the precision-weighting formula
-# you implemented carry over to the project unchanged. Only the domain (meal-kit demand
-# vs. subscription churn lift) and the scale of the numbers differ.

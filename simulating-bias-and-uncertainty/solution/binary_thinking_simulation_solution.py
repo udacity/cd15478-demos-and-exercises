@@ -257,20 +257,3 @@ print(f"Consistent gap:                               ${payoff_avg - binary_avg:
 # "does this genre cover its costs?" Those are different questions with different
 # answers. The break-even hit rate for this payoff structure is 34.8%. Any threshold
 # that ignores the payoff math will leave money on the table.
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# In the capstone project, you'll analyze a pricing decision for **Nimbus Streaming**,
-# a fictional 4M-subscriber video service. At every step of that analysis — estimating
-# churn probability from pilot data, computing revenue impact under different price
-# scenarios, running sensitivity tests — you'll be working with probability estimates
-# that sit in the same uncertain 30–60% range you just simulated.
-#
-# The biases you quantified here don't disappear just because the analysis is more
-# sophisticated. An analyst who thinks "we have a 54% chance this price increase pays
-# off, so it'll pay off" is making the same mistake as the rule this exercise examined.
-# The decision framework you'll build in the project exists precisely to avoid that:
-# to make recommendations grounded in the full uncertainty — the hit rate *and* the
-# miss rate — not a rounded-up certainty.

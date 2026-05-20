@@ -229,17 +229,3 @@ plt.show()
 # departure from a data dump: instead of printing two numbers in a table, it renders the
 # margin between current and break-even rates as a physical gap on a number line, making
 # the "11 cents of cushion" interpretable without mental arithmetic.
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# Step 9 of the Nimbus project asks you to write a one-page BLUF memo to the CFO about
-# the pricing decision — the same structure you used here. The memo leads with the
-# recommendation (not the methodology), quantifies what would change the answer
-# (the break-even churn lift from the sensitivity step), and cites only the numbers
-# the stakeholder needs (not the full decision-theory table). The three charts you
-# built here — scenario comparison, simplified tornado, and break-even visual — are
-# exactly the exhibit types the Nimbus project memo recommends including as supporting
-# exhibits. The skill being practiced is the same: distilling a multi-step analysis
-# into a communication a non-technical stakeholder can act on.

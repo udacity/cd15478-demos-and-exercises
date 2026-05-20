@@ -169,19 +169,3 @@ print(f"Update 1 with original prior sd ({PRIOR_SD:.0f}): posterior mu = {post1_
 print(f"Update 1 with doubled prior sd  ({PRIOR_SD_WIDE:.0f}): posterior mu = {post1_wide_mu:.1f}")
 print()
 # TODO: Add 1–2 sentences explaining why the doubled-sd prior gives the data more weight.
-
-# %% [markdown]
-# ---
-# ## Connecting forward: what this means for the Nimbus project
-#
-# In the capstone project, you'll apply the same `normal_update` function to the Nimbus
-# Streaming pricing decision. Step 3 of that project builds a Normal prior on the
-# 3-month churn-lift estimate from comparable industry pricing events, then updates it
-# twice in sequence: first with the IPW-corrected pilot estimate (likelihood 1), then
-# with a pre-announcement survey signal (likelihood 2). The structure is identical to
-# what you built here — prior → Posterior 1 → Posterior 2 — with the posterior mean
-# feeding directly into the cost-benefit model as the central churn-lift assumption.
-#
-# The key transfer: the `normal_update` signature and the precision-weighting formula
-# you implemented carry over to the project unchanged. Only the domain (meal-kit demand
-# vs. subscription churn lift) and the scale of the numbers differ.
