@@ -127,7 +127,7 @@ ev = ...
 # Compute the **expected utility** of each option, then back out the
 # **certainty-equivalent profit** — the constant profit the decision-maker would
 # accept in lieu of the gamble. For γ = 2, the certainty-equivalent of a gamble
-# with expected utility $\bar{u}$ is $-1/\bar{u} - W$.
+# with expected utility $\bar{u}$ is $\frac{1}{1 - \bar{u}} - W$.
 #
 # Identify the option that maximizes expected utility.
 
