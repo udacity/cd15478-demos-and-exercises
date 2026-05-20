@@ -245,11 +245,10 @@ plt.show()
 
 # %% [markdown]
 # **What this chart answers:** "At what point does the recommendation break down?"
-# The Standard format needs {breakeven_customers:.0f} customers per day to recover
-# its buildout cost — the base assumption of {STANDARD['daily_customers']} gives a
-# cushion of {cushion:.0f} customers. That's meaningful, but since daily customer count
-# is also the dominant tornado driver, validating the foot-traffic estimate before
-# signing is the single most important pre-commitment step.
+# The Standard format needs roughly 191 customers per day to recover its buildout cost.
+# The base assumption of 250 gives a cushion of about 59 customers — meaningful, but
+# since daily customer count is also the dominant tornado driver, validating the
+# foot-traffic estimate before signing is the single most important pre-commitment step.
 
 # %% [markdown]
 # ---
