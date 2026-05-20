@@ -177,13 +177,3 @@ comparison = ...
 
 # %% [markdown]
 # *TODO: write your one-sentence robustness interpretation here.*
-
-# %% [markdown]
-# ## Nimbus Streaming preview
-#
-# This analysis is a direct input to the cost-benefit model in a full decision
-# pipeline. In **Nimbus Streaming**, the same `applicant_ev()` function runs
-# over live application data as it arrives, updating the threshold recommendation
-# in real time as portfolio composition shifts. The comparison table above becomes
-# a live dashboard refreshed each time the credit-risk model scores a new batch
-# of applications.
