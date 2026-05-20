@@ -181,7 +181,7 @@ print(f"Corrected ROI: {corrected_roi:.1%}")
 print(f"Naive ROI:     {naive_roi:.1%}")
 
 # %% [markdown]
-# ## 9. Sensitivity check: experimental benchmark
+# ## 9. Validation: how does IPW compare to the experimental benchmark?
 
 # %%
 # TODO: Compute the ROI if the true effect equals EXPERIMENTAL_BENCH.
