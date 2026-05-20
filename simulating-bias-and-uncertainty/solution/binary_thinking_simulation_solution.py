@@ -42,8 +42,6 @@
 # 5. One simulated season per strategy, showing the dollar difference for that draw.
 # 6. The average profit per strategy — plain multiplication, no randomness needed.
 # 7. A takeaway on what rounding probabilities actually costs.
-#
-# The deliverable stops at the analytical layer. It does not produce a stakeholder recommendation.
 
 # %% [markdown]
 # ## Setup

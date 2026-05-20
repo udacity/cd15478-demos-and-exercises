@@ -35,7 +35,6 @@
 #
 # - Naive vs. IPW earnings lift with 95% bootstrap CI.
 # - Cost-benefit ROI under three assumptions (naive, IPW-corrected, experimental benchmark).
-# - Stops at the analytical layer; does not produce a stakeholder recommendation.
 
 # %% [markdown]
 # ## Setup

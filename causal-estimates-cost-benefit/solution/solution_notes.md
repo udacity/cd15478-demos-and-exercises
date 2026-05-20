@@ -54,7 +54,6 @@ analyst would recommend shutting down a program that genuinely helps participant
   its own propensity model.
 - **Jumping to "expand the program" without CI caveat** — The wide CI means the program's
   ROI is uncertain. Learners should note the CI spans negative territory; the exercise
-  deliberately stops at the analytical layer.
 
 ## How this exercise feeds the project
 

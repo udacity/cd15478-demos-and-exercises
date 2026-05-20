@@ -38,7 +38,6 @@
 # 6. A decision tree visualization in the project's style.
 # 7. A sensitivity flex showing that the EV winner flips under pessimistic weights.
 #
-# Stops at the analytical layer. Does not produce a stakeholder recommendation.
 
 # %% [markdown]
 # ## Setup

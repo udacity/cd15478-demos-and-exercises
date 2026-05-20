@@ -38,7 +38,6 @@
 # 4. Pre-order quantities Q under each belief state.
 # 5. A sensitivity check showing how prior width affects the first update.
 #
-# Stops at the analytical layer — does not produce a stakeholder recommendation.
 
 # %% [markdown]
 # ## Setup

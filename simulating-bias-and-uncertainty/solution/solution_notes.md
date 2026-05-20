@@ -17,7 +17,6 @@ Latin at 48.0%) that are all EV-positive under the payoff structure — not beca
 high-probability, but because the asymmetric payoff ($15K gain vs. $8K loss) makes
 anything above a 34.8% hit rate worth running.
 
-This exercise stops at a simulated comparison. It does not produce a stakeholder recommendation.
 
 ## Key steps
 

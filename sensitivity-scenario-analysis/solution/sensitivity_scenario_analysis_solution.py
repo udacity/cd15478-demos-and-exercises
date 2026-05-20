@@ -26,7 +26,6 @@
 # homeowner's 10-year NPV is to electricity rates, installation costs, and policy
 # incentives. Sensitivity ranges are grounded in real EIA electricity price history.
 #
-# Stops at the analytical layer — does not produce a stakeholder recommendation.
 
 # %% [markdown]
 # ## Setup

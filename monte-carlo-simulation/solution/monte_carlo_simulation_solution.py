@@ -27,7 +27,6 @@
 # electricity rates, utilization, maintenance savings, and resale values quantifies the
 # distribution of outcomes and identifies which strategy is more robust.
 #
-# Stops at the analytical layer — does not produce a recommendation memo.
 
 # %% [markdown]
 # ## Setup
