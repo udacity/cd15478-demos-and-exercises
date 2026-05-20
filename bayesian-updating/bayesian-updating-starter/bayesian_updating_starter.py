@@ -99,11 +99,18 @@ print(f"Batch 2 likelihood: mu={lik2_mu:.1f}, se={lik2_sd:.2f}")
 # %% [markdown]
 # ## 4. Implement `normal_update`
 #
-# Closed-form Normal-Normal conjugate update: precision-weighted average of prior and
-# likelihood, with posterior precision = sum of precisions.
+# The precision of a Normal distribution is 1 / sd². The conjugate update combines
+# the prior and likelihood by adding their precisions and taking a precision-weighted
+# average of their means:
+#
+#   prior_prec = 1 / prior_sd²
+#   lik_prec   = 1 / lik_sd²
+#   post_prec  = prior_prec + lik_prec          (precisions add)
+#   post_mu    = (prior_prec × prior_mu + lik_prec × lik_mu) / post_prec
+#   post_sd    = sqrt(1 / post_prec)
 
 # %%
-# TODO: Implement normal_update. Return (posterior_mean, posterior_sd).
+# TODO: Implement normal_update using the formula above. Return (posterior_mean, posterior_sd).
 def normal_update(prior_mu: float, prior_sd: float,
                   lik_mu: float, lik_sd: float) -> tuple[float, float]:
     """Conjugate Normal-Normal update. Returns (posterior_mean, posterior_sd)."""
