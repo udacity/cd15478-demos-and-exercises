@@ -1,94 +1,93 @@
-# Sensitivity and Scenario Analysis for a Solar Installer
+# Sensitivity and Scenario Analysis for a Coffee Chain
 
 ## Scenario
 
-You are a decision analyst at **SunRoute**, a fictional residential solar installation
-company. SunRoute offers homeowners three package options — Value Pack (5 kW), Standard
-(8 kW), and Premium (12 kW) — and earns its margin from the installation contract. Before
-recommending a package, SunRoute wants to know: *how sensitive is the homeowner's
-10-year net present value (NPV) to the assumptions we're making about electricity rates,
-installation costs, and policy incentives?*
+You are a decision analyst at **BrewPoint Coffee**, a fictional specialty coffee chain with
+45 locations across the Pacific Northwest. The VP of Real Estate is evaluating entry into
+a new metro market and has narrowed the choice to three store formats:
 
-The financial case for solar depends on a handful of key inputs, none of which is known
-with certainty: electricity rates fluctuate by season, geography, and policy; installed
-system costs have been falling for a decade; the federal solar tax credit could be revised;
-and each home's actual production depends on orientation, shading, and local climate. If
-the financial case is robust to realistic variation in those inputs, that's a strong
-signal. If the NPV flips sign under a modest pessimistic flex, the recommendation needs
-a caveat.
+- **Flagship** — 2,000 sq ft street-level café, full menu, premium location. High buildout
+  cost, high revenue potential, but more exposed to slow foot-traffic days.
+- **Standard** — 1,200 sq ft neighborhood café, core menu. The team's working assumption
+  for a typical new market entry.
+- **Kiosk** — 400 sq ft kiosk in a transit hub, grab-and-go menu. Low buildout, capped
+  upside, but predictable commuter traffic.
 
-To anchor the sensitivity ranges, `data/eia_residential_rate.csv` contains real monthly
-US residential electricity retail prices from the Bureau of Labor Statistics via
-[FRED](https://fred.stlouisfed.org/series/APU000072610) (public domain). You'll use this
-real rate history to set the base-case electricity rate and justify the sensitivity flex.
+The decision is modeled as a 5-year lease NPV: upfront buildout cost against the present
+value of annual operating profits over the lease term.
+
+To anchor the annual price growth assumption, `data/food_away_from_home_cpi.csv` contains
+the US CPI for Food Away from Home (FRED series CUUR0000SEFV, US Census Bureau / BLS,
+public domain). You'll compute the recent average annual growth rate from that series and
+use it as the `ticket_growth` parameter in the NPV model.
 
 ## What you'll deliver
 
 A completed Jupyter notebook (start from `sensitivity_scenario_analysis_starter.ipynb`) that:
 
-1. Loads the EIA electricity rate data, computes the base-case rate (mean of 2019–2024)
-   and the flex range (±1 SD over the same period).
-2. Implements `system_npv(system_kw, elec_rate, rate_inc, cost_per_w, itc_rate)` —
-   the 10-year NPV of a residential solar system — using the constants below.
-3. Computes base-case NPV for each of the three package options.
-4. Builds a **tornado diagram**: flex each of the four inputs (electricity rate, annual
-   rate increase, install cost, federal ITC) one at a time while holding the others at
-   their base values. Show which input moves the Standard package's NPV the most.
-5. Identifies the **break-even electricity rate**: the rate at which the Standard
-   package's NPV equals zero. Use `scipy.optimize.brentq`.
-6. Computes NPV under three named scenarios (Optimistic, Base, Pessimistic) for all
-   three packages and produces a comparison table.
-7. Writes a 2–3 sentence interpretation: which input dominates the sensitivity, and what
-   does the break-even rate imply about the robustness of SunRoute's value proposition?
+1. Loads the food-away-from-home CPI data and computes the average annual price growth
+   rate over the past five years. Uses that rate as `TICKET_GROWTH`.
+2. Implements `cafe_npv(daily_customers, avg_ticket, op_margin, rent_annual, buildout)`
+   — a function that returns the 5-year lease NPV in dollars. All parameters must be
+   accepted as arguments; no hardcoded values inside the function body.
+3. Computes the base-case NPV for all three formats using the stipulated parameters
+   below. Identifies the highest-NPV format.
+4. Produces a **tornado diagram** for the Standard format: flex each of the four
+   drivers (daily customers, average ticket, operating margin, annual rent) one at a
+   time by the amounts in the [Tornado flex amounts](#tornado-flex-amounts) table below.
+   Plot the two-bar horizontal chart sorted by range, largest at the top.
+5. Defines three **named scenarios** for the Standard format — Optimistic, Base,
+   Pessimistic — using the parameters in the [Scenarios](#scenarios) table, and
+   computes the NPV under each.
+6. Computes the **break-even daily customer count** for the Standard format: the
+   minimum number of daily customers at which NPV ≥ 0. Use `scipy.optimize.brentq`.
+7. Plots a **break-even chart**: a horizontal bar with an "unprofitable" zone (red)
+   and a "profitable" zone (green), marking the break-even count and the base-case
+   assumption on the same axis.
+8. Writes a 2–3 sentence interpretation: which format wins, what the dominant driver
+   is, and what condition would flip the Standard recommendation.
 
-## NPV model and constants (stipulated)
+## Base-case parameters
 
-```
-ELEC_RATE   = [derived from EIA data]   # $/kWh, base-case
-RATE_INC    = 0.030   # annual electricity rate increase (3%/yr)
-COST_PER_W  = 3.00    # $/W installed cost (NREL 2024 benchmark)
-ITC_RATE    = 0.30    # federal solar tax credit (Inflation Reduction Act)
-DISC_RATE   = 0.05    # homeowner discount rate
-PROD_KWH_KW = 1300    # kWh produced per kW-installed per year (US average)
-YEARS       = 10      # planning horizon
-```
+| Format | Daily customers | Avg ticket | Op margin | Annual rent | Buildout |
+| --- | --- | --- | --- | --- | --- |
+| Flagship | 420 | $9.00 | 17% | $110,000 | $470,000 |
+| Standard | 250 | $8.50 | 20% | $60,000 | $250,000 |
+| Kiosk | 130 | $7.50 | 23% | $42,000 | $75,000 |
 
-`system_npv` should compute:
-- `upfront_cost = system_kw × 1000 × cost_per_w × (1 − itc_rate)`
-- `annual_savings_year_t = system_kw × PROD_KWH_KW × elec_rate × (1 + rate_inc)^t`
-- `NPV = Σ(annual_savings_t / (1 + DISC_RATE)^t for t=1..YEARS) − upfront_cost`
+Additional fixed parameters: `OPERATING_DAYS = 350`, `DISCOUNT_RATE = 0.08`,
+`LEASE_YEARS = 5`. `TICKET_GROWTH` is derived from the CPI data in step 1.
 
-## Named scenarios
+## Tornado flex amounts
 
-| Scenario | `elec_rate` | `rate_inc` | `cost_per_w` | `itc_rate` |
-| --- | --- | --- | --- | --- |
-| Optimistic | base + 2 × SD | 0.04 | 2.50 | 0.35 |
-| Base | base | 0.030 | 3.00 | 0.30 |
-| Pessimistic | base − 2 × SD | 0.02 | 3.50 | 0.25 |
+| Driver | Low value | High value |
+| --- | --- | --- |
+| Daily customers | −30 (220) | +30 (280) |
+| Average ticket | −$0.50 ($8.00) | +$0.50 ($9.00) |
+| Operating margin | −2pp (18%) | +2pp (22%) |
+| Annual rent | +$10,000 ($70,000) | −$10,000 ($50,000) |
 
-(Use the SD you derive from the EIA data; 2 × SD approximates the range of rate environments
-SunRoute operates in across different US regions.)
+## Scenarios
+
+| Scenario | Daily customers | Ticket growth | Buildout |
+| --- | --- | --- | --- |
+| Optimistic | 310 | 5.5% | $230,000 |
+| Base | 250 | (from CPI data) | $250,000 |
+| Pessimistic | 185 | 1.5% | $275,000 |
 
 ## Requirements
 
-- Notebook must run top to bottom without errors.
-- `ELEC_RATE` must be derived from the EIA data — don't hardcode it.
-- The sensitivity flex ranges must reference the EIA-derived SD — don't hardcode them.
-- The tornado diagram must be sorted by sensitivity range (largest at top) and show the
-  central NPV as a vertical dashed line.
-- `brentq` must be used for the break-even calculation; don't solve it analytically.
-- The interpretation paragraph must name the top driver and quantify the break-even margin.
-
-## Resources you may find useful
-
-- [FRED: APU000072610 — Residential Electricity Price](https://fred.stlouisfed.org/series/APU000072610) — data source
-- [NREL: Solar Market Research & Analysis](https://www.nrel.gov/solar/market-research-analysis/solar-cost-data.html) — system cost benchmarks
-- [scipy.optimize.brentq](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html) — root-finding for break-even
-- [IRS: Residential Clean Energy Credit](https://www.irs.gov/credits-deductions/residential-clean-energy-credit) — ITC details
+- `cafe_npv` must derive all annual revenues and profits from its arguments.
+- `TICKET_GROWTH` must be computed from the CPI data — do not hardcode it.
+- The tornado chart must be sorted by swing size (largest swing at the top).
+- The break-even must use `brentq`, not a manual loop.
+- The interpretation must cite specific numbers from the analysis.
 
 ## Note on the data
 
-`data/eia_residential_rate.csv` contains real monthly US residential electricity retail
-prices from the BLS/FRED (APU000072610, public domain). System cost benchmarks come from
-NREL's publicly available Annual Solar Cost Benchmark Report. The scenario company
-**SunRoute** is fictional; the rate history and cost benchmarks are real.
+`data/food_away_from_home_cpi.csv` contains the US Consumer Price Index for Food Away
+from Home (FRED series
+[CUUR0000SEFV](https://fred.stlouisfed.org/series/CUUR0000SEFV)), published by the
+US Bureau of Labor Statistics via the Federal Reserve Economic Data (FRED) system.
+US Government data, public domain. The scenario company **BrewPoint Coffee** is
+fictional; the underlying price index data is real.
