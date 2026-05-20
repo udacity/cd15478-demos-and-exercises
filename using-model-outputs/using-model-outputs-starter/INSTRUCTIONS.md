@@ -14,7 +14,7 @@ Three candidate thresholds are on the table:
 
 A stricter threshold leaves money on the table: many marginal applicants who would have repaid are turned away. A looser threshold approves too many high-risk borrowers whose expected losses exceed the interest income they generate. The model's PD output is what lets the team find the right middle.
 
-The Chief Risk Officer has asked the team to quantify expected total profit under each threshold and to state — with numbers — which threshold ClearBridge should adopt.
+The Head of Lending has asked the team to quantify expected total profit under each threshold and to state — with numbers — which threshold ClearBridge should adopt.
 
 ## What you'll deliver
 
