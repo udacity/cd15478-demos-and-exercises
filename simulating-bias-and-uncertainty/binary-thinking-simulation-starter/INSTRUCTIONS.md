@@ -69,7 +69,7 @@ covers how to build a cost-benefit model from first principles.
 
 ## Resources you may find useful
 
-- [NumPy: Generator.binomial](https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.binomial.html) — for simulating campaign outcomes
+- [NumPy: Generator.binomial](https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.binomial.html) — `RNG.binomial(1, p, n)` draws `n` binary outcomes (1 = hit, 0 = miss) where each has probability `p` of being a hit; this is the core simulation tool for steps 3 and 4
 - [pandas: DataFrame.groupby](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html) — for computing genre-level hit rates
 - [Spotify Web API: Audio Features](https://developer.spotify.com/documentation/web-api/reference/get-audio-features) — background on the danceability, energy, and valence fields
 - [TidyTuesday 2020-01-21](https://github.com/rfordatascience/tidytuesday/tree/main/data/2020/2020-01-21) — original data source
