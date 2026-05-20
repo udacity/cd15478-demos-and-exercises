@@ -30,8 +30,7 @@
 # ## What this notebook delivers
 #
 # [List of deliverables, matching the INSTRUCTIONS scenario's "what you'll
-# deliver" framing. State that this stops at the analytical layer and does
-# not produce a stakeholder-facing recommendation.]
+# deliver" framing.]
 
 # %% [markdown]
 # ## Setup
