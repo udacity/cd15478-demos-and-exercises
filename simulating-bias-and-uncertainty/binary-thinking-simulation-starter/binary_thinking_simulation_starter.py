@@ -80,9 +80,9 @@ print()
 
 # TODO: Add two boolean columns to genre_stats:
 #   `binary_runs` — True if hit_rate > BINARY_THRESHOLD
-#   `ev_runs`     — True if hit_rate > BREAK_EVEN
+#   `profitable_runs`     — True if hit_rate > BREAK_EVEN
 genre_stats["binary_runs"] = ...
-genre_stats["ev_runs"]     = ...
+genre_stats["profitable_runs"]     = ...
 
 # TODO: Print the disagreement zone — genres EV says run but binary says skip.
 disagreement = ...
@@ -132,13 +132,13 @@ rb_misses = ...
 
 # TODO: Compute the expected value per R&B campaign and the total expected profit
 #       WaveForm left on the table by skipping 100 R&B campaigns.
-rb_ev_per_campaign = ...
+rb_avg_per_campaign = ...
 
 print(f"R&B hit rate: {rb_rate:.1%}  (binary thinking: 'below 50% — won't happen')")
 print(f"\nSimulated result across {N_PER_GENRE} campaigns:")
 print(f"  Hits:   {rb_hits}")
 print(f"  Misses: {rb_misses}")
-print(f"\nExpected value per R&B campaign: ${rb_ev_per_campaign:.1f}K")
+print(f"\nExpected value per R&B campaign: ${rb_avg_per_campaign:.1f}K")
 
 # TODO: In 1 sentence, explain what the result reveals about treating 37% as impossible.
 
@@ -158,15 +158,15 @@ def simulate_season(hit_rates: np.ndarray, n_per_genre: int = N_PER_GENRE) -> fl
 
 # TODO: Run simulate_season for each strategy and print the dollar difference.
 binary_hit_rates = genre_stats.loc[genre_stats["binary_runs"], "hit_rate"].values
-ev_hit_rates     = genre_stats.loc[genre_stats["ev_runs"],     "hit_rate"].values
+payoff_hit_rates     = genre_stats.loc[genre_stats["profitable_runs"],     "hit_rate"].values
 
 binary_season = simulate_season(binary_hit_rates)
-ev_season     = simulate_season(ev_hit_rates)
+payoff_season     = simulate_season(payoff_hit_rates)
 
 print(f"One simulated season:")
 print(f"  Binary strategy:   ${binary_season:,.0f}K")
-print(f"  EV-aware strategy: ${ev_season:,.0f}K")
-print(f"  Difference:        ${ev_season - binary_season:+,.0f}K")
+print(f"  Payoff-aware strategy: ${payoff_season:,.0f}K")
+print(f"  Difference:        ${payoff_season - binary_season:+,.0f}K")
 
 # %% [markdown]
 # ## 6. Analytical expected profit — why the gap is systematic
@@ -175,22 +175,22 @@ print(f"  Difference:        ${ev_season - binary_season:+,.0f}K")
 # for a genre with hit rate `p` and `n` campaigns,
 # expected profit = `n × (p × NET_GAIN_K − (1 − p) × COST_K)`.
 #
-# Implement `expected_season_profit` and compute it for each strategy.
+# Implement `average_season_profit` and compute it for each strategy.
 # This is plain arithmetic — no simulation needed.
 
 # %%
-# TODO: Implement expected_season_profit(hit_rates, n_per_genre).
+# TODO: Implement average_season_profit(hit_rates, n_per_genre).
 #       No randomness — just multiply hit rates through the payoff formula.
-def expected_season_profit(hit_rates: np.ndarray, n_per_genre: int = N_PER_GENRE) -> float:
+def average_season_profit(hit_rates: np.ndarray, n_per_genre: int = N_PER_GENRE) -> float:
     """Return expected season profit ($K) — analytical, no randomness."""
     ...
 
 
-binary_ev = expected_season_profit(binary_hit_rates)
-ev_ev     = expected_season_profit(ev_hit_rates)
+binary_ev = average_season_profit(binary_hit_rates)
+ev_ev     = average_season_profit(payoff_hit_rates)
 
 print(f"Binary strategy expected season profit:    ${binary_ev:,.0f}K")
-print(f"EV-aware strategy expected season profit:  ${ev_ev:,.0f}K")
+print(f"Payoff-aware strategy expected season profit:  ${ev_ev:,.0f}K")
 print(f"Systematic gap:                            ${ev_ev - binary_ev:,.0f}K per season")
 
 # %% [markdown]

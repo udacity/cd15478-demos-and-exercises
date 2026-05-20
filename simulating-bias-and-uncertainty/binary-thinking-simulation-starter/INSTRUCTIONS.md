@@ -28,18 +28,18 @@ A completed Jupyter notebook (start from `binary_thinking_simulation_starter.ipy
 1. Loads the Spotify track sample, computes `is_hit` (popularity ≥ 50), and reports each genre's
    real hit rate from the data.
 2. Computes the break-even hit rate from the payoff structure below, and identifies the
-   *disagreement zone* — genres EV says run but the binary rule skips.
+   *disagreement zone* — genres that are profitable by the payoff math but skipped by the 50% rule.
 3. **The certainty illusion:** simulates 100 Pop promotion campaigns (the only genre the binary
    rule runs, at a 54% hit rate). Counts the misses. Explains in one sentence what the miss count
    reveals about treating 54% as a near-certainty.
 4. **The missed opportunity:** simulates 100 R&B campaigns (37% hit rate — a genre the binary rule
-   skips). Counts the hits. Computes the expected value of one R&B campaign and the total expected
-   profit left on the table by skipping 100 of them.
+   skips). Counts the hits. Computes the average profit per R&B campaign (revenue from hits minus
+   cost of misses) and the total profit left on the table by skipping 100 of them.
 5. Implements `simulate_season(hit_rates)` and runs **one simulated season** per strategy,
    reporting the dollar difference for that draw.
-6. Implements `expected_season_profit(hit_rates)` — using the payoff formula directly, no
-   randomness — and computes the **analytical expected profit** per strategy. Reports the
-   systematic gap between strategies.
+6. Implements `average_season_profit(hit_rates)` — using the payoff formula directly, no
+   randomness — and computes the **average profit** per strategy (revenue from hits minus
+   cost of misses, multiplied by the number of campaigns). Reports the consistent gap.
 7. Writes a 2–3 sentence takeaway using specific numbers from steps 3–6: what the coin-flip
    simulations revealed, and why the analytical gap matters more than the single-season result.
 
