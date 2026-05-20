@@ -160,20 +160,3 @@ comparison = ...
 
 # %% [markdown]
 # *TODO: write your 1–2 sentence explanation here.*
-
-# %% [markdown]
-# ## 7. Sensitivity flex — higher loss severity
-#
-# The 75% LGD baseline assumes typical collections performance. In a soft
-# economic environment, recovery rates drop and LGD could rise to 85%.
-# Recompute expected profit under each threshold with `lgd = 0.85`.
-#
-# Does the profit-maximizing threshold change? In one sentence, explain what
-# this tells you about how robust the Moderate-threshold recommendation is.
-
-# %%
-# TODO: Recompute `ev_usd` with lgd=0.85, rebuild the comparison table,
-# and print the profit-maximizing threshold under the higher-LGD scenario.
-
-# %% [markdown]
-# *TODO: write your one-sentence robustness interpretation here.*

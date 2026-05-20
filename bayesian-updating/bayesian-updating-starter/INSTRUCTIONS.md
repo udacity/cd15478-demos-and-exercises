@@ -38,28 +38,3 @@ A completed Jupyter notebook (start from `bayesian_updating_starter.ipynb`) that
    showing how the belief sharpens with each update.
 8. Computes the recommended pre-order quantity `Q` under each belief state, using the formula
    `Q = posterior_mean + Q_BUFFER × posterior_sd`. Report how Q changes across the three states.
-9. Sensitivity check: repeat Update 1 with `prior_sd × 2`. Show how a more uncertain prior
-   gives the batch-1 data more influence over the posterior.
-
-## Requirements
-
-- Your notebook must run top to bottom without errors.
-- The prior mean must be derived from the FRED grocery data — don't hardcode it.
-- `normal_update` must use precision-weighted arithmetic (the same formula used in the project).
-- The three-distribution plot must have a legend and labeled axes.
-- The sensitivity result for step 9 must show a quantitative comparison (e.g., print the
-  Posterior 1 mean under original vs. doubled prior sd).
-
-## Resources you may find useful
-
-- [FRED: MRTSSM4451USS — Grocery Stores](https://fred.stlouisfed.org/series/MRTSSM4451USS) — the source for the benchmark data
-- [Wikipedia: Conjugate prior — Normal with known variance](https://en.wikipedia.org/wiki/Conjugate_prior#When_likelihood_function_is_a_continuous_distribution) — concise derivation of the precision-weighted update
-- [scipy.stats.norm](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.norm.html) — for evaluating and plotting Normal pdfs
-
-## Note on the data
-
-`data/grocery_industry_benchmarks.csv` contains real monthly US grocery store sales from the
-Federal Reserve Economic Data (FRED) series MRTSSM4451USS (US Census Bureau Monthly Retail
-Trade Survey, NAICS 4451, public domain). `data/pilot_scan_data.csv` is synthetic — generated
-to illustrate a realistic demand trajectory for a new meal-kit program. The scenario company
-**FreshCart** is fictional; the grocery market data is real.

@@ -152,20 +152,3 @@ Q_post1 = ...
 Q_post2 = ...
 
 # TODO: Print a summary comparing Q across all three belief states.
-
-# %% [markdown]
-# ## 9. Sensitivity check: what if the prior was more uncertain?
-#
-# Repeat Update 1 with `prior_sd * 2`. Show how a wider (more uncertain) prior gives
-# the batch-1 data more influence over Posterior 1.
-
-# %%
-PRIOR_SD_WIDE = PRIOR_SD * 2
-
-# TODO: Compute post1_wide_mu, post1_wide_sd using the wider prior.
-post1_wide_mu, post1_wide_sd = ...
-
-print(f"Update 1 with original prior sd ({PRIOR_SD:.0f}): posterior mu = {post1_mu:.1f}")
-print(f"Update 1 with doubled prior sd  ({PRIOR_SD_WIDE:.0f}): posterior mu = {post1_wide_mu:.1f}")
-print()
-# TODO: Add 1–2 sentences explaining why the doubled-sd prior gives the data more weight.

@@ -148,24 +148,3 @@ print(f"\nMinimax-regret option: {max_regret.idxmin()}  "
 # TODO: Build the matplotlib tree diagram.
 #       Hint: look at how the project solution draws its decision tree —
 #       the structure here is the same: options × states × payoffs.
-
-# %% [markdown]
-# ## 8. Sensitivity flex
-#
-# Recompute EV under pessimistic demand weights:
-# P(High) = 0.20, P(Base) = 0.30, P(Low) = 0.50.
-
-# %%
-STATES_PESS = {"High": 0.20, "Base": 0.30, "Low": 0.50}
-
-# TODO: Compute ev_pess using STATES_PESS instead of STATES.
-ev_pess = ...
-
-print("EV under pessimistic weights ($M):")
-print(ev_pess.round(2))
-print(f"\nBase-case EV winner:       {ev.idxmax()}")
-print(f"Pessimistic-case EV winner: {ev_pess.idxmax()}")
-
-# %% [markdown]
-# *TODO: Write 1–2 sentences. Does the EV-maximizing option change? Under what
-# specific condition would you switch from the base-case recommendation?*

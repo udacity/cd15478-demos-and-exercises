@@ -195,23 +195,3 @@ ax.set_title("StrideWear Apex Trainer — decision tree (options × demand state
              fontsize=10)
 plt.tight_layout()
 plt.show()
-
-# %% [markdown]
-# ## 8. Sensitivity flex
-
-# %%
-STATES_PESS = {"High": 0.20, "Base": 0.30, "Low": 0.50}
-ev_pess = (payoffs * pd.Series(STATES_PESS)).sum(axis=1)
-
-print("EV under pessimistic weights ($M):")
-print(ev_pess.round(2))
-print(f"\nBase-case EV winner:        {ev.idxmax()}  (${ev.max():.2f}M)")
-print(f"Pessimistic-case EV winner: {ev_pess.idxmax()}  (${ev_pess.max():.2f}M)")
-
-# %% [markdown]
-# **The EV-maximizing option flips from Full Launch to Regional Rollout** when the
-# probability of a weak demand environment rises to 50%. Full Launch's $4.6M downside
-# in a Low environment pulls its EV below Regional Rollout's more stable payoff
-# profile. Any recommendation based on the base-case weights should note this threshold:
-# if the team believes P(Low) exceeds roughly 40%, Regional Rollout becomes the
-# stronger choice on expected profit grounds.

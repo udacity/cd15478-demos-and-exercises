@@ -178,18 +178,3 @@ summary
 # Q rises from 92 → 97 → 107 units as evidence pushes the mean estimate up. The buffer
 # itself also shrinks (0.5 × 25 = 12.5 → 0.5 × 3.0 = 1.5) because the posterior is
 # tighter — FreshCart is more confident and needs less of a safety cushion.
-
-# %% [markdown]
-# ## 9. Sensitivity check: doubled prior sd
-
-# %%
-PRIOR_SD_WIDE = PRIOR_SD * 2
-
-post1_wide_mu, post1_wide_sd = normal_update(prior_mu, PRIOR_SD_WIDE, lik1_mu, lik1_sd)
-
-print(f"Update 1 with original prior sd ({PRIOR_SD:.0f}):  posterior mu = {post1_mu:.1f}, sd = {post1_sd:.2f}")
-print(f"Update 1 with doubled prior sd  ({PRIOR_SD_WIDE:.0f}): posterior mu = {post1_wide_mu:.1f}, sd = {post1_wide_sd:.2f}")
-print()
-print("A wider prior assigns less precision to the prior belief, so the likelihood")
-print("(batch-1 data) gets proportionally more weight. The posterior shifts closer to")
-print("the batch-1 mean and arrives with a slightly different uncertainty level.")

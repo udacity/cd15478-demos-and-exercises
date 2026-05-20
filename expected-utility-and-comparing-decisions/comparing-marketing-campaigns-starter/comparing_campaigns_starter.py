@@ -31,9 +31,6 @@
 # 2. Expected CRRA utility under risk aversion.
 # 3. Minimax regret.
 #
-# Finally, you will run a **sensitivity flex** to show how the recommendation
-# changes when the assumed probability of a weak market is elevated.
-#
 # See `INSTRUCTIONS.md` for the full prompt and `data/README.md` for the dataset
 # citation.
 
@@ -227,24 +224,3 @@ comparison4 = ...
 
 # %% [markdown]
 # *TODO: write your 1–2 sentence interpretation of the Selective Push result here.*
-
-# %% [markdown]
-# ## 11. Sensitivity flex — elevated downside risk
-#
-# The empirical probabilities in step 4 weight every city equally, on the
-# assumption that BlueDoor's hosts will, on average, see something like the
-# cross-city baseline. Suppose your team thinks the next quarter looks more
-# like a downturn — for example, a softer travel-demand quarter or new
-# regulatory friction. Recompute EV under the alternative probability vector
-#
-# $$P_\text{alt} = \big(P(\text{Strong}) = 0.20,\ P(\text{Average}) = 0.30,\ P(\text{Weak}) = 0.50\big).$$
-#
-# Apply the flex to **all four options** (including Selective Push). Does the
-# EV-maximizing option change? In one sentence, explain what this tells you
-# about how robust the recommendation is.
-
-# %%
-# TODO: Build the alternative probability Series `p_alt`, recompute EV for all
-#       four options, and report whether the EV-max option changes.
-p_alt = ...
-ev_alt = ...

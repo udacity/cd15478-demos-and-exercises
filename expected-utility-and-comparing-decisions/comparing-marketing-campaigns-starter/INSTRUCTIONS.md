@@ -14,7 +14,7 @@ To estimate that distribution, the team uses cross-city variation in current Ins
 
 The file `data/airbnb_city_stats.csv` contains city-level summary statistics for 18 well-known short-term-rental markets in the format published by [Inside Airbnb](http://insideairbnb.com/) (see `data/README.md` for the full citation). For each city, you have the median nightly price, the median monthly reviews per listing (Inside Airbnb's standard occupancy proxy), and a few other fields. You will compute `median_price × median_reviews_per_month` — a per-listing monthly revenue proxy — for each city, tertile-bin the eighteen cities into Strong / Average / Weak environments, and use the empirical share of cities in each bin as your prior on what kind of environment BlueDoor will face next quarter. The cities themselves are not BlueDoor's markets; they are a benchmark for what "a Strong market" or "a Weak market" looks like in numbers.
 
-The Head of Growth has asked the team to run the numbers — expected value, expected utility under risk aversion, and minimax regret — and to identify which decision rule the team would lean on if forced to commit today. Today's deliverable is the side-by-side comparison plus your defended choice of decision rule, and an answer to the question *"How sensitive is the EV-max choice to our assumption that the next quarter looks like the cross-city baseline?"* Translating this analytical comparison into a stakeholder-facing recommendation — with caveats, robustness checks, and supporting narrative — is a separate skill covered in other modules.
+The Head of Growth has asked the team to run the numbers — expected value, expected utility under risk aversion, and minimax regret — and to identify which decision rule the team would lean on if forced to commit today. Today's deliverable is the side-by-side comparison plus your defended choice of decision rule. Translating this analytical comparison into a stakeholder-facing recommendation — with caveats, robustness checks, and supporting narrative — is a separate skill covered in other modules.
 
 ## What you'll deliver
 
@@ -30,50 +30,3 @@ A completed Jupyter notebook (start from `comparing_campaigns_starter.ipynb`) th
 8. Computes the **maximum regret** of each option across the three environments and identifies the **minimax-regret** option.
 9. Produces a side-by-side comparison of which option each of the three decision rules selects (EV-max, expected-utility-max with the certainty-equivalent in dollars, and minimax-regret). If the three rules disagree, identify in one to two sentences which decision rule you would lean on and why. **Do not yet convert this comparison into a recommendation to a stakeholder** — the skill of translating analytical output into a stakeholder-facing recommendation is a separate skill covered in other modules. Today's deliverable is the comparison itself plus your defended choice of decision rule.
 10. Adds a **segmentation-aware option** — Selective Push — to the payoff matrix and reruns all three decision rules. Selective Push targets the Premium Listing Push campaign only to markets currently showing Strong revenue signals, running Local Concierge Add-on in Average markets and Hold in Weak markets. Use the stipulated payoffs in the [Selective Push payoffs](#selective-push-payoffs) table below. Produce an updated four-option comparison table and explain in one to two sentences what the Selective Push result implies about uniform versus segmented campaign strategies.
-11. Performs one **sensitivity flex**: recompute EV under the alternative assumption that the next quarter has elevated downside risk — set P(Strong) = 0.20, P(Average) = 0.30, P(Weak) = 0.50 — and report whether the EV-max option changes. Apply the flex to all four options (include Selective Push).
-
-## Payoff matrix
-
-Twelve-month incremental contribution profit, in $M, relative to baseline (Hold = 0 in every environment).
-
-| Option | Strong | Average | Weak |
-| --- | --- | --- | --- |
-| Premium Listing Push | +10.0 | +2.0 | -6.0 |
-| Local Concierge Add-on | +3.0 | +1.5 | 0.0 |
-| Hold | 0.0 | 0.0 | 0.0 |
-
-These numbers are pre-set so you can focus on the decision-theory mechanics. In a real engagement you would build them from a cost-benefit model.
-
-## Selective Push payoffs
-
-Twelve-month incremental contribution profit, in $M, for the segmentation-aware option.
-Selective Push runs Premium in markets currently showing Strong revenue signals, Concierge
-in Average markets, and Hold in Weak markets. The state still reflects the *future*
-market environment — even a currently-Strong market can face headwinds.
-
-| Option | Strong | Average | Weak |
-| --- | --- | --- | --- |
-| Selective Push | +6.0 | +1.5 | −1.0 |
-
-These values are stipulated. A Selective Push campaign captures most of the Premium
-upside in Strong markets (concentrated resources, strongest hosts) while limiting
-downside in Weak conditions (only 1/3 of the portfolio runs the expensive campaign).
-
-## Requirements
-
-- Your notebook must run top to bottom without errors.
-- Probabilities of the three environments must be derived from the data, not hardcoded.
-- All three decision rules (EV, expected CRRA utility, minimax regret) must be computed from the payoff matrix and the empirical probabilities — no hand-picked answers.
-- The defended-choice paragraph must be 1–2 sentences, must name the decision rule you would lean on, and must not yet attempt a stakeholder-facing recommendation.
-- The sensitivity flex must use the same payoff matrix and the same code path as the main analysis — only the probability vector changes.
-
-## Resources you may find useful
-
-- [NumPy Documentation: numpy.average](https://numpy.org/doc/stable/reference/generated/numpy.average.html)
-- [pandas DataFrame Documentation: DataFrame.qcut](https://pandas.pydata.org/docs/reference/api/pandas.qcut.html)
-- [Wikipedia: Isoelastic utility (CRRA)](https://en.wikipedia.org/wiki/Isoelastic_utility) — short reference for the constant-relative-risk-aversion utility function.
-- [Inside Airbnb: About the Project](http://insideairbnb.com/about/) — background on the data source.
-
-## Note on the data
-
-`data/airbnb_city_stats.csv` contains rounded city-level summary statistics consistent with Inside Airbnb snapshots from 2023–2024. The Inside Airbnb dataset is in the public domain ([CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)). See `data/README.md` for the full citation. The scenario company **BlueDoor Hosts** is fictional; only the underlying market data is real.

@@ -38,32 +38,3 @@ A completed Jupyter notebook (start from `building_decision_models_starter.ipynb
 7. Visualizes the decision tree using matplotlib: one root decision node, one branch per
    option, one sub-branch per demand state, payoff at each leaf. Use `boxstyle="round"`
    for the node labels and label each leaf with the state name and profit.
-8. Performs one **sensitivity flex**: recompute EV using pessimistic weights
-   (P(High) = 0.20, P(Base) = 0.30, P(Low) = 0.50). Report whether the EV-maximizing
-   option changes and what that implies about the robustness of the base-case choice.
-
-## Requirements
-
-- Your notebook must run top to bottom without errors.
-- `option_profit` must derive all payoffs from module-level constants — no numbers
-  hardcoded inside the function body.
-- The payoff matrix must be built by calling `option_profit`, not by manually typing
-  the values into a DataFrame.
-- State probabilities must come from the data via tertile binning — don't hardcode 1/3.
-- The tree diagram must show all three options and all three states (nine leaf nodes).
-- The sensitivity interpretation must be 1–2 sentences and must name the specific
-  condition under which the recommendation changes.
-
-## Resources you may find useful
-
-- [pandas: DataFrame.pct_change](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html) — for year-over-year growth rates
-- [pandas: Series.quantile](https://pandas.pydata.org/docs/reference/api/pandas.Series.quantile.html) — for tertile thresholds
-- [matplotlib: ax.text with bbox](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.text.html) — for decision tree node labels
-
-## Note on the data
-
-`data/sporting_goods_sales.csv` contains monthly US sporting goods store retail sales
-from FRED series [MRTSSM45111USS](https://fred.stlouisfed.org/series/MRTSSM45111USS)
-(US Census Bureau Monthly Retail Trade Survey, NAICS 45111, public domain). See
-`data/README.md` for the full citation. The scenario company **StrideWear** is fictional;
-the underlying market data is real.

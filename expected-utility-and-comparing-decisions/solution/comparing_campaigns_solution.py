@@ -80,7 +80,6 @@
 #
 # 1. The side-by-side comparison of what each decision rule selects.
 # 2. A 1–2 sentence defended choice of decision rule.
-# 3. An answer to *"How sensitive is the EV-max choice to our assumption that
 #    the next quarter looks like the cross-city baseline?"*
 
 # %% [markdown]
@@ -313,24 +312,3 @@ print(comparison4)
 # This mirrors the "WTP hybrid" concept in the Nimbus project: raising price
 # only for high-willingness-to-pay segments can dominate a uniform price change
 # on all three decision metrics.
-
-# %% [markdown]
-# ## 11. Sensitivity flex — elevated downside risk
-
-# %%
-p_alt = pd.Series({"Strong": 0.20, "Average": 0.30, "Weak": 0.50})
-ev_alt = (payoffs * p_alt).sum(axis=1)
-print("EV per option under elevated-downside-risk weights ($M):")
-print(ev_alt.round(3))
-print(f"\nEV-maximizing option under flex: {ev_alt.idxmax()}  "
-      f"(${ev_alt.max():.2f}M)")
-print(f"Original EV-maximizing option:    {ev4.idxmax()}  (${ev4.max():.2f}M)")
-
-# %% [markdown]
-# Under elevated downside-risk weighting, **Premium Listing Push flips to a
-# negative expected profit** and Selective Push remains EV-positive — its
-# limited downside in Weak markets (−$1.0M vs. −$6.0M for Premium) makes it
-# the more durable choice. The headline takeaway is that any analytical output
-# downstream of this probability vector inherits its conditionality, and a
-# stakeholder-facing recommendation should explicitly state which probability
-# assumption it is conditional on.
