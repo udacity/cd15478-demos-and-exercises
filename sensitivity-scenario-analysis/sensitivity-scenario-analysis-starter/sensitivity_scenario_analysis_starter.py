@@ -18,7 +18,7 @@
 #
 # **Scenario.** BrewPoint Coffee is evaluating three store formats for a new metro
 # market entry: a Flagship café, a Standard café, and a transit-hub Kiosk. Each
-# format is modeled as a 5-year lease NPV. You'll identify the highest-return format,
+# format is modeled as a 5-year lease NPV (Net Present Value). You'll identify the highest-return format,
 # find what drives the most uncertainty, define three named scenarios, and compute
 # the break-even daily customer count for the recommended format.
 #

@@ -25,7 +25,7 @@
 #
 # BrewPoint Coffee is evaluating three store formats for a new metro market entry.
 # Using real food-away-from-home CPI data to anchor the price growth assumption,
-# this notebook identifies the highest-NPV format, runs a one-at-a-time sensitivity
+# this notebook identifies the highest-NPV (Net Present Value) format, runs a one-at-a-time sensitivity
 # analysis, defines three named market scenarios, and computes the break-even daily
 # customer count for the recommended Standard format.
 

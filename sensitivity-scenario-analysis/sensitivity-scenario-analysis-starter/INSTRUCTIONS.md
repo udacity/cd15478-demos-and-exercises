@@ -13,7 +13,7 @@ a new metro market and has narrowed the choice to three store formats:
 - **Kiosk** — 400 sq ft kiosk in a transit hub, grab-and-go menu. Low buildout, capped
   upside, but predictable commuter traffic.
 
-The decision is modeled as a 5-year lease NPV: upfront buildout cost against the present
+The decision is modeled as a 5-year lease NPV (Net Present Value): upfront buildout cost against the present
 value of annual operating profits over the lease term.
 
 To anchor the annual price growth assumption, `data/food_away_from_home_cpi.csv` contains

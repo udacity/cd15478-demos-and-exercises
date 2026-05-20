@@ -28,7 +28,7 @@
 # already been run — the analysis code is in the **Given analysis** section below,
 # which runs automatically. You have:
 #
-# - A 5-year lease NPV model for three formats (Flagship, Standard, Kiosk) with
+# - A 5-year lease NPV (Net Present Value) model for three formats (Flagship, Standard, Kiosk) with
 #   base-case numbers derived from real US food-away-from-home CPI data (FRED).
 # - A tornado diagram showing which inputs drive the Standard format's NPV most.
 # - Three named scenarios (Optimistic, Base, Pessimistic) across all formats.
