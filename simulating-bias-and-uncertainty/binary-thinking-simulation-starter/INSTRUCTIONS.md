@@ -2,24 +2,24 @@
 
 ## Scenario
 
-You're a data analyst at **WaveForm**, a fictional music streaming platform. WaveForm's editorial
-team runs genre-focused promotion campaigns each season — curating playlists, booking in-app
-placements, and pushing tracks through the platform's recommendation engine. Each campaign
-targets one genre (Pop, Latin, R&B, Rap, Rock, or EDM) and has a measurable outcome: a promoted
-track either breaks into regular listener rotation ("hits") or doesn't ("misses").
+You're a decision analyst at **WaveForm**, a fictional music streaming platform. WaveForm's
+Growth team runs genre-focused promotion campaigns each season — curating playlists, booking
+in-app placements, and pushing tracks through the recommendation engine. Each campaign targets
+one genre (Pop, Latin, R&B, Rap, Rock, or EDM) and has a measurable outcome: a promoted
+track either breaks into regular listener rotation ("hits") or doesn't ("misses"). Each genre
+targets a distinct listener audience, so a genre's 100 promotional slots can't be reallocated
+to another — the decision per genre is simply whether to fill the slots it offers or leave
+them empty.
 
-The editorial team currently uses a simple rule: if they think a genre's hit rate is above 50%,
-they run a season-long campaign for it. Below 50%? They skip it. They call this approach "only
-betting on likely winners."
+A new analyst joining the team has a question: *why don't we just run campaigns for every
+genre with a hit rate above 50%? Those are the likely winners.* It's an intuitive rule, and
+she's not wrong that 54% sounds better than 37%. But the threshold that matters for a
+profitable campaign isn't 50% — it's the break-even hit rate implied by the payoff structure.
+You've been asked to show her why, using data.
 
-You've been asked to stress-test that rule. Using track-level data from the Spotify catalog as an
-industry benchmark for real genre hit rates, you'll simulate what happens when a promotion team
-rounds every probability above 50% to "it'll work" and every probability below 50% to "it won't."
-Then you'll compare that to a strategy that actually uses the hit rates to evaluate expected value.
-
-The data is real Spotify track data; WaveForm is fictional. WaveForm's editorial team is *not*
-managing Spotify's catalog — they're using Spotify's public track data as a benchmark to calibrate
-their own genre hit-rate expectations.
+Using track-level data from Spotify's catalog as an industry benchmark for real genre hit
+rates, you'll simulate what the 50% rule actually produces, then compare it to a strategy
+grounded in the payoff math. The data is real Spotify track data; WaveForm is fictional.
 
 ## What you'll deliver
 

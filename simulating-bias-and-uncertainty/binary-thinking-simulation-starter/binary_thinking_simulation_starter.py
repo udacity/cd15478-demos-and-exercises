@@ -16,15 +16,13 @@
 # %% [markdown]
 # # When "Probably" Isn't the Same as "Definitely"
 #
-# **Scenario.** WaveForm, a fictional music streaming platform, runs genre-focused
-# promotion campaigns each season. Their editorial team uses a simple rule: if a
-# genre's hit rate looks above 50%, run a campaign; otherwise skip it.
+# **Scenario.** A new analyst joining WaveForm's Growth team has a question: why
+# don't we just run promotion campaigns for every genre with a hit rate above 50%?
+# Those are the likely winners. You've been asked to show her why the 50% threshold
+# is the wrong one — using real Spotify track data and a bit of arithmetic.
 #
-# You'll use real Spotify track data to measure what genre hit rates actually look
-# like, then simulate two kinds of mistakes that rule causes: the certainty illusion
-# (treating 54% as a guarantee) and the missed opportunity (treating 37% as
-# impossible). Then you'll use plain arithmetic to show why the gap between the
-# two strategies is systematic — not just bad luck.
+# Each genre targets a distinct listener audience, so promotional slots aren't
+# interchangeable: the decision per genre is simply take it or leave it.
 #
 # See `INSTRUCTIONS.md` for the full prompt and `data/README.md` for the dataset citation.
 
