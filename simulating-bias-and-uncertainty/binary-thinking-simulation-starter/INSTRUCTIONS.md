@@ -27,19 +27,21 @@ A completed Jupyter notebook (start from `binary_thinking_simulation_starter.ipy
 
 1. Loads the Spotify track sample, computes `is_hit` (popularity ≥ 50), and reports each genre's
    real hit rate from the data.
-2. Computes the break-even hit rate given the campaign payoff structure below, and identifies
-   which genres fall in the *disagreement zone* — EV-positive but below the 50% binary threshold.
-3. Simulates one season of 100 promotion campaigns per genre under the **binary strategy** (run
-   only genres above 50%), computing total season profit.
-4. Simulates the same season under the **EV-aware strategy** (run all genres above break-even),
-   computing total season profit.
-5. Runs 2,000 Monte Carlo simulations of each strategy to produce a distribution of seasonal
-   profits, and visualizes the two distributions side by side.
-6. Measures the **certainty illusion**: for genres the binary strategy *does* run (above 50%),
-   computes what fraction of their campaigns actually miss — and compares that to what binary
-   thinking implicitly assumed.
-7. Writes a 2–3 sentence takeaway explaining what the simulation reveals about rounding
-   probabilities to 0 or 1.
+2. Computes the break-even hit rate from the payoff structure below, and identifies the
+   *disagreement zone* — genres EV says run but the binary rule skips.
+3. **The certainty illusion:** simulates 100 Pop promotion campaigns (the only genre the binary
+   rule runs, at a 54% hit rate). Counts the misses. Explains in one sentence what the miss count
+   reveals about treating 54% as a near-certainty.
+4. **The missed opportunity:** simulates 100 R&B campaigns (37% hit rate — a genre the binary rule
+   skips). Counts the hits. Computes the expected value of one R&B campaign and the total expected
+   profit left on the table by skipping 100 of them.
+5. Implements `simulate_season(hit_rates)` and runs **one simulated season** per strategy,
+   reporting the dollar difference for that draw.
+6. Implements `expected_season_profit(hit_rates)` — using the payoff formula directly, no
+   randomness — and computes the **analytical expected profit** per strategy. Reports the
+   systematic gap between strategies.
+7. Writes a 2–3 sentence takeaway using specific numbers from steps 3–6: what the coin-flip
+   simulations revealed, and why the analytical gap matters more than the single-season result.
 
 ## Payoff structure
 
@@ -60,10 +62,10 @@ covers how to build a cost-benefit model from first principles.
 - Your notebook must run top to bottom without errors.
 - Genre hit rates must be computed from the data — don't hardcode them.
 - Break-even probability must be derived from the payoff table — don't hardcode it.
-- The Monte Carlo simulation must use `numpy.random.default_rng` with `seed=42`.
-- The simulation loop must use the genre hit rates from the data, not manually set probabilities.
-- The 2–3 sentence takeaway must name at least one specific genre and explain the economic
-  consequence of rounding its probability to zero.
+- Steps 3 and 4 must use `RNG.binomial` to simulate outcomes — don't compute them analytically.
+- Step 6 must use the payoff formula directly — don't simulate. The distinction between a
+  simulated result (one random draw) and an analytical result (always the same) is the point.
+- The takeaway must cite specific numbers from at least two of steps 3–6.
 
 ## Resources you may find useful
 

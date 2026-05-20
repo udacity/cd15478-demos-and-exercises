@@ -17,12 +17,14 @@
 # # When "Probably" Isn't the Same as "Definitely"
 #
 # **Scenario.** WaveForm, a fictional music streaming platform, runs genre-focused
-# promotion campaigns each season. Their editorial team uses a simple rule:
-# if a genre's hit rate looks above 50%, run a campaign; otherwise skip it.
+# promotion campaigns each season. Their editorial team uses a simple rule: if a
+# genre's hit rate looks above 50%, run a campaign; otherwise skip it.
+#
 # You'll use real Spotify track data to measure what genre hit rates actually look
-# like, simulate what that 50% rule costs compared to a strategy that uses the full
-# probability, and quantify the certainty illusion — the gap between "above 50%
-# so it'll work" and what actually happens.
+# like, then simulate two kinds of mistakes that rule causes: the certainty illusion
+# (treating 54% as a guarantee) and the missed opportunity (treating 37% as
+# impossible). Then you'll use plain arithmetic to show why the gap between the
+# two strategies is systematic — not just bad luck.
 #
 # See `INSTRUCTIONS.md` for the full prompt and `data/README.md` for the dataset citation.
 
@@ -34,14 +36,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-DATA_PATH = "data/spotify_tracks_sample.csv"
+DATA_PATH        = "data/spotify_tracks_sample.csv"
 
-HIT_THRESHOLD = 50      # Spotify popularity ≥ this = "hit"
-NET_GAIN_K = 15         # net gain per campaign if track hits ($K)
-COST_K = 8              # cost per campaign if track misses ($K)
-BINARY_THRESHOLD = 0.50 # WaveForm's current rule: hit rate > 50% → run campaign
-N_PER_GENRE = 100       # promotion slots allocated to each genre per season
-N_SIMS = 2_000          # Monte Carlo seasons to simulate
+HIT_THRESHOLD    = 50    # Spotify popularity ≥ this = "hit"
+NET_GAIN_K       = 15    # net gain per campaign if track hits ($K)
+COST_K           = 8     # cost per campaign if track misses ($K)
+BINARY_THRESHOLD = 0.50  # WaveForm's current rule: hit rate > 50% → run campaign
+N_PER_GENRE      = 100   # promotion slots per genre per season
 
 RNG = np.random.default_rng(42)
 
@@ -67,115 +68,137 @@ genre_stats
 # %% [markdown]
 # ## 2. Compute the break-even hit rate
 #
-# For a campaign to be worth running, its expected value must be positive.
-# Derive the break-even hit rate from the payoff structure at the top of this notebook.
+# A campaign has non-negative expected value when:
+# `p × NET_GAIN_K − (1 − p) × COST_K ≥ 0`
+# Solve for the minimum `p` (the break-even hit rate).
 
 # %%
-# TODO: Compute BREAK_EVEN — the minimum hit rate at which a campaign has non-negative EV.
-#       Derive it from NET_GAIN_K and COST_K; do not hardcode a number.
+# TODO: Compute BREAK_EVEN from NET_GAIN_K and COST_K. Do not hardcode it.
 BREAK_EVEN = ...
 
-print(f"Break-even hit rate: {BREAK_EVEN:.1%}")
-print(f"WaveForm's current threshold: {BINARY_THRESHOLD:.0%}")
+print(f"Break-even hit rate:         {BREAK_EVEN:.1%}")
+print(f"WaveForm's binary threshold: {BINARY_THRESHOLD:.0%}")
 print()
 
 # TODO: Add two boolean columns to genre_stats:
-#   `binary_runs` — True if WaveForm's current rule would run this genre (hit_rate > BINARY_THRESHOLD)
-#   `ev_runs`     — True if the EV-aware rule would run this genre (hit_rate > BREAK_EVEN)
+#   `binary_runs` — True if hit_rate > BINARY_THRESHOLD
+#   `ev_runs`     — True if hit_rate > BREAK_EVEN
 genre_stats["binary_runs"] = ...
-genre_stats["ev_runs"] = ...
+genre_stats["ev_runs"]     = ...
 
-# TODO: Print the disagreement zone — genres EV-aware strategy runs but binary strategy skips.
+# TODO: Print the disagreement zone — genres EV says run but binary says skip.
 disagreement = ...
 print("Disagreement zone (EV says run, binary says skip):")
-print(disagreement[["playlist_genre", "hit_rate", "ev_runs", "binary_runs"]])
+disagreement[["playlist_genre", "hit_rate"]]
 
 # %% [markdown]
-# ## 3. Simulate one season — binary strategy
+# ## 3. The certainty illusion — simulate 100 Pop campaigns
 #
-# A "season" is 100 promotion campaigns per genre that the strategy decides to run.
-# Each campaign's outcome is a random draw: the track hits with probability equal to
-# that genre's real hit rate.
-#
-# Simulate one season under the binary strategy (run only genres above 50%) and
-# compute total season profit.
+# Pop has a 54% hit rate — the only genre above the 50% binary threshold.
+# WaveForm's rule treats this as "it'll work." Simulate 100 Pop promotion campaigns
+# using `RNG.binomial(1, rate, N_PER_GENRE)` and count how many miss.
 
 # %%
-# TODO: Write a function `simulate_season(hit_rates, n_per_genre)` that takes an
-#       array of hit rates and the number of campaigns per genre, and returns
-#       total profit in $K across all genres and campaigns.
-#       Use RNG.binomial for the random draws.
+# TODO: Extract Pop's hit rate from genre_stats.
+pop_rate = ...
+
+# TODO: Simulate N_PER_GENRE Pop campaigns. Count hits and misses.
+pop_outcomes = ...
+pop_hits   = ...
+pop_misses = ...
+
+print(f"Pop hit rate: {pop_rate:.1%}  (binary thinking: 'above 50% — it'll work')")
+print(f"\nSimulated result across {N_PER_GENRE} campaigns:")
+print(f"  Hits:   {pop_hits}")
+print(f"  Misses: {pop_misses}")
+
+# TODO: In 1 sentence, explain what the miss count reveals about treating 54% as certainty.
+
+# %% [markdown]
+# ## 4. The missed opportunity — simulate 100 R&B campaigns
+#
+# R&B has a 37% hit rate — below 50%, so WaveForm skips it. But 37% is not zero.
+# Simulate 100 R&B campaigns and count how many hit. Then compute the expected
+# value of one R&B campaign to show whether skipping it was the right call.
+
+# %%
+# TODO: Extract R&B's hit rate from genre_stats.
+rb_rate = ...
+
+# TODO: Simulate N_PER_GENRE R&B campaigns. Count hits and misses.
+rb_outcomes = ...
+rb_hits   = ...
+rb_misses = ...
+
+# TODO: Compute the expected value per R&B campaign and the total expected profit
+#       WaveForm left on the table by skipping 100 R&B campaigns.
+rb_ev_per_campaign = ...
+
+print(f"R&B hit rate: {rb_rate:.1%}  (binary thinking: 'below 50% — won't happen')")
+print(f"\nSimulated result across {N_PER_GENRE} campaigns:")
+print(f"  Hits:   {rb_hits}")
+print(f"  Misses: {rb_misses}")
+print(f"\nExpected value per R&B campaign: ${rb_ev_per_campaign:.1f}K")
+
+# TODO: In 1 sentence, explain what the result reveals about treating 37% as impossible.
+
+# %% [markdown]
+# ## 5. One simulated season per strategy
+#
+# A "season" is N_PER_GENRE campaigns per genre that the strategy runs.
+# Implement `simulate_season`, then compare one simulated season for each strategy.
+
+# %%
+# TODO: Implement simulate_season(hit_rates, n_per_genre).
+#       Use RNG.binomial to draw campaign outcomes, then compute total profit.
 def simulate_season(hit_rates: np.ndarray, n_per_genre: int = N_PER_GENRE) -> float:
     """Return total season profit ($K) for a set of genres with given hit rates."""
-    # TODO: implement
     ...
 
 
-# TODO: Extract the hit rates for genres the binary strategy runs.
-binary_hit_rates = ...
+# TODO: Run simulate_season for each strategy and print the dollar difference.
+binary_hit_rates = genre_stats.loc[genre_stats["binary_runs"], "hit_rate"].values
+ev_hit_rates     = genre_stats.loc[genre_stats["ev_runs"],     "hit_rate"].values
 
-# TODO: Simulate one season and print the result.
-binary_season_profit = simulate_season(binary_hit_rates)
-print(f"Binary strategy — one season: ${binary_season_profit:,.0f}K profit")
-print(f"  Genres run: {(genre_stats['binary_runs']).sum()}")
+binary_season = simulate_season(binary_hit_rates)
+ev_season     = simulate_season(ev_hit_rates)
 
-# %% [markdown]
-# ## 4. Simulate one season — EV-aware strategy
-#
-# Same structure, but the EV-aware strategy runs all genres above the break-even hit rate.
-
-# %%
-# TODO: Extract hit rates for genres the EV-aware strategy runs.
-ev_hit_rates = ...
-
-# TODO: Simulate one season and print the result.
-ev_season_profit = simulate_season(ev_hit_rates)
-print(f"EV-aware strategy — one season: ${ev_season_profit:,.0f}K profit")
-print(f"  Genres run: {(genre_stats['ev_runs']).sum()}")
+print(f"One simulated season:")
+print(f"  Binary strategy:   ${binary_season:,.0f}K")
+print(f"  EV-aware strategy: ${ev_season:,.0f}K")
+print(f"  Difference:        ${ev_season - binary_season:+,.0f}K")
 
 # %% [markdown]
-# ## 5. Run 2,000 Monte Carlo seasons and compare distributions
+# ## 6. Analytical expected profit — why the gap is systematic
 #
-# One season is just one draw. Run 2,000 simulations of each strategy to see the
-# full distribution of seasonal profits.
+# One season is one random draw. The expected profit is deterministic:
+# for a genre with hit rate `p` and `n` campaigns,
+# expected profit = `n × (p × NET_GAIN_K − (1 − p) × COST_K)`.
+#
+# Implement `expected_season_profit` and compute it for each strategy.
+# This is plain arithmetic — no simulation needed.
 
 # %%
-# TODO: Simulate N_SIMS seasons for each strategy.
-#       Store results as 1-D NumPy arrays `binary_profits` and `ev_profits`.
-binary_profits = ...
-ev_profits = ...
+# TODO: Implement expected_season_profit(hit_rates, n_per_genre).
+#       No randomness — just multiply hit rates through the payoff formula.
+def expected_season_profit(hit_rates: np.ndarray, n_per_genre: int = N_PER_GENRE) -> float:
+    """Return expected season profit ($K) — analytical, no randomness."""
+    ...
 
-print(f"Binary  — mean: ${binary_profits.mean():,.0f}K, std: ${binary_profits.std():,.0f}K")
-print(f"EV-aware — mean: ${ev_profits.mean():,.0f}K, std: ${ev_profits.std():,.0f}K")
-print(f"Average gap: ${ev_profits.mean() - binary_profits.mean():,.0f}K per season")
 
-# %% [markdown]
-# ### Visualize the two profit distributions
+binary_ev = expected_season_profit(binary_hit_rates)
+ev_ev     = expected_season_profit(ev_hit_rates)
 
-# %%
-# TODO: Plot overlapping histograms of binary_profits and ev_profits.
-#       Add vertical lines for the mean of each distribution.
-#       Label axes, add a title and legend.
-
-# %% [markdown]
-# ## 6. The certainty illusion
-#
-# The binary strategy runs genres above 50% on the assumption that they "will work."
-# What fraction of those campaigns actually miss?
-
-# %%
-# TODO: For genres the binary strategy runs, compute the average miss rate
-#       (i.e., 1 - hit_rate) and compare it to what binary thinking implies (0%).
-#
-# Then print a short comparison: what did binary thinking assume, and what does
-# the data show?
+print(f"Binary strategy expected season profit:    ${binary_ev:,.0f}K")
+print(f"EV-aware strategy expected season profit:  ${ev_ev:,.0f}K")
+print(f"Systematic gap:                            ${ev_ev - binary_ev:,.0f}K per season")
 
 # %% [markdown]
 # ## 7. Takeaway
 #
-# *TODO: Write 2–3 sentences summarizing what the simulation reveals about rounding
-# probabilities to 0 or 1. Name at least one specific genre (e.g., R&B, Rock) and
-# quantify the economic consequence of treating its hit rate as "won't happen."*
+# *TODO: Write 2–3 sentences. Use specific numbers from steps 3–6. Explain:*
+# - *What the coin-flip simulations (steps 3–4) revealed about binary thinking.*
+# - *Why the analytical gap (step 6) matters more than the single-season result (step 5).*
 
 # %% [markdown]
 # ---

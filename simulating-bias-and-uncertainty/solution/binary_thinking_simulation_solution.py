@@ -28,17 +28,18 @@
 # a campaign; otherwise skip it.
 #
 # You'll use real Spotify track data to measure what genre hit rates actually look like,
-# simulate what that 50% rule costs compared to a strategy that uses the full probability,
-# and quantify the certainty illusion — the gap between "above 50% so it'll work" and
-# what actually happens.
+# then simulate two kinds of mistakes that rule causes: the certainty illusion (treating
+# 54% as a guarantee) and the missed opportunity (treating 37% as impossible).
 #
 # ## What this notebook delivers
 #
 # 1. Real genre hit rates derived from Spotify track data.
 # 2. The break-even hit rate from the payoff structure.
-# 3. Two simulated strategies compared over 2,000 Monte Carlo seasons.
-# 4. A measurement of the certainty illusion for genres the binary strategy runs.
-# 5. A takeaway connecting the simulation to the general problem of rounding probabilities.
+# 3. A concrete simulation of the certainty illusion: how often does a "likely" genre miss?
+# 4. A concrete simulation of the missed opportunity: how often does a "unlikely" genre hit?
+# 5. One simulated season per strategy, showing the dollar difference.
+# 6. The analytical expected profit per strategy — plain multiplication, no loops.
+# 7. A takeaway on what rounding probabilities actually costs.
 #
 # The deliverable stops at the analytical layer. It does not produce a stakeholder recommendation.
 
@@ -52,12 +53,11 @@ import matplotlib.pyplot as plt
 
 DATA_PATH = "../binary-thinking-simulation-starter/data/spotify_tracks_sample.csv"
 
-HIT_THRESHOLD = 50      # Spotify popularity ≥ this = "hit"
-NET_GAIN_K = 15         # net gain per campaign if track hits ($K)
-COST_K = 8              # cost per campaign if track misses ($K)
-BINARY_THRESHOLD = 0.50 # WaveForm's current rule: hit rate > 50% → run campaign
-N_PER_GENRE = 100       # promotion slots per genre per season
-N_SIMS = 2_000          # Monte Carlo seasons
+HIT_THRESHOLD    = 50    # Spotify popularity ≥ this = "hit"
+NET_GAIN_K       = 15    # net gain per campaign if track hits ($K)
+COST_K           = 8     # cost per campaign if track misses ($K)
+BINARY_THRESHOLD = 0.50  # WaveForm's current rule: hit rate > 50% → run campaign
+N_PER_GENRE      = 100   # promotion slots per genre per season
 
 RNG = np.random.default_rng(42)
 
@@ -85,130 +85,172 @@ genre_stats
 
 # %% [markdown]
 # ## 2. Compute the break-even hit rate
+#
+# A campaign has non-negative expected value when the hit rate exceeds the break-even:
+# `p × NET_GAIN_K − (1 − p) × COST_K ≥ 0`, which solves to
+# `p ≥ COST_K / (COST_K + NET_GAIN_K)`.
 
 # %%
-# A campaign has non-negative EV when: p * NET_GAIN_K - (1 - p) * COST_K >= 0
-# Solving for p: p >= COST_K / (COST_K + NET_GAIN_K)
 BREAK_EVEN = COST_K / (COST_K + NET_GAIN_K)
 
-print(f"Break-even hit rate: {BREAK_EVEN:.1%}")
-print(f"WaveForm's current threshold: {BINARY_THRESHOLD:.0%}")
+print(f"Break-even hit rate:          {BREAK_EVEN:.1%}")
+print(f"WaveForm's binary threshold:  {BINARY_THRESHOLD:.0%}")
 print()
 
 genre_stats["binary_runs"] = genre_stats["hit_rate"] > BINARY_THRESHOLD
-genre_stats["ev_runs"] = genre_stats["hit_rate"] > BREAK_EVEN
+genre_stats["ev_runs"]     = genre_stats["hit_rate"] > BREAK_EVEN
 
 disagreement = genre_stats[genre_stats["ev_runs"] & ~genre_stats["binary_runs"]]
-print("Disagreement zone (EV says run, binary says skip):")
-disagreement[["playlist_genre", "hit_rate", "ev_runs", "binary_runs"]]
+print("Disagreement zone — EV says run, binary says skip:")
+disagreement[["playlist_genre", "hit_rate"]]
 
 # %% [markdown]
-# The break-even threshold is 34.8% — well below 50%. Four genres sit between 34.8%
-# and 50%: R&B (37.2%), Rap (41.5%), Rock (46.2%), and Latin (48.0%). Every one of
-# them has positive expected value, but the binary strategy skips them all.
+# The break-even is 34.8%, well below 50%. R&B (37.2%), Rap (41.5%), Rock (46.2%),
+# and Latin (48.0%) all clear the break-even but fall below the binary threshold —
+# every one is an EV-positive campaign that the binary rule rejects.
 
 # %% [markdown]
-# ## 3. Simulate one season — binary strategy
+# ## 3. The certainty illusion — simulate 100 Pop campaigns
+#
+# WaveForm's rule approves Pop (54% hit rate) because it's above 50%. In practice the
+# team thinks of this as "it'll work." Let's see what actually happens when we simulate
+# 100 Pop promotion campaigns.
+
+# %%
+pop_rate = genre_stats.loc[genre_stats["playlist_genre"] == "pop", "hit_rate"].values[0]
+pop_outcomes = RNG.binomial(1, pop_rate, N_PER_GENRE)
+
+pop_hits   = int(pop_outcomes.sum())
+pop_misses = N_PER_GENRE - pop_hits
+
+print(f"Pop hit rate: {pop_rate:.1%}  (binary thinking: 'above 50% — it'll work')")
+print()
+print(f"Simulated result across {N_PER_GENRE} campaigns:")
+print(f"  Hits:   {pop_hits}  (revenue: +${pop_hits * NET_GAIN_K:,}K)")
+print(f"  Misses: {pop_misses}  (cost:    −${pop_misses * COST_K:,}K)")
+print()
+print(f"Binary thinking treats Pop as a near-certainty.")
+print(f"Reality: {pop_misses} out of {N_PER_GENRE} campaigns missed — even though it was the 'safe' choice.")
+
+# %% [markdown]
+# A 54% hit rate means 46 misses in every 100 campaigns on average. The binary rule
+# doesn't eliminate that uncertainty — it just stops the team from thinking about it.
+
+# %% [markdown]
+# ## 4. The missed opportunity — simulate 100 R&B campaigns
+#
+# WaveForm skips R&B entirely because 37.2% < 50%. The implicit assumption: "below
+# 50% means it won't happen." Let's simulate what happens if they ran it anyway.
+
+# %%
+rb_rate = genre_stats.loc[genre_stats["playlist_genre"] == "r&b", "hit_rate"].values[0]
+rb_outcomes = RNG.binomial(1, rb_rate, N_PER_GENRE)
+
+rb_hits   = int(rb_outcomes.sum())
+rb_misses = N_PER_GENRE - rb_hits
+
+rb_ev_per_campaign = rb_rate * NET_GAIN_K - (1 - rb_rate) * COST_K
+
+print(f"R&B hit rate: {rb_rate:.1%}  (binary thinking: 'below 50% — won't happen')")
+print()
+print(f"Simulated result across {N_PER_GENRE} campaigns:")
+print(f"  Hits:   {rb_hits}  (revenue: +${rb_hits * NET_GAIN_K:,}K)")
+print(f"  Misses: {rb_misses}  (cost:    −${rb_misses * COST_K:,}K)")
+print(f"  Net:    ${rb_hits * NET_GAIN_K - rb_misses * COST_K:+,}K")
+print()
+print(f"Expected value per R&B campaign: ${rb_ev_per_campaign:.1f}K")
+print(f"Binary thinking left an estimated ${rb_ev_per_campaign * N_PER_GENRE:,.0f}K on the table")
+print(f"by treating {rb_rate:.1%} as 'won't happen.'")
+
+# %% [markdown]
+# A 37% hit rate is not zero — it means 37 hits in every 100 campaigns. Because the
+# payoff is asymmetric ($15K gain vs. $8K loss), even a 35% hit rate is worth taking.
+# Binary thinking conflates "less than 50%" with "won't happen" and misses the entire
+# 35–50% range of EV-positive opportunities.
+
+# %% [markdown]
+# ## 5. One simulated season per strategy
+#
+# A "season" is 100 promotion campaigns per genre. Binary strategy runs only Pop.
+# EV-aware strategy runs every genre above the break-even (all except EDM).
+# Each outcome is one random draw — a single season will vary from the expected value.
 
 # %%
 def simulate_season(hit_rates: np.ndarray, n_per_genre: int = N_PER_GENRE) -> float:
     """Return total season profit ($K) for a set of genres with given hit rates."""
-    hits = RNG.binomial(n_per_genre, hit_rates)
+    hits   = RNG.binomial(n_per_genre, hit_rates)
     misses = n_per_genre - hits
     return float((hits * NET_GAIN_K - misses * COST_K).sum())
 
 
 binary_hit_rates = genre_stats.loc[genre_stats["binary_runs"], "hit_rate"].values
+ev_hit_rates     = genre_stats.loc[genre_stats["ev_runs"],     "hit_rate"].values
 
-binary_season_profit = simulate_season(binary_hit_rates)
-print(f"Binary strategy — one season: ${binary_season_profit:,.0f}K profit")
-print(f"  Genres run: {genre_stats['binary_runs'].sum()} (only Pop)")
+binary_season = simulate_season(binary_hit_rates)
+ev_season     = simulate_season(ev_hit_rates)
 
-# %% [markdown]
-# ## 4. Simulate one season — EV-aware strategy
-
-# %%
-ev_hit_rates = genre_stats.loc[genre_stats["ev_runs"], "hit_rate"].values
-
-ev_season_profit = simulate_season(ev_hit_rates)
-print(f"EV-aware strategy — one season: ${ev_season_profit:,.0f}K profit")
-print(f"  Genres run: {genre_stats['ev_runs'].sum()} (all except EDM)")
-
-# %% [markdown]
-# ## 5. Run 2,000 Monte Carlo seasons and compare distributions
-
-# %%
-binary_profits = np.array([simulate_season(binary_hit_rates) for _ in range(N_SIMS)])
-ev_profits = np.array([simulate_season(ev_hit_rates) for _ in range(N_SIMS)])
-
-print(f"Binary   — mean: ${binary_profits.mean():,.0f}K, std: ${binary_profits.std():,.0f}K")
-print(f"EV-aware — mean: ${ev_profits.mean():,.0f}K, std: ${ev_profits.std():,.0f}K")
-print(f"Average gap: ${ev_profits.mean() - binary_profits.mean():,.0f}K per season")
-
-# %% [markdown]
-# ### Distribution of seasonal profits
-
-# %%
-fig, ax = plt.subplots(figsize=(10, 4))
-
-ax.hist(binary_profits, bins=40, alpha=0.6, color="steelblue", label="Binary strategy (Pop only)")
-ax.hist(ev_profits, bins=40, alpha=0.6, color="salmon", label="EV-aware strategy (R&B, Rap, Rock, Latin, Pop)")
-
-ax.axvline(binary_profits.mean(), color="steelblue", linestyle="--", linewidth=1.5,
-           label=f"Binary mean: ${binary_profits.mean():,.0f}K")
-ax.axvline(ev_profits.mean(), color="firebrick", linestyle="--", linewidth=1.5,
-           label=f"EV-aware mean: ${ev_profits.mean():,.0f}K")
-
-ax.set_xlabel("Season profit ($K)")
-ax.set_ylabel("Frequency (out of 2,000 simulated seasons)")
-ax.set_title("Distribution of seasonal promotion profits:\nbinary vs. EV-aware strategy")
-ax.legend()
-plt.tight_layout()
-plt.show()
-
-# %% [markdown]
-# The two distributions barely overlap. In almost every simulated season, the EV-aware
-# strategy outperforms the binary strategy — not by luck, but because it runs four
-# additional EV-positive genres that binary thinking treats as "won't happen."
-
-# %% [markdown]
-# ## 6. The certainty illusion
-
-# %%
-binary_genres = genre_stats[genre_stats["binary_runs"]]
-actual_miss_rate = 1 - binary_genres["hit_rate"].values[0]  # only Pop passes the binary threshold
-
-print(f"Genre binary strategy runs: {binary_genres['playlist_genre'].values}")
-print(f"Pop hit rate: {binary_genres['hit_rate'].values[0]:.1%}")
+print(f"One simulated season:")
+print(f"  Binary strategy   (Pop only):                ${binary_season:,.0f}K")
+print(f"  EV-aware strategy (R&B, Rap, Rock, Latin, Pop): ${ev_season:,.0f}K")
+print(f"  Difference this season:                      ${ev_season - binary_season:+,.0f}K")
 print()
-print(f"Binary thinking assumes: Pop campaigns succeed close to 100% of the time.")
-print(f"Reality: Pop campaigns MISS {actual_miss_rate:.1%} of the time.")
-print()
-print(f"In a 100-campaign Pop season, expect roughly {actual_miss_rate * 100:.0f} misses.")
+print(f"This is one random draw. Step 6 shows the systematic expected gap.")
 
 # %% [markdown]
-# Even the one genre the binary strategy "bets on" fails almost half the time.
-# Binary thinking treats 54% as near-certainty — but 46 out of every 100 Pop
-# campaigns end in a miss. The binary strategy isn't avoiding uncertainty; it's
-# just *ignoring* it.
+# ## 6. Analytical expected profit — why the gap is systematic
+#
+# The single-season result varies with each run. But the expected profit is deterministic:
+# for any genre with hit rate `p`, running `N` campaigns yields an expected profit of
+# `N × (p × NET_GAIN_K − (1 − p) × COST_K)`. No simulation needed.
+
+# %%
+def expected_season_profit(hit_rates: np.ndarray, n_per_genre: int = N_PER_GENRE) -> float:
+    """Return expected season profit ($K) — analytical, no randomness."""
+    ev_per_genre = hit_rates * NET_GAIN_K - (1 - hit_rates) * COST_K
+    return float((ev_per_genre * n_per_genre).sum())
+
+
+binary_ev = expected_season_profit(binary_hit_rates)
+ev_ev     = expected_season_profit(ev_hit_rates)
+
+# Show the per-genre breakdown for the EV-aware strategy
+print("Expected profit per genre (EV-aware strategy):")
+for _, row in genre_stats[genre_stats["ev_runs"]].iterrows():
+    ev_per = N_PER_GENRE * (row["hit_rate"] * NET_GAIN_K - (1 - row["hit_rate"]) * COST_K)
+    print(f"  {row['playlist_genre']:<6}  hit rate {row['hit_rate']:.1%}  →  ${ev_per:+,.0f}K expected")
+
+print()
+print(f"Binary strategy expected season profit:    ${binary_ev:,.0f}K  (Pop only)")
+print(f"EV-aware strategy expected season profit:  ${ev_ev:,.0f}K")
+print(f"Systematic gap:                            ${ev_ev - binary_ev:,.0f}K per season")
+
+# %% [markdown]
+# The gap (~$775K per season) is not luck — it's the predictable cost of skipping four
+# genres whose hit rates are above the break-even. Each of those genres has positive
+# expected value; binary thinking discards that value by rounding their probabilities to zero.
+#
+# Note that R&B (37.2% hit rate) has only ~$56K expected profit per 100 campaigns — small
+# individually, but the EV-aware strategy captures it consistently, every season. That is
+# the difference between probability as information and probability as a binary verdict.
 
 # %% [markdown]
 # ## 7. Takeaway
 
 # %% [markdown]
-# **What the simulation reveals:** Rounding a 46% probability to "won't happen"
-# isn't a conservative judgment — it's an expensive one. R&B carries a 37.2% hit
-# rate, well above the 34.8% break-even; skipping R&B entirely costs WaveForm
-# roughly $56K per season in foregone expected profit. Multiplied across R&B, Rap,
-# Rock, and Latin, binary thinking leaves around $770K on the table each season —
-# not because those genres are bad bets, but because a threshold of 50% has nothing
-# to do with the payoff math.
+# **What the simulations reveal:** Steps 3 and 4 showed that "54% means it'll work" and
+# "37% means it won't happen" are both wrong. Pop misses roughly 46 times in every 100
+# campaigns. R&B hits roughly 37 times. The binary threshold doesn't describe reality —
+# it describes a mental shortcut that discards the probability estimate as soon as it's
+# been checked against 50%.
 #
-# **The deeper lesson:** The 50% binary threshold wasn't chosen because it's the
-# economic break-even — it was chosen because "above 50% sounds like it'll work."
-# That's the bias this exercise is designed to reveal. A well-calibrated probability
-# estimate, however far from 50%, contains real information about expected outcomes.
-# Rounding it away discards that information entirely.
+# **Why the analytical calculation matters more than the single season:** Step 5 gave one
+# random outcome. Step 6 showed the systematic expected gap: ~$775K per season, every
+# season, regardless of luck. That gap is the cost of the mental shortcut — not a fluke.
+#
+# **The deeper lesson:** The 50% threshold wasn't chosen because it's the economic
+# break-even. It was chosen because "above 50% sounds like it'll work." The break-even
+# for this payoff structure is 34.8%, not 50%. Any threshold that ignores the payoff
+# math is not a decision rule — it's a guess dressed up as a rule.
 
 # %% [markdown]
 # ---
