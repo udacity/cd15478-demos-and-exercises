@@ -188,7 +188,7 @@ max_regret = ...
 #
 # **Do not yet convert this comparison into a recommendation to a
 # stakeholder.** The skill of translating analytical output into a
-# stakeholder-facing recommendation is built later in the course. Today's
+# stakeholder-facing recommendation is a separate skill covered in other modules. Today's
 # deliverable is the comparison itself plus your defended choice of decision
 # rule.
 
@@ -202,7 +202,34 @@ comparison = ...
 # *TODO: write your 1–2 sentence defended-choice paragraph here.*
 
 # %% [markdown]
-# ## 10. Sensitivity flex — elevated downside risk
+# ## 10. Segmentation-aware option: Selective Push
+#
+# So far, every option commits BlueDoor to a *single uniform campaign* across its
+# whole portfolio. But BlueDoor can observe which markets are *currently* in Strong,
+# Average, or Weak condition from the Inside Airbnb data — and could target its
+# campaign spend accordingly.
+#
+# **Selective Push**: run Premium Listing Push only in the currently-Strong markets,
+# Local Concierge Add-on in Average markets, and Hold in Weak markets. Use the
+# stipulated payoffs from the [Selective Push payoffs] table in `INSTRUCTIONS.md`.
+#
+# Add Selective Push to the payoff matrix and recompute all three decision metrics.
+# Then produce an updated four-option comparison table. In 1–2 sentences, explain
+# what the result implies about uniform versus segmented campaign strategies.
+
+# %%
+# TODO: Extend `payoffs` with a "Selective Push" row using the stipulated values.
+#       (Strong = +6.0, Average = +1.5, Weak = -1.0)
+
+# TODO: Recompute ev, expected_utility, certainty_equivalent, max_regret for
+#       all four options. Build an updated comparison DataFrame.
+comparison4 = ...
+
+# %% [markdown]
+# *TODO: write your 1–2 sentence interpretation of the Selective Push result here.*
+
+# %% [markdown]
+# ## 11. Sensitivity flex — elevated downside risk
 #
 # The empirical probabilities in step 4 weight every city equally, on the
 # assumption that BlueDoor's hosts will, on average, see something like the
@@ -212,11 +239,12 @@ comparison = ...
 #
 # $$P_\text{alt} = \big(P(\text{Strong}) = 0.20,\ P(\text{Average}) = 0.30,\ P(\text{Weak}) = 0.50\big).$$
 #
-# Does the EV-maximizing option change? In one sentence, explain what this
-# tells you about how robust the cross-city-baseline EV-max choice is.
+# Apply the flex to **all four options** (including Selective Push). Does the
+# EV-maximizing option change? In one sentence, explain what this tells you
+# about how robust the recommendation is.
 
 # %%
-# TODO: Build the alternative probability Series `p_alt`, recompute EV, and
-# report whether the EV-max option changes.
+# TODO: Build the alternative probability Series `p_alt`, recompute EV for all
+#       four options, and report whether the EV-max option changes.
 p_alt = ...
 ev_alt = ...

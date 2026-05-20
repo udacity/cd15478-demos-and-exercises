@@ -1,0 +1,257 @@
+# ---
+# jupyter:
+#   jupytext:
+#     formats: ipynb,py:percent
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.19.1
+#   kernelspec:
+#     display_name: Python 3
+#     language: python
+#     name: python3
+# ---
+
+# This file is a jupytext-paired Python script export of
+# `causal_estimates_cost_benefit_solution.ipynb`. The canonical artifact for learners is
+# the notebook (.ipynb); this script is provided for code review and `git diff`
+# readability. Run `jupytext --sync` to keep the two in lockstep after edits.
+
+# %% [markdown]
+# # From Causal Estimates to ROI: Evaluating a Career Skills Program (SOLUTION)
+#
+# ## Scenario
+#
+# CareerBridge, a fictional workforce development nonprofit, offered a career skills program
+# to economically disadvantaged workers. Because the program targeted lower-earnings
+# participants, a naive comparison makes it look harmful. IPW corrects for that confounding
+# and reveals a positive earnings lift. The corrected estimate then feeds a cost-benefit
+# ROI calculation.
+#
+# Data: LaLonde (1986) / MatchIt (Ho et al. 2011), public domain.
+#
+# ## What this notebook delivers
+#
+# - Naive vs. IPW earnings lift with 95% bootstrap CI.
+# - Cost-benefit ROI under three assumptions (naive, IPW-corrected, experimental benchmark).
+# - Stops at the analytical layer; does not produce a stakeholder recommendation.
+
+# %% [markdown]
+# ## Setup
+
+# %%
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+
+DATA_PATH            = "../causal-estimates-cost-benefit-starter/data/lalonde_participants.csv"
+COST_PER_PARTICIPANT = 250
+LTV_MULT             = 2
+EXPERIMENTAL_BENCH   = 1_794
+
+COVARIATES = ["age", "educ", "married", "nodegree", "re74", "re75"]
+RNG = np.random.default_rng(42)
+
+# %% [markdown]
+# ## 1. Load data and naive estimate
+
+# %%
+df = pd.read_csv(DATA_PATH)
+df.head()
+
+# %%
+naive_lift = (df.loc[df.treat == 1, "re78"].mean()
+              - df.loc[df.treat == 0, "re78"].mean())
+print(f"Naive earnings lift: ${naive_lift:+,.0f}")
+print(f"Treatment rate: {df['treat'].mean():.1%}")
+
+# %% [markdown]
+# The naive estimate is **negative** — on the surface, participants appear to earn $635
+# *less* than non-participants. This is because the program targeted workers with much lower
+# pre-program earnings; the comparison group is wealthier on average.
+
+# %% [markdown]
+# ## 2. Covariate imbalance
+
+# %%
+def standardized_mean_diff(df: pd.DataFrame, var: str, treat: str = "treat") -> float:
+    t = df.loc[df[treat] == 1, var]
+    c = df.loc[df[treat] == 0, var]
+    pooled_sd = np.sqrt((t.var(ddof=1) + c.var(ddof=1)) / 2)
+    return (t.mean() - c.mean()) / pooled_sd if pooled_sd > 0 else 0.0
+
+
+balance = pd.DataFrame(
+    {"SMD": [standardized_mean_diff(df, v) for v in COVARIATES]},
+    index=COVARIATES
+).round(3)
+balance
+
+# %% [markdown]
+# `re74` (SMD = −0.60) and `re75` (SMD = −0.29) show large imbalance: treated participants
+# had substantially lower pre-program earnings than controls. This is the primary source
+# of confounding.
+
+# %% [markdown]
+# ## 3. Propensity score model
+
+# %%
+race_d = pd.get_dummies(df["race"], prefix="race", drop_first=True).astype(float)
+X = sm.add_constant(pd.concat([df[COVARIATES].astype(float), race_d], axis=1))
+
+ps_model = sm.Logit(df["treat"], X).fit(disp=0)
+ps = ps_model.predict(X).clip(0.02, 0.98)
+
+print(f"Propensity scores: min={ps.min():.3f}, max={ps.max():.3f}, mean={ps.mean():.3f}")
+
+# %% [markdown]
+# ## 4. Overlap check
+
+# %%
+fig, ax = plt.subplots(figsize=(7, 4))
+sns.kdeplot(ps[df.treat == 1], label="Treated (received program)", fill=True, ax=ax)
+sns.kdeplot(ps[df.treat == 0], label="Control (CPS comparison)",   fill=True, ax=ax)
+ax.set(title="Propensity score overlap", xlabel="P(received program | X)", ylabel="density")
+ax.legend()
+plt.tight_layout()
+plt.show()
+
+# %% [markdown]
+# ## 5. IPW estimate
+
+# %%
+def ipw_estimate(df: pd.DataFrame, ps: np.ndarray,
+                 outcome: str = "re78", treat: str = "treat") -> float:
+    """IPW-corrected average treatment effect."""
+    w = np.where(df[treat] == 1, 1 / ps, 1 / (1 - ps))
+    t = df[treat] == 1
+    treated_mean = np.average(df.loc[t,  outcome], weights=w[t])
+    control_mean = np.average(df.loc[~t, outcome], weights=w[~t])
+    return treated_mean - control_mean
+
+
+ipw_point = ipw_estimate(df, ps.values)
+print(f"IPW earnings lift: ${ipw_point:+,.0f}")
+
+# %% [markdown]
+# ## 5b. Doubly-robust check: AIPW estimator
+#
+# Plain IPW is unbiased only if the propensity model is correctly specified.
+# The **Augmented IPW (AIPW)** estimator adds an outcome model: the estimate is
+# consistent if *either* the propensity model or the outcome model is correct.
+
+# %%
+X_out = sm.add_constant(
+    pd.concat([df[COVARIATES].astype(float), race_d, df[["treat"]].astype(float)], axis=1)
+)
+om = sm.OLS(df["re78"], X_out).fit()
+
+X_t1 = X_out.copy(); X_t1["treat"] = 1.0
+X_t0 = X_out.copy(); X_t0["treat"] = 0.0
+mu1 = om.predict(X_t1).values
+mu0 = om.predict(X_t0).values
+
+y = df["re78"].values
+t = df["treat"].values
+
+aipw_point = ((t / ps * (y - mu1) + mu1) - ((1 - t) / (1 - ps) * (y - mu0) + mu0)).mean()
+
+print(f"Naive estimate: ${df[df.treat==1]['re78'].mean()-df[df.treat==0]['re78'].mean():+,.0f}")
+print(f"IPW estimate:   ${ipw_point:+,.0f}")
+print(f"AIPW estimate:  ${aipw_point:+,.0f}")
+print(f"Experimental benchmark: $+1,794")
+
+# %% [markdown]
+# **AIPW ($+887) is meaningfully higher than plain IPW ($+223)**, moving
+# substantially toward the experimental benchmark ($+1,794). The outcome model
+# corrects for the residual confounding that the propensity model alone did not
+# fully remove. Both estimates point to a positive earnings effect, but AIPW
+# implies a much more favourable ROI — which is why reporting both side-by-side,
+# and acknowledging the uncertainty between them, is more honest than presenting
+# a single point estimate.
+#
+# *In the Nimbus project, the outcome (`churned_3mo`) is binary, so you would
+# use `sm.Logit` rather than `sm.OLS` for the outcome model.*
+
+# %% [markdown]
+# ## 6. Bootstrap confidence interval
+
+# %%
+boots = []
+for _ in range(500):
+    idx = RNG.integers(0, len(df), len(df))
+    d   = df.iloc[idx].reset_index(drop=True)
+    rd  = pd.get_dummies(d["race"], prefix="race", drop_first=True).astype(float)
+    Xb  = sm.add_constant(pd.concat([d[COVARIATES].astype(float), rd], axis=1))
+    try:
+        psb = sm.Logit(d["treat"], Xb).fit(disp=0).predict(Xb).clip(0.02, 0.98).values
+        boots.append(ipw_estimate(d, psb))
+    except Exception:
+        pass
+
+boots = np.array(boots)
+ci    = np.quantile(boots, [0.025, 0.975])
+print(f"Bootstrap 95% CI: [${ci[0]:+,.0f}, ${ci[1]:+,.0f}]")
+print(f"Bootstrap SE:     ${boots.std(ddof=1):,.0f}")
+
+# %% [markdown]
+# ## 7. Naive vs. IPW comparison
+
+# %%
+comparison = pd.DataFrame({
+    "Estimate":     ["Naive",    "IPW-corrected", "Experimental benchmark"],
+    "Earnings lift": [f"${naive_lift:+,.0f}", f"${ipw_point:+,.0f}", f"${EXPERIMENTAL_BENCH:+,.0f}"],
+})
+comparison
+
+# %% [markdown]
+# The naive estimate is negative because treated participants started with much lower
+# pre-program earnings — the comparison group is wealthier on average. IPW re-weights
+# the comparison to match on observable characteristics and flips the sign to positive.
+# The known experimental benchmark (+$1,794) from the randomized portion of the study
+# confirms the true causal effect is positive; our IPW estimate (+$223) is noisier and
+# lower because the CPS comparison group is a challenging control group.
+
+# %% [markdown]
+# ## 8. Cost-benefit model
+
+# %%
+corrected_roi = (ipw_point    * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
+naive_roi     = (naive_lift   * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
+
+print(f"Corrected ROI: {corrected_roi:.1%}")
+print(f"Naive ROI:     {naive_roi:.1%}")
+
+# %% [markdown]
+# ## 9. Sensitivity check: experimental benchmark
+
+# %%
+bench_roi = (EXPERIMENTAL_BENCH * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
+print(f"Experimental-benchmark ROI: {bench_roi:.1%}")
+print()
+print(f"Naive estimate:        ${naive_lift:+,.0f}/year  → ROI {naive_roi:.0%}  (suggests shut down the program)")
+print(f"IPW-corrected:         ${ipw_point:+,.0f}/year   → ROI {corrected_roi:.0%}  (suggests program is marginal or positive)")
+print(f"Experimental benchmark: ${EXPERIMENTAL_BENCH:+,.0f}/year → ROI {bench_roi:.0%}  (strongly positive if true)")
+
+# %% [markdown]
+# The three estimates span a wide range of ROI conclusions — from "shut it down" (naive)
+# to "strongly expand" (experimental benchmark). The IPW estimate lands in the middle with
+# high uncertainty. The key lesson: the business decision depends entirely on which causal
+# estimate you use, which makes methodological rigor non-optional.
+
+# %% [markdown]
+# ---
+# ## Connecting forward: what this means for the Nimbus project
+#
+# The Nimbus project's Step 2 solves the same problem on a different domain: the pilot
+# markets were non-randomly assigned (urban/higher-income areas), so the junior analyst's
+# naive churn-lift estimate is biased. The project uses IPW — with the same
+# `ipw_estimate` function signature you implemented here — to correct for that
+# confounding before feeding the lift into the cost-benefit model.
+#
+# Step 4 of the project then builds the cost-benefit function (`option_profit`) that
+# translates the corrected churn lift directly into 12-month incremental profit — the
+# same ROI logic you applied in steps 8 and 9 above, scaled to Nimbus's 4M-subscriber base.

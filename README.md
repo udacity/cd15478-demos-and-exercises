@@ -1,38 +1,48 @@
-# Purpose of This Repo
+# cd15478 — Decision Science Exercises
 
-This repo is the source of truth for all exercises in this course.
+This repo contains all hands-on Python coding exercises for the Decision Science course
+(cd15478). Each top-level folder is one implementation module.
 
-> IMPORTANT!  Please remove these instructions before sharing this repo with learners.
+## Course sequence
 
-## Folder Structure
+Exercises are listed below in the order they appear in the primary course build.
+Folder names are not numbered so the modules can be repackaged into different programs
+without breaking paths.
 
-This repo contains one folder for each module and each module folder contains subdirectories for exercises:
+| # in primary build | Folder | Exercise title |
+| --- | --- | --- |
+| 3 | [simulating-bias-and-uncertainty](simulating-bias-and-uncertainty/) | When "Probably" Isn't the Same as "Definitely" |
+| 5 | [expected-utility-and-comparing-decisions](expected-utility-and-comparing-decisions/) | Comparing Marketing Campaigns with Expected Utility |
+| 7 | [building-decision-models](building-decision-models/) | Building and Solving a Decision Model Programmatically |
+| 9 | [using-model-outputs](using-model-outputs/) | Using Model Outputs in Loan Approval Decisions |
+| 11 | [bayesian-updating](bayesian-updating/) | Updating Demand Beliefs with Bayesian Methods |
+| 13 | [causal-estimates-cost-benefit](causal-estimates-cost-benefit/) | From Causal Estimates to ROI |
+| 15 | [sensitivity-scenario-analysis](sensitivity-scenario-analysis/) | Sensitivity and Scenario Analysis for a Solar Installer |
+| 17 | [monte-carlo-simulation](monte-carlo-simulation/) | Stress-Testing Fleet Electrification with Monte Carlo Simulation |
+| 19 | [presenting-decision-analyses](presenting-decision-analyses/) | Presenting a Solar Decision Analysis |
 
-```bash
-module-#-name/
-├── exercise-name-starter/
-│   └── INSTRUCTIONS.md
+## Folder structure
+
+Each module follows the same layout:
+
+```
+<module-name>/
+├── <exercise-name>-starter/
+│   ├── INSTRUCTIONS.md
+│   ├── <exercise_name>_starter.py      # jupytext source
+│   ├── <exercise_name>_starter.ipynb   # clean (no outputs)
+│   └── data/
+│       ├── <dataset>.csv
+│       └── README.md                   # source + license
 └── solution/
-    └── .gitkeep
+    ├── <exercise_name>_solution.py
+    ├── <exercise_name>_solution.ipynb  # outputs baked in
+    └── solution_notes.md
 ```
 
-- `exercise-name-starter/` - Contains the starter files and instructions for the exercise (INSTRUCTIONS.md template provided)
-- `solution/` - Contains the solution files for the exercise.
-
-> **Note:** The `.gitkeep` file in the solution folder preserves the directory structure in the repository when the folder is empty. It should be removed when one or more solution files have been added to this folder.
-
-Eight module folders have been provided as a template; However, you may need to add more or possibly use less than eight depending on what is needed. If you require an additional module folder, you can make a copy of an existing folder and paste it into the root directory.
-
-As you build the exercises, the module and exercise folder names should be changed to reflect the content e.g.,
-
-- python-basics/simple-calculator-starter
-- object-oriented/classes-vs-instances-starter
-- web-development/simple-api-starter
-- error-handling/try-catch-practice-starter
-- ai-agents/fact-checker-agent-starter
-
-> ⚠️ **DO NOT NUMBER the exercises!**
-> Our modular content may be used in more than one program where the order and number of exercises may differ from the order and number in the primary build.
+> **Do not number folders.** The modular build system allows exercises to be repackaged
+> into different programs in different orders. Use the table above to communicate sequence
+> within a specific program.
 
 ## Resources for Building Exercises
 

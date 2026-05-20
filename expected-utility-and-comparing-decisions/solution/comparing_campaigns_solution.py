@@ -75,7 +75,7 @@
 # The Head of Growth has asked the team to run the numbers — expected value,
 # expected utility under risk aversion, and minimax regret — and to identify
 # which decision rule the team would lean on if forced to commit today. A
-# full stakeholder-facing recommendation will be assembled later in the
+# full stakeholder-facing recommendation is a separate skill covered in other
 # course, after additional analysis steps. Today's deliverable is:
 #
 # 1. The side-by-side comparison of what each decision rule selects.
@@ -262,10 +262,60 @@ print(comparison)
 # This deliverable stops at *defending a decision rule*. Translating the
 # comparison into a stakeholder-facing recommendation — with caveats,
 # robustness checks, and downstream pipeline output — is built explicitly in
-# the communication-focused modules later in the course.
+# the communication-focused modules.
 
 # %% [markdown]
-# ## 10. Sensitivity flex — elevated downside risk
+# ## 10. Segmentation-aware option: Selective Push
+#
+# Every option so far commits BlueDoor to the *same campaign across its entire
+# portfolio*. But BlueDoor can observe which markets are currently Strong, Average,
+# or Weak using the Inside Airbnb data — and could target its spend accordingly.
+#
+# **Selective Push**: run Premium Listing Push only in currently-Strong markets,
+# Local Concierge Add-on in Average markets, and Hold in Weak markets.
+
+# %%
+payoffs.loc["Selective Push"] = {"Strong": 6.0, "Average": 1.5, "Weak": -1.0}
+print("Updated payoff matrix ($M):")
+print(payoffs)
+
+# %%
+ev4           = (payoffs * p).sum(axis=1)
+utility4      = payoffs.map(crra_utility)
+exp_u4        = (utility4 * p).sum(axis=1)
+ce4_wealth    = np.power(exp_u4 * (1.0 - GAMMA) + 1.0, 1.0 / (1.0 - GAMMA))
+ce4           = ce4_wealth - WEALTH_M
+best4         = payoffs.max(axis=0)
+max_regret4   = (best4 - payoffs).max(axis=1)
+
+comparison4 = pd.DataFrame(
+    {
+        "Selected option": [ev4.idxmax(),
+                            exp_u4.idxmax(),
+                            max_regret4.idxmin()],
+        "Score": [f"EV = ${ev4.max():.2f}M",
+                  f"CE = ${ce4[exp_u4.idxmax()]:.2f}M",
+                  f"Max regret = ${max_regret4.min():.2f}M"],
+    },
+    index=["EV-max", "Expected-utility-max (γ=2)", "Minimax regret"],
+)
+print(comparison4)
+
+# %% [markdown]
+# **All three rules now agree on Selective Push** (EV = $2.17M, CE = $2.01M,
+# max regret = $4.0M — better than every other option on every criterion).
+# The uniform options force BlueDoor to either accept the full -$6M downside
+# (Premium) or cap the upside at $3M (Concierge). Selective Push sidesteps
+# that tradeoff: by concentrating the expensive campaign where it is most
+# likely to pay off and limiting exposure elsewhere, it captures most of
+# Premium's upside while cutting its worst-case loss by two-thirds.
+#
+# This mirrors the "WTP hybrid" concept in the Nimbus project: raising price
+# only for high-willingness-to-pay segments can dominate a uniform price change
+# on all three decision metrics.
+
+# %% [markdown]
+# ## 11. Sensitivity flex — elevated downside risk
 
 # %%
 p_alt = pd.Series({"Strong": 0.20, "Average": 0.30, "Weak": 0.50})
@@ -274,14 +324,13 @@ print("EV per option under elevated-downside-risk weights ($M):")
 print(ev_alt.round(3))
 print(f"\nEV-maximizing option under flex: {ev_alt.idxmax()}  "
       f"(${ev_alt.max():.2f}M)")
-print(f"Original EV-maximizing option:    {ev.idxmax()}  (${ev.max():.2f}M)")
+print(f"Original EV-maximizing option:    {ev4.idxmax()}  (${ev4.max():.2f}M)")
 
 # %% [markdown]
 # Under elevated downside-risk weighting, **Premium Listing Push flips to a
-# negative expected profit** and Local Concierge Add-on becomes the EV-max
-# option. The EV-max choice is sensitive to the assumed environment
-# probabilities — which is exactly the point of running the flex. The
-# headline takeaway is that any analytical output downstream of this
-# probability vector inherits its conditionality, and a stakeholder-facing
-# recommendation built on top of this exercise should explicitly state which
-# probability assumption it is conditional on.
+# negative expected profit** and Selective Push remains EV-positive — its
+# limited downside in Weak markets (−$1.0M vs. −$6.0M for Premium) makes it
+# the more durable choice. The headline takeaway is that any analytical output
+# downstream of this probability vector inherits its conditionality, and a
+# stakeholder-facing recommendation should explicitly state which probability
+# assumption it is conditional on.

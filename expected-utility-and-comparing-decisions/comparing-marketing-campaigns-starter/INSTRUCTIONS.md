@@ -14,7 +14,7 @@ To estimate that distribution, the team uses cross-city variation in current Ins
 
 The file `data/airbnb_city_stats.csv` contains city-level summary statistics for 18 well-known short-term-rental markets in the format published by [Inside Airbnb](http://insideairbnb.com/) (see `data/README.md` for the full citation). For each city, you have the median nightly price, the median monthly reviews per listing (Inside Airbnb's standard occupancy proxy), and a few other fields. You will compute `median_price × median_reviews_per_month` — a per-listing monthly revenue proxy — for each city, tertile-bin the eighteen cities into Strong / Average / Weak environments, and use the empirical share of cities in each bin as your prior on what kind of environment BlueDoor will face next quarter. The cities themselves are not BlueDoor's markets; they are a benchmark for what "a Strong market" or "a Weak market" looks like in numbers.
 
-The Head of Growth has asked the team to run the numbers — expected value, expected utility under risk aversion, and minimax regret — and to identify which decision rule the team would lean on if forced to commit today. A full stakeholder-facing recommendation will be assembled later in the course, after additional analysis steps; today's deliverable is the side-by-side comparison plus your defended choice of decision rule, and an answer to the question *"How sensitive is the EV-max choice to our assumption that the next quarter looks like the cross-city baseline?"*
+The Head of Growth has asked the team to run the numbers — expected value, expected utility under risk aversion, and minimax regret — and to identify which decision rule the team would lean on if forced to commit today. Today's deliverable is the side-by-side comparison plus your defended choice of decision rule, and an answer to the question *"How sensitive is the EV-max choice to our assumption that the next quarter looks like the cross-city baseline?"* Translating this analytical comparison into a stakeholder-facing recommendation — with caveats, robustness checks, and supporting narrative — is a separate skill covered in other modules.
 
 ## What you'll deliver
 
@@ -28,8 +28,9 @@ A completed Jupyter notebook (start from `comparing_campaigns_starter.ipynb`) th
 6. Computes the **expected value (EV)** of each option using the empirical probabilities.
 7. Computes the **expected CRRA utility** of each option using risk aversion γ = 2 and a wealth baseline of $50M, and reports the **certainty-equivalent profit** for each option. Identify the option that maximizes expected utility.
 8. Computes the **maximum regret** of each option across the three environments and identifies the **minimax-regret** option.
-9. Produces a side-by-side comparison of which option each of the three decision rules selects (EV-max, expected-utility-max with the certainty-equivalent in dollars, and minimax-regret). If the three rules disagree, identify in one to two sentences which decision rule you would lean on and why. **Do not yet convert this comparison into a recommendation to a stakeholder** — the skill of translating analytical output into a stakeholder-facing recommendation is built later in the course. Today's deliverable is the comparison itself plus your defended choice of decision rule.
-10. Performs one **sensitivity flex**: recompute EV under the alternative assumption that the next quarter has elevated downside risk — set P(Strong) = 0.20, P(Average) = 0.30, P(Weak) = 0.50 — and report whether the EV-max option changes.
+9. Produces a side-by-side comparison of which option each of the three decision rules selects (EV-max, expected-utility-max with the certainty-equivalent in dollars, and minimax-regret). If the three rules disagree, identify in one to two sentences which decision rule you would lean on and why. **Do not yet convert this comparison into a recommendation to a stakeholder** — the skill of translating analytical output into a stakeholder-facing recommendation is a separate skill covered in other modules. Today's deliverable is the comparison itself plus your defended choice of decision rule.
+10. Adds a **segmentation-aware option** — Selective Push — to the payoff matrix and reruns all three decision rules. Selective Push targets the Premium Listing Push campaign only to markets currently showing Strong revenue signals, running Local Concierge Add-on in Average markets and Hold in Weak markets. Use the stipulated payoffs in the [Selective Push payoffs](#selective-push-payoffs) table below. Produce an updated four-option comparison table and explain in one to two sentences what the Selective Push result implies about uniform versus segmented campaign strategies.
+11. Performs one **sensitivity flex**: recompute EV under the alternative assumption that the next quarter has elevated downside risk — set P(Strong) = 0.20, P(Average) = 0.30, P(Weak) = 0.50 — and report whether the EV-max option changes. Apply the flex to all four options (include Selective Push).
 
 ## Payoff matrix
 
@@ -42,6 +43,21 @@ Twelve-month incremental contribution profit, in $M, relative to baseline (Hold 
 | Hold | 0.0 | 0.0 | 0.0 |
 
 These numbers are pre-set so you can focus on the decision-theory mechanics. In a real engagement you would build them from a cost-benefit model.
+
+## Selective Push payoffs
+
+Twelve-month incremental contribution profit, in $M, for the segmentation-aware option.
+Selective Push runs Premium in markets currently showing Strong revenue signals, Concierge
+in Average markets, and Hold in Weak markets. The state still reflects the *future*
+market environment — even a currently-Strong market can face headwinds.
+
+| Option | Strong | Average | Weak |
+| --- | --- | --- | --- |
+| Selective Push | +6.0 | +1.5 | −1.0 |
+
+These values are stipulated. A Selective Push campaign captures most of the Premium
+upside in Strong markets (concentrated resources, strongest hosts) while limiting
+downside in Weak conditions (only 1/3 of the portfolio runs the expensive campaign).
 
 ## Requirements
 
