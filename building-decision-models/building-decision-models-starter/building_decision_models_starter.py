@@ -69,7 +69,7 @@ for state, prob in STATES.items():
 # of the decision. An influence diagram uses three node types:
 #
 # - **Rectangle** — Decision node: a variable *you* control
-# - **Oval** — Chance node: an uncertain variable nature controls
+# - **Oval** — Uncertainty node: an uncertain variable nature controls
 # - **Rounded rectangle** — Value node: the payoff that depends on both
 #
 # The three nodes are drawn below. Add the two arrows, then answer the reflection.
@@ -87,19 +87,20 @@ ax.text(1.7, 3.8, "Launch Option", ha="center", va="center", fontsize=9, fontwei
 ax.text(1.7, 3.3, "Full / Regional / Hold", ha="center", va="center", fontsize=8, color="#333")
 ax.text(1.7, 2.95, "Decision node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
 
-# Chance node — oval (top-right)
+# Uncertainty node — oval (top-right)
 ax.add_patch(mpatches.Ellipse(
     (8.2, 3.6), 2.8, 1.6, fc="#fff3cc", ec="#555", lw=1.5, zorder=2))
 ax.text(8.2, 3.8, "Demand State", ha="center", va="center", fontsize=9, fontweight="bold")
 ax.text(8.2, 3.3, "High / Base / Low", ha="center", va="center", fontsize=8, color="#333")
-ax.text(8.2, 2.95, "Chance node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
+ax.text(8.2, 2.95, "Uncertainty node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
 
-# Value node — rounded rectangle (bottom-center)
-ax.add_patch(mpatches.FancyBboxPatch(
-    (3.6, 0.5), 2.8, 1.6, boxstyle="round,pad=0.1",
+# Value node — octagon (bottom-center)
+import numpy as np
+ax.add_patch(mpatches.RegularPolygon(
+    (5.0, 1.3), numVertices=8, radius=1.1, orientation=np.pi/8,
     fc="#d4edda", ec="#555", lw=1.5, zorder=2))
-ax.text(5.0, 1.5, "12-Month Profit ($M)", ha="center", va="center", fontsize=9, fontweight="bold")
-ax.text(5.0, 1.0, "option_profit(option, state)", ha="center", va="center",
+ax.text(5.0, 1.55, "12-Month Profit ($M)", ha="center", va="center", fontsize=9, fontweight="bold")
+ax.text(5.0, 1.1, "option_profit(option, state)", ha="center", va="center",
         fontsize=7.5, color="#333", family="monospace")
 ax.text(5.0, 0.65, "Value node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
 

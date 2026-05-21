@@ -24,9 +24,9 @@ A completed Jupyter notebook (start from `building_decision_models_starter.ipynb
    rows, and derives state probabilities by tertile-binning the growth rates into
    **High**, **Base**, and **Low** demand environments.
 2. Draws an **influence diagram** using the three node shapes provided in the starter
-   (Decision rectangle, Chance oval, Value rounded rectangle). Adds the two arrows
+   (Decision rectangle, Uncertainty oval, Value octagon). Adds the two arrows
    connecting the nodes. Then writes 1–2 sentences explaining what the *absence* of an
-   arrow between the Decision node and Chance node assumes — and when that assumption
+   arrow between the Decision node and Uncertainty node assumes — and when that assumption
    might be wrong.
 3. Defines `OPTIONS` and `STATES` — a list and a dictionary — directly from the
    Head of Strategy's description above. Defines all business parameters as
