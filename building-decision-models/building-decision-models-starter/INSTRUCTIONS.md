@@ -23,22 +23,24 @@ A completed Jupyter notebook (start from `building_decision_models_starter.ipynb
 1. Loads the sporting goods sales data, computes year-over-year growth rates, drops NaN
    rows, and derives state probabilities by tertile-binning the growth rates into
    **High**, **Base**, and **Low** demand environments.
-2. Defines `OPTIONS` and `STATES` — a list and a dictionary — directly from the
+2. Draws an **influence diagram** using the three node shapes provided in the starter
+   (Decision rectangle, Chance oval, Value rounded rectangle). Adds the two arrows
+   connecting the nodes. Then writes 1–2 sentences explaining what the *absence* of an
+   arrow between the Decision node and Chance node assumes — and when that assumption
+   might be wrong.
+3. Defines `OPTIONS` and `STATES` — a list and a dictionary — directly from the
    Head of Strategy's description above. Defines all business parameters as
    module-level constants (`FULL_LAUNCH_COST_M`, `REGIONAL_COST_M`, etc.).
-3. Implements `option_profit(option, demand_state)` — a function that takes an option
+4. Implements `option_profit(option, demand_state)` — a function that takes an option
    name and a demand state name and returns the net 12-month profit in $M. The function
    body must reference the module-level constants, not hardcode numbers.
-4. Builds the payoff matrix as a `pd.DataFrame` by calling `option_profit` across every
+5. Builds the payoff matrix as a `pd.DataFrame` by calling `option_profit` across every
    combination of option and demand state.
-5. Computes **EV per option** as `(payoffs * pd.Series(STATES)).sum(axis=1)` and
+6. Computes **EV per option** as `(payoffs * pd.Series(STATES)).sum(axis=1)` and
    identifies the EV-maximizing option.
-6. Computes **minimax regret** per option (regret matrix, row-wise max, identify the
+7. Computes **minimax regret** per option (regret matrix, row-wise max, identify the
    option with the smallest maximum regret).
-7. Visualizes the decision tree using matplotlib: one root decision node, one branch per
+8. Visualizes the decision tree using matplotlib: one root decision node, one branch per
    option, one sub-branch per demand state, payoff at each leaf. Use `boxstyle="round"`
-   for the node labels and label each leaf with the state name and profit.
-8. Builds an **influence diagram** using the three node shapes provided in the starter
-   (Decision rectangle, Chance oval, Value rounded rectangle). Adds the two arrows
-   connecting the nodes, then writes 1–2 sentences explaining what the *absence* of an
-   arrow between the Decision node and Chance node assumes about the problem.
+   for the node labels and label each leaf with the state name and profit. In 1 sentence,
+   explain how this tree relates to the influence diagram you drew in step 2.

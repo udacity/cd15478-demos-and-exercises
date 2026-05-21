@@ -31,6 +31,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 DATA_PATH = "data/sporting_goods_sales.csv"
 
@@ -62,110 +63,18 @@ for state, prob in STATES.items():
     print(f"  {state}: {prob:.3f}")
 
 # %% [markdown]
-# ## 2. Define the structure
+# ## 2. Influence diagram — map the structure before writing any code
 #
-# Read the Head of Strategy's description in `INSTRUCTIONS.md` and define:
-# - `OPTIONS` — a list of the three option names, exactly as strings
-# - Module-level constants for each option's cost and revenue by state
+# Before defining options or writing a payoff function, draw the dependency structure
+# of the decision. An influence diagram uses three node types:
+#
+# - **Rectangle** — Decision node: a variable *you* control
+# - **Oval** — Chance node: an uncertain variable nature controls
+# - **Rounded rectangle** — Value node: the payoff that depends on both
+#
+# The three nodes are drawn below. Add the two arrows, then answer the reflection.
 
 # %%
-OPTIONS = ...  # TODO: fill in from the narrative
-
-# TODO: Define business parameters as module-level constants.
-#       Name them clearly so option_profit can reference them by name.
-FULL_LAUNCH_COST_M  = ...
-FULL_LAUNCH_REV_M   = ...  # dict: {"High": ..., "Base": ..., "Low": ...}
-
-REGIONAL_COST_M     = ...
-REGIONAL_REV_M      = ...  # dict: {"High": ..., "Base": ..., "Low": ...}
-
-# %% [markdown]
-# ## 3. Implement `option_profit`
-#
-# Write the function that the rest of the model depends on. It takes an option name
-# and a demand state name and returns the net 12-month profit in $M.
-# Reference module-level constants only — no hardcoded numbers in the function body.
-
-# %%
-def option_profit(option: str, demand_state: str) -> float:
-    """Net 12-month profit ($M) for a given option and demand state."""
-    # TODO: implement for "Full Launch", "Regional Rollout", and "Hold"
-    ...
-
-
-# Quick sanity check — uncomment once the function is implemented:
-# print(option_profit("Full Launch", "High"))    # should be ~11.4
-# print(option_profit("Regional Rollout", "Low")) # should be ~0.3
-# print(option_profit("Hold", "Base"))            # should be 0.0
-
-# %% [markdown]
-# ## 4. Build the payoff matrix
-#
-# Call `option_profit` across every option × state combination to produce
-# a DataFrame with options as rows and demand states as columns.
-
-# %%
-# TODO: Build `payoffs` — a pd.DataFrame — by calling option_profit for each
-#       (option, state) pair. Do not type the values in by hand.
-payoffs = ...
-
-payoffs
-
-# %% [markdown]
-# ## 5. Expected value per option
-
-# %%
-# TODO: Compute `ev` — a Series of expected profits indexed by option name.
-#       Use (payoffs * pd.Series(STATES)).sum(axis=1).
-ev = ...
-
-print("Expected value per option ($M):")
-print(ev.round(2))
-print(f"\nEV-maximizing option: {ev.idxmax()}  (${ev.max():.2f}M)")
-
-# %% [markdown]
-# ## 6. Minimax regret
-
-# %%
-# TODO: Compute the regret matrix (best payoff per state minus each option's payoff)
-#       and max_regret (the row-wise maximum of the regret matrix).
-regret     = ...
-max_regret = ...
-
-print("Max regret per option ($M):")
-print(max_regret.round(2))
-print(f"\nMinimax-regret option: {max_regret.idxmin()}  "
-      f"(max regret ${max_regret.min():.2f}M)")
-
-# %% [markdown]
-# ## 7. Decision tree visualization
-#
-# Draw the tree: one root decision node, one branch per option, one sub-branch per
-# demand state, and a payoff label at each leaf.
-# Use `boxstyle="round"` for the node boxes.
-
-# %%
-# TODO: Build the matplotlib tree diagram.
-#       Hint: look at how the project solution draws its decision tree —
-#       the structure here is the same: options × states × payoffs.
-
-# %% [markdown]
-# ## 8. Influence diagram
-#
-# A decision tree shows every path through the problem. An influence diagram shows
-# the *structure* — which variables depend on which — without enumerating all paths.
-#
-# For this problem there are three nodes:
-# - **Decision node** (rectangle): the launch option you choose
-# - **Chance node** (oval): the demand state nature reveals
-# - **Value node** (rounded rectangle): the resulting profit
-#
-# The three node shapes are drawn below. Your job is to add the two arrows and then
-# answer the reflection question.
-
-# %%
-import matplotlib.patches as mpatches
-
 fig, ax = plt.subplots(figsize=(9, 4.5))
 ax.set_xlim(0, 10); ax.set_ylim(0, 5); ax.axis("off")
 ax.set_title("Influence diagram — StrideWear Apex Trainer launch decision", pad=10)
@@ -204,6 +113,95 @@ plt.tight_layout()
 plt.show()
 
 # %% [markdown]
-# *TODO: In 1–2 sentences — there is no arrow between the Decision node and the Chance
-# node. What does that absence assume about the relationship between StrideWear's launch
-# choice and the demand environment?*
+# *TODO: There is no arrow between the Decision node and the Chance node. In 1–2
+# sentences, what does that absence assume about the relationship between StrideWear's
+# launch choice and the demand environment? When might that assumption be wrong?*
+
+# %% [markdown]
+# ## 3. Define the structure
+#
+# Read the Head of Strategy's description in `INSTRUCTIONS.md` and define:
+# - `OPTIONS` — a list of the three option names, exactly as strings
+# - Module-level constants for each option's cost and revenue by state
+
+# %%
+OPTIONS = ...  # TODO: fill in from the narrative
+
+# TODO: Define business parameters as module-level constants.
+#       Name them clearly so option_profit can reference them by name.
+FULL_LAUNCH_COST_M  = ...
+FULL_LAUNCH_REV_M   = ...  # dict: {"High": ..., "Base": ..., "Low": ...}
+
+REGIONAL_COST_M     = ...
+REGIONAL_REV_M      = ...  # dict: {"High": ..., "Base": ..., "Low": ...}
+
+# %% [markdown]
+# ## 4. Implement `option_profit`
+#
+# Write the function that the rest of the model depends on. It takes an option name
+# and a demand state name and returns the net 12-month profit in $M.
+# Reference module-level constants only — no hardcoded numbers in the function body.
+
+# %%
+def option_profit(option: str, demand_state: str) -> float:
+    """Net 12-month profit ($M) for a given option and demand state."""
+    # TODO: implement for "Full Launch", "Regional Rollout", and "Hold"
+    ...
+
+
+# Quick sanity check — uncomment once the function is implemented:
+# print(option_profit("Full Launch", "High"))    # should be ~11.4
+# print(option_profit("Regional Rollout", "Low")) # should be ~0.3
+# print(option_profit("Hold", "Base"))            # should be 0.0
+
+# %% [markdown]
+# ## 5. Build the payoff matrix
+#
+# Call `option_profit` across every option × state combination to produce
+# a DataFrame with options as rows and demand states as columns.
+
+# %%
+# TODO: Build `payoffs` — a pd.DataFrame — by calling option_profit for each
+#       (option, state) pair. Do not type the values in by hand.
+payoffs = ...
+
+payoffs
+
+# %% [markdown]
+# ## 6. Expected value per option
+
+# %%
+# TODO: Compute `ev` — a Series of expected profits indexed by option name.
+#       Use (payoffs * pd.Series(STATES)).sum(axis=1).
+ev = ...
+
+print("Expected value per option ($M):")
+print(ev.round(2))
+print(f"\nEV-maximizing option: {ev.idxmax()}  (${ev.max():.2f}M)")
+
+# %% [markdown]
+# ## 7. Minimax regret
+
+# %%
+# TODO: Compute the regret matrix (best payoff per state minus each option's payoff)
+#       and max_regret (the row-wise maximum of the regret matrix).
+regret     = ...
+max_regret = ...
+
+print("Max regret per option ($M):")
+print(max_regret.round(2))
+print(f"\nMinimax-regret option: {max_regret.idxmin()}  "
+      f"(max regret ${max_regret.min():.2f}M)")
+
+# %% [markdown]
+# ## 8. Decision tree visualization
+#
+# Draw the tree: one root decision node, one branch per option, one sub-branch per
+# demand state, and a payoff label at each leaf. Use `boxstyle="round"` for the node
+# boxes. When you're done, compare this tree to the influence diagram in step 2 —
+# the diagram showed the structure; the tree enumerates all the paths through it.
+
+# %%
+# TODO: Build the matplotlib tree diagram.
+#       Hint: look at how the project solution draws its decision tree —
+#       the structure here is the same: options × states × payoffs.
