@@ -108,6 +108,8 @@ sim_profits.head()
 # %%
 # TODO: Plot KDE curves for Buy and Lease (Hold is always 0 — add as a vertical line or note).
 #       Add a vertical line at NPV = 0. Label axes and add a legend.
+#       Hint: sns.kdeplot(data, label="...", fill=True, ax=ax) draws one distribution.
+#             ax.axvline(0) adds the zero reference line.
 
 # %% [markdown]
 # ## 6. Summary statistics

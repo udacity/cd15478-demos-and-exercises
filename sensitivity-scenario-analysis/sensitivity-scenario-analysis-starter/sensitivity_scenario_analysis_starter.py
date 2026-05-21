@@ -124,6 +124,8 @@ tornado = ...
 
 # TODO: Plot the tornado diagram (horizontal bars, sorted largest at top).
 #       Mark the central NPV with a dashed vertical line.
+#       Hint: ax.barh(y, width, left=lo_npv) draws a horizontal bar starting at lo_npv.
+#             ax.axvline(x, ls="--") draws the central reference line.
 
 # %% [markdown]
 # ## 5. Named scenarios — Standard format
@@ -159,6 +161,9 @@ print(f"Cushion:                    {STANDARD['daily_customers'] - breakeven_cus
 #   - Mark break-even and base-case assumption as vertical lines
 #   - Label each clearly; put break-even label to the LEFT and
 #     base-case label to the RIGHT so they don't overlap
+#   Hint: ax.barh(0, width, left=start) draws each coloured zone.
+#         ax.axvline(x) draws each vertical marker line.
+#         ax.text(x, y, "label", ha="right") for the left-side label.
 
 # %% [markdown]
 # ## 8. Interpretation

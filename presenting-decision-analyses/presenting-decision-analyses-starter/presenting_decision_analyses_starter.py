@@ -133,6 +133,9 @@ SCENARIO_COLORS = {"Optimistic": "#2ca02c", "Base": "#1f77b4", "Pessimistic": "#
 top2 = tornado.tail(2).reset_index(drop=True)
 
 # TODO: Build and display Chart 2.
+#       Hint: ax.barh(i, hi-lo, left=lo) draws each horizontal bar.
+#             ax.axvline(CENTRAL_NPV, ls="--") marks the base NPV.
+#             ax.text(hi + gap, i, f"${swing:,.0f}") labels the swing.
 
 # %% [markdown]
 # *TODO: 1–2 sentences. What does Chart 2 tell the VP about where to focus due diligence?*
@@ -149,6 +152,9 @@ top2 = tornado.tail(2).reset_index(drop=True)
 lo_chart, hi_chart = 50, 400
 
 # TODO: Build and display Chart 3.
+#       Hint: ax.barh(0, breakeven_customers-lo_chart, left=lo_chart) draws the red zone.
+#             ax.barh(0, hi_chart-breakeven_customers, left=breakeven_customers) draws green.
+#             ax.axvline(x) draws each vertical marker; ax.text(x, y, "label") for labels.
 
 # %% [markdown]
 # *TODO: 1–2 sentences. What does Chart 3 tell the VP about the risk of the recommendation?*
