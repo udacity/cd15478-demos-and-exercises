@@ -148,3 +148,62 @@ print(f"\nMinimax-regret option: {max_regret.idxmin()}  "
 # TODO: Build the matplotlib tree diagram.
 #       Hint: look at how the project solution draws its decision tree —
 #       the structure here is the same: options × states × payoffs.
+
+# %% [markdown]
+# ## 8. Influence diagram
+#
+# A decision tree shows every path through the problem. An influence diagram shows
+# the *structure* — which variables depend on which — without enumerating all paths.
+#
+# For this problem there are three nodes:
+# - **Decision node** (rectangle): the launch option you choose
+# - **Chance node** (oval): the demand state nature reveals
+# - **Value node** (rounded rectangle): the resulting profit
+#
+# The three node shapes are drawn below. Your job is to add the two arrows and then
+# answer the reflection question.
+
+# %%
+import matplotlib.patches as mpatches
+
+fig, ax = plt.subplots(figsize=(9, 4.5))
+ax.set_xlim(0, 10); ax.set_ylim(0, 5); ax.axis("off")
+ax.set_title("Influence diagram — StrideWear Apex Trainer launch decision", pad=10)
+
+# Decision node — rectangle (top-left)
+ax.add_patch(mpatches.FancyBboxPatch(
+    (0.3, 2.8), 2.8, 1.6, boxstyle="square,pad=0.05",
+    fc="#dde8ff", ec="#555", lw=1.5, zorder=2))
+ax.text(1.7, 3.8, "Launch Option", ha="center", va="center", fontsize=9, fontweight="bold")
+ax.text(1.7, 3.3, "Full / Regional / Hold", ha="center", va="center", fontsize=8, color="#333")
+ax.text(1.7, 2.95, "Decision node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
+
+# Chance node — oval (top-right)
+ax.add_patch(mpatches.Ellipse(
+    (8.2, 3.6), 2.8, 1.6, fc="#fff3cc", ec="#555", lw=1.5, zorder=2))
+ax.text(8.2, 3.8, "Demand State", ha="center", va="center", fontsize=9, fontweight="bold")
+ax.text(8.2, 3.3, "High / Base / Low", ha="center", va="center", fontsize=8, color="#333")
+ax.text(8.2, 2.95, "Chance node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
+
+# Value node — rounded rectangle (bottom-center)
+ax.add_patch(mpatches.FancyBboxPatch(
+    (3.6, 0.5), 2.8, 1.6, boxstyle="round,pad=0.1",
+    fc="#d4edda", ec="#555", lw=1.5, zorder=2))
+ax.text(5.0, 1.5, "12-Month Profit ($M)", ha="center", va="center", fontsize=9, fontweight="bold")
+ax.text(5.0, 1.0, "option_profit(option, state)", ha="center", va="center",
+        fontsize=7.5, color="#333", family="monospace")
+ax.text(5.0, 0.65, "Value node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
+
+# TODO: Add two arrows using ax.annotate:
+#   1. Decision node → Value node  (from around (2.2, 2.8) to around (4.1, 2.1))
+#   2. Chance node   → Value node  (from around (7.2, 2.8) to around (5.9, 2.1))
+#   Pattern: ax.annotate("", xy=<tip>, xytext=<tail>,
+#                         arrowprops=dict(arrowstyle="->", lw=1.5, color="#333"))
+
+plt.tight_layout()
+plt.show()
+
+# %% [markdown]
+# *TODO: In 1–2 sentences — there is no arrow between the Decision node and the Chance
+# node. What does that absence assume about the relationship between StrideWear's launch
+# choice and the demand environment?*

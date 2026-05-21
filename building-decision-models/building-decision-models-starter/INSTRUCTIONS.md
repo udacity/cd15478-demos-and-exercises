@@ -38,3 +38,7 @@ A completed Jupyter notebook (start from `building_decision_models_starter.ipynb
 7. Visualizes the decision tree using matplotlib: one root decision node, one branch per
    option, one sub-branch per demand state, payoff at each leaf. Use `boxstyle="round"`
    for the node labels and label each leaf with the state name and profit.
+8. Builds an **influence diagram** using the three node shapes provided in the starter
+   (Decision rectangle, Chance oval, Value rounded rectangle). Adds the two arrows
+   connecting the nodes, then writes 1–2 sentences explaining what the *absence* of an
+   arrow between the Decision node and Chance node assumes about the problem.

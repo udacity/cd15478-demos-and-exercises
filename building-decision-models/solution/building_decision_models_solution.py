@@ -194,3 +194,67 @@ ax.set_title("StrideWear Apex Trainer — decision tree (options × demand state
              fontsize=10)
 plt.tight_layout()
 plt.show()
+
+# %% [markdown]
+# ## 8. Influence diagram
+#
+# The decision tree above shows every path — all 9 combinations of option and state.
+# An influence diagram shows the same problem differently: as a network of *dependencies*,
+# without enumerating paths. Three node types:
+#
+# - **Rectangle** — Decision node: a variable you control
+# - **Oval** — Chance node: an uncertain variable nature controls
+# - **Rounded rectangle** — Value node: the payoff that depends on both
+
+# %%
+import matplotlib.patches as mpatches
+
+fig, ax = plt.subplots(figsize=(9, 4.5))
+ax.set_xlim(0, 10); ax.set_ylim(0, 5); ax.axis("off")
+ax.set_title("Influence diagram — StrideWear Apex Trainer launch decision", pad=10)
+
+# Decision node — rectangle (top-left)
+ax.add_patch(mpatches.FancyBboxPatch(
+    (0.3, 2.8), 2.8, 1.6, boxstyle="square,pad=0.05",
+    fc="#dde8ff", ec="#555", lw=1.5, zorder=2))
+ax.text(1.7, 3.8, "Launch Option", ha="center", va="center", fontsize=9, fontweight="bold")
+ax.text(1.7, 3.3, "Full / Regional / Hold", ha="center", va="center", fontsize=8, color="#333")
+ax.text(1.7, 2.95, "Decision node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
+
+# Chance node — oval (top-right)
+ax.add_patch(mpatches.Ellipse(
+    (8.2, 3.6), 2.8, 1.6, fc="#fff3cc", ec="#555", lw=1.5, zorder=2))
+ax.text(8.2, 3.8, "Demand State", ha="center", va="center", fontsize=9, fontweight="bold")
+ax.text(8.2, 3.3, "High / Base / Low", ha="center", va="center", fontsize=8, color="#333")
+ax.text(8.2, 2.95, "Chance node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
+
+# Value node — rounded rectangle (bottom-center)
+ax.add_patch(mpatches.FancyBboxPatch(
+    (3.6, 0.5), 2.8, 1.6, boxstyle="round,pad=0.1",
+    fc="#d4edda", ec="#555", lw=1.5, zorder=2))
+ax.text(5.0, 1.5, "12-Month Profit ($M)", ha="center", va="center", fontsize=9, fontweight="bold")
+ax.text(5.0, 1.0, "option_profit(option, state)", ha="center", va="center",
+        fontsize=7.5, color="#333", family="monospace")
+ax.text(5.0, 0.65, "Value node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
+
+# Arrows: Decision → Profit, Demand State → Profit
+ax.annotate("", xy=(4.1, 2.1), xytext=(2.2, 2.8),
+            arrowprops=dict(arrowstyle="->", lw=1.5, color="#333"))
+ax.annotate("", xy=(5.9, 2.1), xytext=(7.2, 2.8),
+            arrowprops=dict(arrowstyle="->", lw=1.5, color="#333"))
+
+plt.tight_layout()
+plt.show()
+
+# %% [markdown]
+# **Reading the diagram:** there is no arrow between the Decision node and the Chance
+# node. That absence encodes a key modelling assumption: StrideWear's launch choice
+# does not change the demand environment — whether the market turns out High, Base,
+# or Low is independent of which option they pick. If the decision *could* influence
+# market conditions (e.g., a splashy Full Launch generates buzz that boosts demand),
+# you would add that arrow, and the model would become more complex.
+#
+# **Diagram vs. tree:** the tree enumerates all 9 paths so you can read off every
+# payoff. The influence diagram shows the *structure* — three variables, two
+# dependencies — in a form that's easy to communicate to a stakeholder before
+# diving into the numbers.
