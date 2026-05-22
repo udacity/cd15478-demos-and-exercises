@@ -14,18 +14,14 @@
 # ---
 
 # %% [markdown]
-# # The Application Numbers Game
+# # Is Your Friend Actually Good at This?
 #
-# **The bias.** When people encounter a probability below 50%, they tend to treat it as
-# *"it won't happen."* Above 50%, they treat it as *"it will happen."* This is called
-# **binary thinking** — collapsing a probability into a yes/no prediction before the
-# outcome has occurred. It feels natural, but it leads to systematically wrong decisions.
+# **The scenario.** Your friend claims they correctly predicted 55% of football games
+# last season and made good money doing it. They have a pick for this weekend and want
+# you to follow it.
 #
-# **The scenario.** A friend of yours wants to break into sports journalism. After some
-# research, you find that candidates who apply to open roles at sports outlets have roughly
-# a 3% chance of receiving an offer. Your friend is discouraged: *"3% is basically zero —
-# why bother applying?"* This exercise will show, through simulation, exactly why that
-# reasoning is wrong.
+# Binary thinking says: *"55% is above 50% — they know what they're doing, and I'll
+# probably win."* This exercise runs the numbers on both claims.
 
 # %% [markdown]
 # ## Setup
@@ -38,83 +34,68 @@ import math
 RNG = np.random.default_rng(42)
 
 # %% [markdown]
-# ## 1. The bias in action — one application at 3%
+# ## 1. One game — taking his word for it
 #
-# Binary thinking predicts: *"3% is basically zero — it won't happen."*
-# Imagine 100 candidates each sending one application at a 3% offer rate.
-# How often is binary thinking wrong?
+# Assume your friend's 55% is completely real. Simulate 1,000 people each following
+# one pick at 55%. How many lose? Build a bar chart showing the result.
 
 # %%
-# TODO: Simulate 100 single-application outcomes at a 3% offer rate.
-#       Compute the empirical offer rate.
+# TODO: Simulate 1,000 single-game outcomes at a 55% win rate.
 #       Print what binary thinking predicts and what the simulation shows.
-single_outcomes = ...
+outcomes = ...
 
 # %%
-# TODO: Build a bar chart showing the number of offers vs no-offers.
-#       Label each bar with its count and percentage.
-#       Annotate the offer bar to note what binary thinking predicted.
+# TODO: Build a bar chart showing losses vs wins.
+#       Annotate the loss bar to show what binary thinking missed.
 
 # %% [markdown]
-# ## 2. The overconfidence mirror — spamming applications at 55%
+# ## 2. The coin flipper problem — 20-game season
 #
-# Your friend is also spamming applications to a less exciting but highly in-demand role
-# with a 55% per-application offer rate. *"That one's above 50% — it will definitely work out."*
-# Imagine 1,000 candidates each sending one application. How often does that certainty fail?
+# Is your friend actually skilled, or just lucky? Simulate 1,000 people who pick
+# games randomly (50/50) over a 20-game season. How many hit 55% or better by
+# pure chance? (55% of 20 games = 11 correct.)
 
 # %%
-# TODO: Simulate 1,000 single-application outcomes at a 55% offer rate.
-#       Compute the empirical failure rate.
-#       Print what binary thinking predicts and how often it is wrong.
-high_outcomes = ...
+# TODO: Simulate 1,000 random guessers predicting 20 games each at 50%.
+#       Count how many hit 11+ correct (55%+). Print the result.
+random_correct = ...
 
 # %%
-# TODO: Build a bar chart showing the number of offers vs no-offers.
-#       Same style as step 1. Annotate the no-offer bar.
+# TODO: Plot a histogram of correct predictions across all 1,000 guessers.
+#       Highlight bars at 11+ correct in orange. Add a vertical line at 10.5.
+#       Annotate the orange zone.
 
 # %% [markdown]
-# ## 3. Stack the applications
+# ## 3. Does the season length matter? — 100 games
 #
-# Binary thinking about 30 applications at 3%: *"None of these will pan out."*
-# Simulate 100 full job searches — each sending 30 applications at 3% — and
-# look at the distribution of offers received.
+# Repeat the simulation with 100 games per season instead of 20.
+# How often does a random guesser still hit 55%+ (55 correct out of 100)?
 
 # %%
-# TODO: Simulate 100 job searches of 30 applications each at a 3% offer rate.
-search_outcomes = ...
+# TODO: Simulate 1,000 random guessers predicting 100 games each at 50%.
+#       Count how many hit 55+ correct. Print the result.
+random_correct_100 = ...
 
 # %%
-# TODO: Plot a histogram of offer counts across all searches.
-#       Highlight the zero-offer bar and annotate it.
+# TODO: Plot a histogram of correct predictions. Highlight 55+ in orange.
+#       Add a vertical line at 54.5.
 
 # %% [markdown]
-# ## 4. P(at least one offer)
+# ## 4. How many games make 55% convincing?
 #
-# The histogram shows the distribution — but the number your friend cares about
-# is simpler: what fraction of those 100 searches ended with at least one offer?
-# Compare sending 1 application to sending 30.
+# Simulate coin flippers for season lengths from 10 to 300 games (in steps of 5).
+# For each length, compute the fraction of random guessers who hit 55%+.
+# Plot the curve and mark the point where that fraction drops below 10%.
 
 # %%
-# TODO: Compute P(at least one offer) from search_outcomes and analytically.
-#       Print both values.
-
-# TODO: Build a bar chart comparing P(offer) for 1 application vs 30 applications.
-#       Add a reference line at 0.5. Label axes and title clearly.
-
-# %% [markdown]
-# ## 5. Find your number
-#
-# How many applications does it take to reach 90% confidence of at least one offer?
-# Solve analytically, then verify with simulation.
-
-# %%
-# TODO: Solve analytically for the minimum number of applications
-#       needed to reach 90% confidence of at least one offer.
-#       Verify by simulating searches of that length.
-n_needed = ...
+# TODO: For each season length in range(10, 301, 5):
+#       simulate 5,000 coin flippers and compute the fraction hitting 55%+.
+#       Find the first season length where that fraction drops below 10%.
+#       Plot the curve with a 10% reference line and mark the threshold.
+season_lengths = range(10, 301, 5)
 
 # %% [markdown]
-# ## 6. Takeaway
+# ## 5. Takeaway
 #
-# *TODO: Write 2–3 sentences. What does binary thinking get wrong here?
-# Use specific numbers from steps 1–5 to support your answer.*
+# *TODO: Write 2–3 sentences. What are the two things that went wrong with the
+# original reasoning? Use specific numbers from steps 1–4.*
