@@ -1,4 +1,4 @@
-# Data: EIA US Residential Electricity Rate (VoltRoute Fleet Exercise)
+# Data: EIA US Residential Electricity Rate (Haul & Charge Co. Fleet Exercise)
 
 ## File
 

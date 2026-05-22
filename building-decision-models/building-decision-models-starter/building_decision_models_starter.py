@@ -16,7 +16,7 @@
 # %% [markdown]
 # # Structuring and Solving a Product Launch Decision
 #
-# **Scenario.** StrideWear's Head of Strategy has described three options for the
+# **Scenario.** Pace & Pivot Gear's Head of Strategy has described three options for the
 # Apex Trainer launch in plain English — not as a table. Your job is to turn her
 # verbal description into a Python decision model: define the structure, write the
 # payoff function, build the tree, and solve it.
@@ -38,21 +38,23 @@ DATA_PATH = "data/sporting_goods_sales.csv"
 # %% [markdown]
 # ## 1. Derive state probabilities from real market data
 #
-# Load the sporting goods sales data, compute year-over-year (YoY) growth rates,
-# and tertile-bin the growth rates into High / Base / Low demand states.
-# The share of months in each bin gives the probability of each state.
+# Use the historical sales data to estimate how likely each demand environment is.
+#
+# 1. Load the data
+# 2. Derive a growth metric from the sales column
+# 3. Define two thresholds that divide months into three demand states (High / Base / Low)
+# 4. Estimate the probability of each state from the historical data
 
 # %%
 # TODO: Load the CSV into `sales`. The columns are `date` and `sales_m`.
 sales = ...
 
-# TODO: Compute `yoy` — the year-over-year % change in `sales_m` (12-month lag).
-#       Drop NaN rows produced by the shift.
+# TODO: Compute `yoy` — the year-over-year % change in `sales_m`. Drop NaN rows.
 
-# TODO: Compute the 33rd and 67th percentile thresholds of `yoy`.
+# TODO: Compute two thresholds that divide `yoy` into three equal-frequency bins.
 t33, t67 = ...
 
-# TODO: Classify each month as "High" (≥ t67), "Base" (t33 ≤ x < t67), or "Low" (< t33).
+# TODO: Classify each month as "High", "Base", or "Low" using those thresholds.
 
 # TODO: Build `STATES` — a dict mapping state name → empirical probability.
 #       (Each should be close to 1/3 by construction.)
@@ -77,7 +79,7 @@ for state, prob in STATES.items():
 # %%
 fig, ax = plt.subplots(figsize=(9, 4.5))
 ax.set_xlim(0, 10); ax.set_ylim(0, 5); ax.axis("off")
-ax.set_title("Influence diagram — StrideWear Apex Trainer launch decision", pad=10)
+ax.set_title("Influence diagram — Pace & Pivot Gear Apex Trainer launch decision", pad=10)
 
 # Decision node — rectangle (top-left)
 ax.add_patch(mpatches.FancyBboxPatch(
@@ -104,18 +106,15 @@ ax.text(5.0, 1.1, "option_profit(option, state)", ha="center", va="center",
         fontsize=7.5, color="#333", family="monospace")
 ax.text(5.0, 0.65, "Value node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
 
-# TODO: Add two arrows using ax.annotate:
-#   1. Decision node → Value node  (from around (2.2, 2.8) to around (4.1, 2.1))
-#   2. Chance node   → Value node  (from around (7.2, 2.8) to around (5.9, 2.1))
-#   Pattern: ax.annotate("", xy=<tip>, xytext=<tail>,
-#                         arrowprops=dict(arrowstyle="->", lw=1.5, color="#333"))
+# TODO: Add two arrows — one from the Decision node to the Value node,
+#       and one from the Uncertainty node to the Value node.
 
 plt.tight_layout()
 plt.show()
 
 # %% [markdown]
 # *TODO: There is no arrow between the Decision node and the Chance node. In 1–2
-# sentences, what does that absence assume about the relationship between StrideWear's
+# sentences, what does that absence assume about the relationship between Pace & Pivot Gear's
 # launch choice and the demand environment? When might that assumption be wrong?*
 
 # %% [markdown]
@@ -131,10 +130,10 @@ OPTIONS = ...  # TODO: fill in from the narrative
 # TODO: Define business parameters as module-level constants.
 #       Name them clearly so option_profit can reference them by name.
 FULL_LAUNCH_COST_M  = ...
-FULL_LAUNCH_REV_M   = ...  # dict: {"High": ..., "Base": ..., "Low": ...}
+FULL_LAUNCH_REV_M   = ...
 
 REGIONAL_COST_M     = ...
-REGIONAL_REV_M      = ...  # dict: {"High": ..., "Base": ..., "Low": ...}
+REGIONAL_REV_M      = ...
 
 # %% [markdown]
 # ## 4. Implement `option_profit`
@@ -172,8 +171,7 @@ payoffs
 # ## 6. Expected value per option
 
 # %%
-# TODO: Compute `ev` — a Series of expected profits indexed by option name.
-#       Use (payoffs * pd.Series(STATES)).sum(axis=1).
+# TODO: Compute `ev` — a pd.Series of expected profits, one per option.
 ev = ...
 
 print("Expected value per option ($M):")
@@ -184,8 +182,7 @@ print(f"\nEV-maximizing option: {ev.idxmax()}  (${ev.max():.2f}M)")
 # ## 7. Minimax regret
 
 # %%
-# TODO: Compute the regret matrix (best payoff per state minus each option's payoff)
-#       and max_regret (the row-wise maximum of the regret matrix).
+# TODO: Compute the regret matrix and max_regret per option.
 regret     = ...
 max_regret = ...
 
@@ -204,5 +201,3 @@ print(f"\nMinimax-regret option: {max_regret.idxmin()}  "
 
 # %%
 # TODO: Build the matplotlib tree diagram.
-#       Hint: look at how the project solution draws its decision tree —
-#       the structure here is the same: options × states × payoffs.

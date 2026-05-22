@@ -23,7 +23,7 @@
 #
 # ## Scenario
 #
-# A new analyst joining WaveForm's Growth team has a question: why don't we just run
+# A new analyst joining Pitch & Slate Music's Growth team has a question: why don't we just run
 # promotion campaigns for every genre with a hit rate above 50%? Those are the likely
 # winners. You've been asked to show her why the 50% threshold is the wrong one —
 # using real Spotify track data and a bit of arithmetic.

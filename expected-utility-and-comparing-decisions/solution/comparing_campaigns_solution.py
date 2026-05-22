@@ -23,29 +23,29 @@
 #
 # ## Scenario
 #
-# You are the lead decision scientist at **BlueDoor Hosts**, a small
+# You are the lead decision scientist at **Key & Quarter Hosts**, a small
 # short-term-rental management firm that lists properties on Airbnb-style
 # platforms. The Head of Growth wants to launch a campaign next quarter to
-# attract new property owners onto the BlueDoor platform, and has put three
+# attract new property owners onto the Key & Quarter Hosts platform, and has put three
 # options on the table:
 #
 # - **Premium Listing Push** — invest in professional photography, premium
 #   listing positioning, and paid placement on aggregator sites. Expensive,
 #   with high upside if the broader short-term-rental market is strong but a
 #   sizeable loss if the market softens.
-# - **Local Concierge Add-on** — bundle BlueDoor listings with a local
+# - **Local Concierge Add-on** — bundle Key & Quarter Hosts listings with a local
 #   concierge service (airport pickup, restaurant booking, late-night
 #   support). Modest budget, modest upside, modest downside.
 # - **Hold** — defer the campaign one quarter and reinvest the budget into
 #   existing-host retention.
 #
-# BlueDoor operates across a set of mid-tier short-term-rental markets. The
+# Key & Quarter Hosts operates across a set of mid-tier short-term-rental markets. The
 # campaign is a *single firm-wide choice* — whichever option the team picks
-# runs across BlueDoor's whole portfolio next quarter; we are not choosing
+# runs across Key & Quarter Hosts's whole portfolio next quarter; we are not choosing
 # different campaigns for different cities. How well that single choice
 # performs depends on **the demand cycle the short-term-rental industry is
 # in over the next three months** — a Strong-demand, Average, or Weak-demand
-# environment that affects all of BlueDoor's markets at once. The cycle is
+# environment that affects all of Key & Quarter Hosts's markets at once. The cycle is
 # uncertain (we decide the campaign now; the cycle reveals itself later),
 # but it is not a coin flip — there is a real distribution we can estimate
 # from data.
@@ -66,8 +66,8 @@
 # per-listing monthly revenue proxy — for each city, tertile-bin the
 # eighteen cities into Strong / Average / Weak environments, and use the
 # empirical share of cities in each bin as the prior on what kind of
-# environment BlueDoor will face next quarter. The cities themselves are
-# not BlueDoor's markets; they are a benchmark for what "a Strong market"
+# environment Key & Quarter Hosts will face next quarter. The cities themselves are
+# not Key & Quarter Hosts's markets; they are a benchmark for what "a Strong market"
 # or "a Weak market" looks like in numbers.
 #
 # ## What this notebook delivers
@@ -255,7 +255,7 @@ print(comparison)
 #
 # **The decision rule I would lean on is expected CRRA utility.** With γ = 2,
 # the gap between Premium's EV ($2.0M) and Local Concierge's EV ($1.5M) does
-# not justify the −$6M downside in a Weak quarter for a firm of BlueDoor's
+# not justify the −$6M downside in a Weak quarter for a firm of Key & Quarter Hosts's
 # scale. A risk-neutral decision-maker should lean on EV-max instead.
 #
 # This deliverable stops at *defending a decision rule*. Translating the
@@ -266,8 +266,8 @@ print(comparison)
 # %% [markdown]
 # ## 10. Segmentation-aware option: Selective Push
 #
-# Every option so far commits BlueDoor to the *same campaign across its entire
-# portfolio*. But BlueDoor can observe which markets are currently Strong, Average,
+# Every option so far commits Key & Quarter Hosts to the *same campaign across its entire
+# portfolio*. But Key & Quarter Hosts can observe which markets are currently Strong, Average,
 # or Weak using the Inside Airbnb data — and could target its spend accordingly.
 #
 # **Selective Push**: run Premium Listing Push only in currently-Strong markets,
@@ -303,7 +303,7 @@ print(comparison4)
 # %% [markdown]
 # **All three rules now agree on Selective Push** (EV = $2.17M, CE = $2.01M,
 # max regret = $4.0M — better than every other option on every criterion).
-# The uniform options force BlueDoor to either accept the full -$6M downside
+# The uniform options force Key & Quarter Hosts to either accept the full -$6M downside
 # (Premium) or cap the upside at $3M (Concierge). Selective Push sidesteps
 # that tradeoff: by concentrating the expensive campaign where it is most
 # likely to pay off and limiting exposure elsewhere, it captures most of

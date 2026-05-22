@@ -2,7 +2,7 @@
 
 ## Scenario
 
-You are a decision analyst at **BrewPoint Coffee**, a fictional specialty coffee chain with
+You are a decision analyst at **Cup & Ledger Coffee**, a fictional specialty coffee chain with
 45 locations across the Pacific Northwest. The VP of Real Estate is evaluating entry into
 a new metro market and has narrowed the choice to three store formats:
 
@@ -89,5 +89,5 @@ Additional fixed parameters: `OPERATING_DAYS = 350`, `DISCOUNT_RATE = 0.08`,
 from Home (FRED series
 [CUUR0000SEFV](https://fred.stlouisfed.org/series/CUUR0000SEFV)), published by the
 US Bureau of Labor Statistics via the Federal Reserve Economic Data (FRED) system.
-US Government data, public domain. The scenario company **BrewPoint Coffee** is
+US Government data, public domain. The scenario company **Cup & Ledger Coffee** is
 fictional; the underlying price index data is real.

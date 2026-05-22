@@ -16,7 +16,7 @@
 # %% [markdown]
 # # Presenting a Coffee Chain Expansion Analysis
 #
-# **Scenario.** BrewPoint Coffee has finished its sensitivity and scenario analysis.
+# **Scenario.** Cup & Ledger Coffee has finished its sensitivity and scenario analysis.
 # The VP of Real Estate wants a one-page summary: which store format makes the most
 # sense, why, and what could make that advice wrong? She has 5 minutes.
 #
@@ -166,7 +166,7 @@ lo_chart, hi_chart = 50, 400
 # Fill in every bracketed field with a real number from the analysis above.
 
 # %% [markdown]
-# ## BrewPoint Coffee — New Market Entry Format Analysis
+# ## Cup & Ledger Coffee — New Market Entry Format Analysis
 #
 # **Recommendation:** [One sentence — which format and why]
 #

@@ -2,7 +2,7 @@
 
 ## Scenario
 
-You're a decision analyst at **WaveForm**, a fictional music streaming platform. WaveForm's
+You're a decision analyst at **Pitch & Slate Music**, a fictional music streaming platform. Pitch & Slate Music's
 Growth team runs genre-focused promotion campaigns each season — curating playlists, booking
 in-app placements, and pushing tracks through the recommendation engine. Each campaign targets
 one genre (Pop, Latin, R&B, Rap, Rock, or EDM) and has a measurable outcome: a promoted
@@ -19,7 +19,7 @@ You've been asked to show her why, using data.
 
 Using track-level data from Spotify's catalog as an industry benchmark for real genre hit
 rates, you'll simulate what the 50% rule actually produces, then compare it to a strategy
-grounded in the payoff math. The data is real Spotify track data; WaveForm is fictional.
+grounded in the payoff math. The data is real Spotify track data; Pitch & Slate Music is fictional.
 
 ## What you'll deliver
 
@@ -45,8 +45,8 @@ A completed Jupyter notebook (start from `binary_thinking_simulation_starter.ipy
 
 ## Payoff structure
 
-Each promotion campaign costs WaveForm resources equivalent to **$8K** in lost opportunity if the
-track misses. If the track hits, WaveForm nets **$15K** in incremental subscription and ad revenue
+Each promotion campaign costs Pitch & Slate Music resources equivalent to **$8K** in lost opportunity if the
+track misses. If the track hits, Pitch & Slate Music nets **$15K** in incremental subscription and ad revenue
 above the campaign cost.
 
 | Outcome | Net payoff |
@@ -80,4 +80,4 @@ covers how to build a cost-benefit model from first principles.
 [TidyTuesday week 2020-01-21 Spotify dataset](https://github.com/rfordatascience/tidytuesday/tree/main/data/2020/2020-01-21),
 originally sourced from the Spotify Web API via the spotifyr R package (CC0 1.0).
 See `data/README.md` for the full citation and refresh instructions. The scenario company
-**WaveForm** is fictional; the underlying track data is real.
+**Pitch & Slate Music** is fictional; the underlying track data is real.

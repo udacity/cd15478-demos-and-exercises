@@ -2,12 +2,12 @@
 
 ## Scenario
 
-You are a data analyst at **VoltRoute**, a fictional urban delivery company operating a
+You are a data analyst at **Haul & Charge Co.**, a fictional urban delivery company operating a
 fleet of 20 diesel trucks in a major US metro. The fleet director is weighing two options
 for transitioning to electric vehicles:
 
 - **Buy** — purchase 20 Class 4 electric delivery trucks outright at $85,000 each.
-  VoltRoute owns the residual value at year 5.
+  Haul & Charge Co. owns the residual value at year 5.
 - **Lease** — lease the same trucks at $1,100 per truck per month for five years.
   No residual-value exposure at lease end.
 - **Hold** — defer the decision; keep the diesel trucks running for another 5 years.
@@ -15,12 +15,12 @@ for transitioning to electric vehicles:
 
 Both electric options generate savings relative to Hold through lower fuel costs and
 reduced maintenance. The question is which electric option is more attractive — and how
-confident VoltRoute should be in that conclusion — given the real uncertainty in
+confident Haul & Charge Co. should be in that conclusion — given the real uncertainty in
 electricity rates, fleet utilization, maintenance savings, and residual values.
 
 To ground the simulation, `data/eia_commercial_rate.csv` contains real monthly US
 residential electricity retail prices from FRED / BLS (public domain, see `data/README.md`).
-VoltRoute's fleet-rate contract is based on this residential benchmark. The other uncertain
+Haul & Charge Co.'s fleet-rate contract is based on this residential benchmark. The other uncertain
 inputs (annual miles, maintenance savings, resale value) are calibrated to DOE and AFDC
 fleet benchmarks, also cited in `data/README.md`.
 
@@ -105,4 +105,4 @@ YEARS       = 5        # planning horizon
 
 `data/eia_commercial_rate.csv` contains real monthly US electricity retail prices from
 BLS / FRED (public domain). Other simulation parameters are calibrated to DOE and AFDC
-fleet benchmarks cited in `data/README.md`. The scenario company **VoltRoute** is fictional.
+fleet benchmarks cited in `data/README.md`. The scenario company **Haul & Charge Co.** is fictional.

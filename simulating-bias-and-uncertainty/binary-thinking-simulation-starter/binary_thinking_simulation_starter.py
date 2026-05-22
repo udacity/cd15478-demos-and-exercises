@@ -16,7 +16,7 @@
 # %% [markdown]
 # # When "Probably" Isn't the Same as "Definitely"
 #
-# **Scenario.** A new analyst joining WaveForm's Growth team has a question: why
+# **Scenario.** A new analyst joining Pitch & Slate Music's Growth team has a question: why
 # don't we just run promotion campaigns for every genre with a hit rate above 50%?
 # Those are the likely winners. You've been asked to show her why the 50% threshold
 # is the wrong one — using real Spotify track data and a bit of arithmetic.
@@ -39,7 +39,7 @@ DATA_PATH        = "data/spotify_tracks_sample.csv"
 HIT_THRESHOLD    = 50    # Spotify popularity ≥ this = "hit"
 NET_GAIN_K       = 15    # net gain per campaign if track hits ($K)
 COST_K           = 8     # cost per campaign if track misses ($K)
-BINARY_THRESHOLD = 0.50  # WaveForm's current rule: hit rate > 50% → run campaign
+BINARY_THRESHOLD = 0.50  # Pitch & Slate Music's current rule: hit rate > 50% → run campaign
 N_PER_GENRE      = 100   # promotion slots per genre per season
 
 RNG = np.random.default_rng(42)
@@ -75,7 +75,7 @@ genre_stats
 BREAK_EVEN = ...
 
 print(f"Break-even hit rate:         {BREAK_EVEN:.1%}")
-print(f"WaveForm's binary threshold: {BINARY_THRESHOLD:.0%}")
+print(f"Pitch & Slate Music's binary threshold: {BINARY_THRESHOLD:.0%}")
 print()
 
 # TODO: Add two boolean columns to genre_stats:
@@ -93,7 +93,7 @@ disagreement[["playlist_genre", "hit_rate"]]
 # ## 3. The certainty illusion — simulate 100 Pop campaigns
 #
 # Pop has a 54% hit rate — the only genre above the 50% binary threshold.
-# WaveForm's rule treats this as "it'll work." Simulate 100 Pop promotion campaigns
+# Pitch & Slate Music's rule treats this as "it'll work." Simulate 100 Pop promotion campaigns
 # using `RNG.binomial(1, rate, N_PER_GENRE)` and count how many miss.
 
 # %%
@@ -117,7 +117,7 @@ print(f"  Misses: {pop_misses}")
 # %% [markdown]
 # ## 4. The missed opportunity — simulate 100 R&B campaigns
 #
-# R&B has a 37% hit rate — below 50%, so WaveForm skips it. But 37% is not zero.
+# R&B has a 37% hit rate — below 50%, so Pitch & Slate Music skips it. But 37% is not zero.
 # Simulate 100 R&B campaigns and count how many hit. Then compute the expected
 # value of one R&B campaign to show whether skipping it was the right call.
 
@@ -131,7 +131,7 @@ rb_hits   = ...
 rb_misses = ...
 
 # TODO: Compute the expected value per R&B campaign and the total expected profit
-#       WaveForm left on the table by skipping 100 R&B campaigns.
+#       Pitch & Slate Music left on the table by skipping 100 R&B campaigns.
 rb_avg_per_campaign = ...
 
 print(f"R&B hit rate: {rb_rate:.1%}  (binary thinking: 'below 50% — won't happen')")

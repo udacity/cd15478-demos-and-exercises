@@ -2,7 +2,7 @@
 
 ## Scenario
 
-StrideWear's Head of Strategy has described the options for the upcoming **Apex Trainer** launch to your analytics team. Her summary is below — but it's a verbal description, not a structured model. Your job is to turn it into one.
+Pace & Pivot Gear's Head of Strategy has described the options for the upcoming **Apex Trainer** launch to your analytics team. Her summary is below — but it's a verbal description, not a structured model. Your job is to turn it into one.
 
 ---
 

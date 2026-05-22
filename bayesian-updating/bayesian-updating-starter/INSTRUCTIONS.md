@@ -2,9 +2,9 @@
 
 ## Scenario
 
-You are the demand planning analyst at **FreshCart**, a fictional grocery chain piloting a new
+You are the demand planning analyst at **Grain & Gather Grocers**, a fictional grocery chain piloting a new
 "Premium Meal Kit" subscription add-on. Customers pre-order weekly meal kits at checkout for
-pickup the following week. FreshCart must commit their order to the supplier two weeks in advance,
+pickup the following week. Grain & Gather Grocers must commit their order to the supplier two weeks in advance,
 before seeing actual pickup demand — which means pre-ordering too many leads to food waste and
 pre-ordering too few leaves customers without their kits.
 

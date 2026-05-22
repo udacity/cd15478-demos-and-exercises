@@ -20,7 +20,7 @@ Grocery Stores (NAICS 4451). US Government data, public domain.
 store. Premium meal kits represent roughly 0.3% of grocery spend (USDA ERS Food Expenditure
 Series, [ers.usda.gov](https://ers.usda.gov/data-products/food-expenditure-series/)), giving
 ~$1,326/store/week in meal-kit revenue, or ~110 units/week at an average price of $12.
-The exercise prior of 80 units reflects that FreshCart's new program is early-stage and
+The exercise prior of 80 units reflects that Grain & Gather Grocers's new program is early-stage and
 targets a narrower premium segment than the full market benchmark.
 
 **How to refresh:**
@@ -34,7 +34,7 @@ df[df["date"].str[:4].astype(int).between(2015, 2024)].to_csv("grocery_industry_
 
 ### `pilot_scan_data.csv`
 
-Weekly aggregate demand reported from FreshCart pilot stores, Weeks 1–8.
+Weekly aggregate demand reported from Grain & Gather Grocers pilot stores, Weeks 1–8.
 
 | Column | Description |
 | --- | --- |
@@ -42,7 +42,7 @@ Weekly aggregate demand reported from FreshCart pilot stores, Weeks 1–8.
 | `mean_units_sold` | Average units sold per store that week |
 | `n_stores` | Number of stores reporting that week |
 
-**Note:** This file is synthetic — generated for this exercise to illustrate Bayesian belief
+**Note:** This file was generated for this exercise to illustrate Bayesian belief
 updating with realistic demand dynamics. The pilot started with 3 stores and grew to 8 as
 the program expanded. Weekly means are plausible for a premium meal-kit program in mid-tier
 grocery markets. The values are calibrated to converge toward the FRED-derived market estimate

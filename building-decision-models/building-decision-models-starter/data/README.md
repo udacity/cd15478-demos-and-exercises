@@ -53,6 +53,6 @@ exercise notebook requires no changes.
 
 ## Scenario note
 
-The scenario company **StrideWear** is fictional. The underlying retail sales
+The scenario company **Pace & Pivot Gear** is fictional. The underlying retail sales
 data is a benchmark for US athletic footwear demand conditions — it is not
-StrideWear's own sales data.
+Pace & Pivot Gear's own sales data.

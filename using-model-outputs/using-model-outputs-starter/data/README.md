@@ -1,6 +1,6 @@
 # Data: `loan_applicants.csv`
 
-Synthetic loan applicant data for the ClearBridge Lending exercise.
+Simulated loan applicant data for the Ledge & Lend Group exercise.
 
 ## Variables
 
@@ -13,7 +13,7 @@ Synthetic loan applicant data for the ClearBridge Lending exercise.
 
 ## Source and calibration
 
-The 500 applicant records are synthetic. The probability-of-default distribution is a Beta(2, 6) draw — a shape commonly cited in consumer-lending risk literature, with a mode near 20% and a right tail reflecting the minority of applicants who are high-risk. Loan principal values are drawn from a uniform distribution over $3,000–$25,000, consistent with the personal-loan product tier. Interest rates are a linear function of `predicted_pd` plus noise, reflecting the industry practice of risk-based pricing.
+The 500 applicant records are simulated. The probability-of-default distribution is a Beta(2, 6) draw — a shape commonly cited in consumer-lending risk literature, with a mode near 20% and a right tail reflecting the minority of applicants who are high-risk. Loan principal values are drawn from a uniform distribution over $3,000–$25,000, consistent with the personal-loan product tier. Interest rates are a linear function of `predicted_pd` plus noise, reflecting the industry practice of risk-based pricing.
 
 Distribution parameters are calibrated to FDIC Statistics on Depository Institutions charge-off data for consumer installment loans (Federal Reserve Statistical Release G.19, and FDIC SDI — both public domain). Actual applicant records are not real; no personal data is included.
 

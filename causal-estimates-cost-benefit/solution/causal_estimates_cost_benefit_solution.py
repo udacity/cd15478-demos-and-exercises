@@ -23,7 +23,7 @@
 #
 # ## Scenario
 #
-# CareerBridge, a fictional workforce development nonprofit, offered a career skills program
+# Lift & Launch Works, a fictional workforce development nonprofit, offered a career skills program
 # to economically disadvantaged workers. Because the program targeted lower-earnings
 # participants, a naive comparison makes it look harmful. IPW corrects for that confounding
 # and reveals a positive earnings lift. The corrected estimate then feeds a cost-benefit

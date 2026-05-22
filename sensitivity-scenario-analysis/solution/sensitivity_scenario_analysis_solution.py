@@ -23,7 +23,7 @@
 #
 # ## Scenario
 #
-# BrewPoint Coffee is evaluating three store formats for a new metro market entry.
+# Cup & Ledger Coffee is evaluating three store formats for a new metro market entry.
 # Using real food-away-from-home CPI data to anchor the price growth assumption,
 # this notebook identifies the highest-NPV (Net Present Value) format, runs a one-at-a-time sensitivity
 # analysis, defines three named market scenarios, and computes the break-even daily
@@ -79,7 +79,7 @@ def cafe_npv(daily_customers: float, avg_ticket: float, op_margin: float,
              discount_rate: float = DISCOUNT_RATE,
              operating_days: int = OPERATING_DAYS,
              lease_years: int = LEASE_YEARS) -> float:
-    """Return 5-year lease NPV ($) for a BrewPoint café format."""
+    """Return 5-year lease NPV ($) for a Cup & Ledger Coffee café format."""
     if ticket_growth is None:
         ticket_growth = TICKET_GROWTH
     annual_revenue = daily_customers * avg_ticket * operating_days

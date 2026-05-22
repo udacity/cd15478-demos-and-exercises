@@ -2,8 +2,8 @@
 
 ## Scenario
 
-You are a data scientist at **CareerBridge**, a fictional nonprofit workforce development
-organization. Over the past several years, CareerBridge has run an online career skills
+You are a data scientist at **Lift & Launch Works**, a fictional nonprofit workforce development
+organization. Over the past several years, Lift & Launch Works has run an online career skills
 program designed to boost participants' long-term earnings. The program was offered
 primarily to economically disadvantaged workers — people with low pre-program earnings who
 needed a boost most. That targeting decision, though well-intentioned, creates a problem:
@@ -13,7 +13,7 @@ comparison makes the program look *harmful*.
 The dataset comes from the LaLonde (1986) job training study — a classic observational
 causal inference benchmark used in economics and data science education — curated by Ho,
 Imai, King, and Stuart (2011) and available as the `lalonde` dataset in the MatchIt R
-package (public domain). CareerBridge is fictional; the underlying data and research design
+package (public domain). Lift & Launch Works is fictional; the underlying data and research design
 are real. The treated participants received a real training program; the comparison group
 is drawn from the CPS general population survey.
 
@@ -76,5 +76,5 @@ module covers how to build these inputs from first principles.
 `data/lalonde_participants.csv` contains the LaLonde (1986) observational job training
 dataset as curated in the MatchIt R package (Ho et al. 2011, CC0). The treated group
 received a real job training program; the comparison group is drawn from the CPS general
-population survey. The scenario company **CareerBridge** is fictional; the underlying
+population survey. The scenario company **Lift & Launch Works** is fictional; the underlying
 causal structure and data are real. See `data/README.md` for the full citation.

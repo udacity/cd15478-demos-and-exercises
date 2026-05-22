@@ -23,7 +23,7 @@
 #
 # ## Scenario
 #
-# You are a decision analyst at **BrewPoint Coffee**, a fictional specialty coffee
+# You are a decision analyst at **Cup & Ledger Coffee**, a fictional specialty coffee
 # chain. A complete sensitivity and scenario analysis for three store formats has
 # already been run — the analysis code is in the **Given analysis** section below,
 # which runs automatically. You have:
@@ -255,7 +255,7 @@ plt.show()
 # ## The memo
 
 # %% [markdown]
-# ## BrewPoint Coffee — New Market Entry Format Analysis
+# ## Cup & Ledger Coffee — New Market Entry Format Analysis
 #
 # **Recommendation:** Open the **Standard (1,200 sq ft) format** in the new market.
 # It delivers the highest 5-year lease NPV in the base case (+$141K) while keeping

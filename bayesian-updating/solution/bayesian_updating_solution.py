@@ -23,10 +23,10 @@
 #
 # ## Scenario
 #
-# FreshCart, a fictional grocery chain, pilots a Premium Meal Kit add-on and must
+# Grain & Gather Grocers, a fictional grocery chain, pilots a Premium Meal Kit add-on and must
 # pre-order from their supplier two weeks in advance. The key unknown is mean weekly
 # demand per store. Using real US grocery sales data (FRED MRTSSM4451USS) to set a
-# prior, and synthetic pilot scan data for two sequential updates, you'll implement
+# prior, and simulated pilot scan data for two sequential updates, you'll implement
 # the closed-form Normal-Normal conjugate update and translate each posterior into a
 # recommended pre-order quantity.
 #
@@ -146,7 +146,7 @@ for label, mu, sd, ls in [
 ]:
     ax.plot(xs, stats.norm.pdf(xs, mu, sd), ls, linewidth=2, label=label)
 
-ax.set(title="FreshCart meal-kit demand belief — two sequential updates",
+ax.set(title="Grain & Gather Grocers meal-kit demand belief — two sequential updates",
        xlabel="Weekly units per store", ylabel="Density")
 ax.legend()
 plt.tight_layout()
@@ -176,4 +176,4 @@ summary
 # %% [markdown]
 # Q rises from 92 → 97 → 107 units as evidence pushes the mean estimate up. The buffer
 # itself also shrinks (0.5 × 25 = 12.5 → 0.5 × 3.0 = 1.5) because the posterior is
-# tighter — FreshCart is more confident and needs less of a safety cushion.
+# tighter — Grain & Gather Grocers is more confident and needs less of a safety cushion.

@@ -16,7 +16,7 @@
 # %% [markdown]
 # # Stress-Testing Fleet Electrification with Monte Carlo Simulation
 #
-# **Scenario.** VoltRoute, a fictional urban delivery company, is deciding whether to
+# **Scenario.** Haul & Charge Co., a fictional urban delivery company, is deciding whether to
 # buy or lease 20 electric trucks — or keep the diesel fleet for another 5 years (Hold).
 # Both electric options beat diesel on average, but uncertain electricity rates,
 # utilization, maintenance savings, and resale values change the picture. You'll run a

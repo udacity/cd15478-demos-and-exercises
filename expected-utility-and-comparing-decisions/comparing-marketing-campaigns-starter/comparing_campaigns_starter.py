@@ -16,7 +16,7 @@
 # %% [markdown]
 # # Comparing Marketing Campaigns with Expected Utility
 #
-# **Scenario.** You are the lead decision scientist at **BlueDoor Hosts**
+# **Scenario.** You are the lead decision scientist at **Key & Quarter Hosts**
 # (fictional), a small short-term-rental management firm. Growth wants to launch
 # a campaign next quarter to acquire new property owners. Three options are on
 # the table — *Premium Listing Push*, *Local Concierge Add-on*, and *Hold*.
@@ -201,8 +201,8 @@ comparison = ...
 # %% [markdown]
 # ## 10. Segmentation-aware option: Selective Push
 #
-# So far, every option commits BlueDoor to a *single uniform campaign* across its
-# whole portfolio. But BlueDoor can observe which markets are *currently* in Strong,
+# So far, every option commits Key & Quarter Hosts to a *single uniform campaign* across its
+# whole portfolio. But Key & Quarter Hosts can observe which markets are *currently* in Strong,
 # Average, or Weak condition from the Inside Airbnb data — and could target its
 # campaign spend accordingly.
 #

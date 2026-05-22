@@ -23,7 +23,7 @@
 #
 # ## Scenario
 #
-# StrideWear's Head of Strategy described three options for the Apex Trainer launch
+# Pace & Pivot Gear's Head of Strategy described three options for the Apex Trainer launch
 # verbally. This notebook turns that description into a structured Python decision
 # model: an influence diagram mapping the dependencies, OPTIONS and STATES defined
 # from the narrative, a reusable `option_profit` function, a payoff matrix built by
@@ -83,7 +83,7 @@ for state, prob in STATES.items():
 # %%
 fig, ax = plt.subplots(figsize=(9, 4.5))
 ax.set_xlim(0, 10); ax.set_ylim(0, 5); ax.axis("off")
-ax.set_title("Influence diagram — StrideWear Apex Trainer launch decision", pad=10)
+ax.set_title("Influence diagram — Pace & Pivot Gear Apex Trainer launch decision", pad=10)
 
 # Decision node — rectangle (top-left)
 ax.add_patch(mpatches.FancyBboxPatch(
@@ -121,7 +121,7 @@ plt.show()
 
 # %% [markdown]
 # There is no arrow between the Decision node and the Chance node. That encodes a
-# key modelling assumption: StrideWear's launch choice does not change the demand
+# key modelling assumption: Pace & Pivot Gear's launch choice does not change the demand
 # environment — whether the market turns out High, Base, or Low is independent of
 # which option they pick. This assumption might be wrong if a splashy Full Launch
 # generates enough buzz to shift demand upward; in that case you would add the arrow,
@@ -200,7 +200,7 @@ print(f"\nMinimax-regret option: {max_regret.idxmin()}  "
 fig, ax = plt.subplots(figsize=(11, 5))
 ax.axis("off")
 
-ax.text(0.03, 0.5, "Decision\n(StrideWear)", ha="center", va="center",
+ax.text(0.03, 0.5, "Decision\n(Pace & Pivot Gear)", ha="center", va="center",
         bbox=dict(boxstyle="round", fc="#dde"), fontsize=9)
 
 opt_y = np.linspace(0.82, 0.18, len(OPTIONS))
@@ -221,7 +221,7 @@ for y, opt in zip(opt_y, OPTIONS):
                 bbox=dict(boxstyle="round,pad=0.3", fc=color, ec="grey", lw=0.5))
 
 ax.set_xlim(0, 1); ax.set_ylim(0, 1)
-ax.set_title("StrideWear Apex Trainer — decision tree (options × demand states)",
+ax.set_title("Pace & Pivot Gear Apex Trainer — decision tree (options × demand states)",
              fontsize=10)
 plt.tight_layout()
 plt.show()

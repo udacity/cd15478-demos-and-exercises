@@ -147,7 +147,7 @@ The Cowork sandbox has a restrictive network allowlist. FRED, raw.githubusercont
 
 ## Naming the company
 
-Per `Real-World Content Guidelines.md`: real companies as **data sources** are fine (cite them properly); real companies as the **scenario company making the decision** are not (that would fictionalize them). Pick a plausible fictional name — *BlueDoor Hosts*, *VoltStop*, *Solstice Coffee Roasters*, *UdaciCola* — and use it consistently. State up-front in the scenario that the company is fictional and the data is real.
+Per `Real-World Content Guidelines.md`: real companies as **data sources** are fine (cite them properly); real companies as the **scenario company making the decision** are not (that would fictionalize them). Pick a plausible fictional name — *Key & Quarter Hosts*, *VoltStop*, *Solstice Coffee Roasters*, *UdaciCola* — and use it consistently. State up-front in the scenario that the company is fictional and the data is real.
 
 ## Calibrating the math first
 
@@ -245,7 +245,7 @@ Each exercise teaches the skill described in its module's one-sentence descripti
 
 Implementation exercises produce *analytical artifacts* (a probability table, an EV/utility comparison, an optimal strategy, a sensitivity tornado). They should **not** end with a "deliver a recommendation to the stakeholder" step. That skill is taught explicitly in the communication-focused modules of the course; loading it into every implementation exercise creates an overconfident "always-recommend" reflex that has to be unlearned later.
 
-If a step naturally produces something that *looks* like a recommendation, frame it as "produce the comparison" or "defend a decision rule" instead of "make a recommendation." See the BlueDoor exercise's step 9 for a canonical example.
+If a step naturally produces something that *looks* like a recommendation, frame it as "produce the comparison" or "defend a decision rule" instead of "make a recommendation." See the Key & Quarter Hosts exercise's step 9 for a canonical example.
 
 ### Real-world content, framed cleanly
 

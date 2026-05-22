@@ -16,7 +16,7 @@
 # %% [markdown]
 # # Sensitivity and Scenario Analysis for a Coffee Chain
 #
-# **Scenario.** BrewPoint Coffee is evaluating three store formats for a new metro
+# **Scenario.** Cup & Ledger Coffee is evaluating three store formats for a new metro
 # market entry: a Flagship café, a Standard café, and a transit-hub Kiosk. Each
 # format is modeled as a 5-year lease NPV (Net Present Value). You'll identify the highest-return format,
 # find what drives the most uncertainty, define three named scenarios, and compute
@@ -83,7 +83,7 @@ def cafe_npv(daily_customers: float, avg_ticket: float, op_margin: float,
              discount_rate: float = DISCOUNT_RATE,
              operating_days: int = OPERATING_DAYS,
              lease_years: int = LEASE_YEARS) -> float:
-    """Return 5-year lease NPV ($) for a BrewPoint café format."""
+    """Return 5-year lease NPV ($) for a Cup & Ledger Coffee café format."""
     if ticket_growth is None:
         ticket_growth = TICKET_GROWTH
     # TODO: implement the NPV formula described above

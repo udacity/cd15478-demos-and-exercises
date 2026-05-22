@@ -90,8 +90,8 @@ ev_profits     = np.array([simulate_season(ev_hit_rates)     for _ in range(N_SI
   shared across calls.
 
 - **Treating the simulation as the final recommendation** — The exercise asks for a
-  simulation and a takeaway, not a recommendation to WaveForm's stakeholders. Learners
-  who end with "WaveForm should switch to the EV strategy" are jumping ahead; framing it
+  simulation and a takeaway, not a recommendation to Pitch & Slate Music's stakeholders. Learners
+  who end with "Pitch & Slate Music should switch to the EV strategy" are jumping ahead; framing it
   as "the simulation shows that binary thinking costs X" is the right level.
 
 ## How this exercise feeds the project

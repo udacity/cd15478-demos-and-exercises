@@ -23,19 +23,19 @@
 #
 # ## Scenario
 #
-# You are a decision scientist at **ClearBridge Lending** (fictional), an online
-# personal lending marketplace. ClearBridge's credit-risk team has built a
+# You are a decision scientist at **Ledge & Lend Group** (fictional), an online
+# personal lending marketplace. Ledge & Lend Group's credit-risk team has built a
 # gradient boosting classifier trained on three years of historical loan
 # outcomes. For each new application, the model outputs a **probability of
 # default (PD)** — the estimated probability that the borrower will not repay.
 #
 # The file `../using-model-outputs-starter/data/loan_applicants.csv` contains
 # model output for 500 pending applications: `applicant_id`, `predicted_pd`,
-# `loan_amount_usd`, and the `annual_interest_rate` ClearBridge would offer
+# `loan_amount_usd`, and the `annual_interest_rate` Ledge & Lend Group would offer
 # each applicant.
 #
 # The business question: **what probability-of-default threshold should
-# ClearBridge use?** Applications below the threshold get approved; above it
+# Ledge & Lend Group use?** Applications below the threshold get approved; above it
 # get rejected.
 #
 # Three candidate thresholds:

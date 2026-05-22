@@ -2,7 +2,7 @@
 
 ## Scenario
 
-You are a decision analyst at **BrewPoint Coffee**, a fictional specialty coffee chain.
+You are a decision analyst at **Cup & Ledger Coffee**, a fictional specialty coffee chain.
 A sensitivity and scenario analysis for three store formats has already been run —
 the full analysis code is in the notebook's **Given analysis** section, which runs
 automatically. You have:
@@ -25,7 +25,7 @@ all the available data.
 
 A completed Jupyter notebook (start from `presenting_decision_analyses_starter.ipynb`) that:
 
-1. **(Given — no changes needed)** Runs the BrewPoint analysis: loads CPI data, computes
+1. **(Given — no changes needed)** Runs the Cup & Ledger Coffee analysis: loads CPI data, computes
    NPVs and scenarios, builds the tornado, and finds the break-even. Review this section
    to understand the numbers before building the charts.
 
@@ -48,7 +48,7 @@ A completed Jupyter notebook (start from `presenting_decision_analyses_starter.i
 Fill in the bracketed fields with real numbers from the analysis:
 
 ```
-## BrewPoint Coffee — New Market Entry Format Analysis
+## Cup & Ledger Coffee — New Market Entry Format Analysis
 
 **Recommendation:** [One sentence — which format and why]
 
@@ -82,5 +82,5 @@ the recommendation flips, e.g., "If foot traffic falls below X customers/day..."
 `data/food_away_from_home_cpi.csv` contains the US Consumer Price Index for Food Away
 from Home (FRED series
 [CUUR0000SEFV](https://fred.stlouisfed.org/series/CUUR0000SEFV), US Bureau of Labor
-Statistics, public domain). The scenario company **BrewPoint Coffee** is fictional;
+Statistics, public domain). The scenario company **Cup & Ledger Coffee** is fictional;
 the underlying price data is real.
