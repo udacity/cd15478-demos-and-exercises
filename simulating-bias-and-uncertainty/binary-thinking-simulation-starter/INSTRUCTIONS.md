@@ -11,6 +11,9 @@ targets a distinct listener audience, so a genre's 100 promotional slots can't b
 to another — the decision per genre is simply whether to fill the slots it offers or leave
 them empty.
 
+A genre's **hit rate** is the share of its tracks that cross the popularity threshold — a
+measure of how often a promoted track in that genre hits.
+
 A new analyst joining the team has a question: *why don't we just run campaigns for every
 genre with a hit rate above 50%? Those are the likely winners.* It's an intuitive rule, and
 she's not wrong that 54% sounds better than 37%. But the threshold that matters for a
