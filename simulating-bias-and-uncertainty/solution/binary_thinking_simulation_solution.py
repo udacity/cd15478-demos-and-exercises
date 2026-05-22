@@ -42,9 +42,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-P_SINGLE = 0.20    # per-application offer probability
-P_HIGH   = 0.75    # per-application probability in a strong-candidate scenario
-N_APPS   = 10      # applications in a typical search
+P_SINGLE = 0.03    # per-application offer probability
+P_HIGH   = 0.10    # per-application probability in a strong-candidate scenario
+N_APPS   = 30      # applications in a typical search
 N_SIMS   = 10_000  # simulation runs
 TARGET   = 0.90    # target confidence of getting at least one offer
 
@@ -102,7 +102,7 @@ print(f"Analytical:  1 - (1 - {P_SINGLE})^{N_APPS} = {analytical:.1%}")
 # ## 4. The full picture
 
 # %%
-ns     = np.arange(1, 21)
+ns     = np.arange(1, 91)
 p_low  = 1 - (1 - P_SINGLE) ** ns
 p_high = 1 - (1 - P_HIGH)   ** ns
 
