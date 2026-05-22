@@ -17,10 +17,11 @@ This exercise uses simulation to expose the gap between that intuition and actua
 
 A completed Jupyter notebook (start from `binary_thinking_simulation_starter.ipynb`) that:
 
-1. Simulates 10,000 single applications at 3% and shows how often binary thinking is wrong.
-2. Mirrors the same test at 10% — showing the overconfidence side of the same bias.
-3. Simulates 30 applications and computes P(at least one offer).
-4. Plots P(at least one offer) vs. applications sent for both per-application rates.
+1. Simulates 100 single applications at 3% and visualises how often binary thinking is wrong.
+2. Mirrors the same test at 55% — showing the overconfidence side of the same bias.
+3. Simulates 100 full job searches (30 applications each) and shows the distribution of offers received.
+4. Computes P(at least one offer) analytically and from the simulation, then charts the
+   before/after: 1 application vs 30 applications at 3%.
 5. Solves analytically for the number of applications needed to reach 90% confidence,
    then verifies the result with simulation.
 6. Writes a 2–3 sentence takeaway using specific numbers from the exercise.
@@ -28,6 +29,9 @@ A completed Jupyter notebook (start from `binary_thinking_simulation_starter.ipy
 ## Requirements
 
 - Steps 1–3 must use `RNG.binomial` to simulate outcomes.
+- Steps 1 and 2 must each include a bar chart.
+- Step 3 must include a histogram of offer counts.
+- Step 4 must print both the simulation and analytical estimates before showing the chart.
 - Step 5 must include both an analytical solution and a simulation verification.
 - The takeaway must cite specific numbers from at least two steps.
 - The notebook must run top to bottom without errors.

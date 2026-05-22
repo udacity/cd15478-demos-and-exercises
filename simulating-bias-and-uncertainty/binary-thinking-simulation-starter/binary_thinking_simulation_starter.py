@@ -56,6 +56,11 @@ RNG = np.random.default_rng(42)
 #       Print what binary thinking predicts and what the simulation shows.
 single_outcomes = ...
 
+# %%
+# TODO: Build a bar chart showing the number of offers vs no-offers.
+#       Label each bar with its count and percentage.
+#       Annotate the offer bar to note what binary thinking predicted.
+
 # %% [markdown]
 # ## 2. The overconfidence mirror — spamming applications at 55%
 #
@@ -69,29 +74,38 @@ single_outcomes = ...
 #       Print what binary thinking predicts and how often it is wrong.
 high_outcomes = ...
 
+# %%
+# TODO: Build a bar chart showing the number of offers vs no-offers.
+#       Same style as step 1. Annotate the no-offer bar.
+
 # %% [markdown]
 # ## 3. Stack the applications
 #
 # Binary thinking about 30 applications at 3%: *"None of these will pan out."*
 # Simulate `N_SIMS` full searches — each with `N_APPS` applications — and
-# compute P(at least one offer).
+# look at the distribution of offers received.
 
 # %%
 # TODO: Simulate N_SIMS job searches, each with N_APPS applications at P_SINGLE.
-#       Compute P(at least one offer) across all simulations.
-#       Print the result alongside the binary prediction.
 search_outcomes = ...
 
+# %%
+# TODO: Plot a histogram of offer counts across all searches.
+#       Highlight the zero-offer bar and annotate it.
+
 # %% [markdown]
-# ## 4. The full picture
+# ## 4. P(at least one offer)
 #
-# Binary thinking says 3% means the dream job won't happen. Show what changes
-# when your friend sends `N_APPS` applications instead of one.
+# The histogram shows the distribution — but the number your friend cares about
+# is simpler: what fraction of those 100 searches ended with at least one offer?
+# Compare sending 1 application to sending `N_APPS`.
 
 # %%
-# TODO: Compute P(at least one offer) for 1 application and for N_APPS applications.
-#       Build a bar chart comparing the two. Add a reference line at 0.5.
-#       Label axes and title clearly.
+# TODO: Compute P(at least one offer) from search_outcomes and analytically.
+#       Print both values.
+
+# TODO: Build a bar chart comparing P(offer) for 1 application vs N_APPS applications.
+#       Add a reference line at 0.5. Label axes and title clearly.
 
 # %% [markdown]
 # ## 5. Find your number
