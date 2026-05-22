@@ -35,23 +35,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-P_SINGLE    = 0.03    # per-application offer probability (sports journalism)
-P_HIGH      = 0.55    # per-application probability (in-demand role)
-N_APPS      = 30      # applications in a full search
-N_SIMS      = 100     # simulation runs
-N_SIMS_MANY = 1_000   # simulation runs for the higher-probability scenario
-TARGET      = 0.90    # target confidence of getting at least one offer
-
 RNG = np.random.default_rng(42)
 
 # %% [markdown]
 # ## 1. The bias in action — one application at 3%
 #
 # Binary thinking predicts: *"3% is basically zero — it won't happen."*
-# Simulate 100 single applications at `P_SINGLE` and measure how often that prediction is wrong.
+# Imagine 100 candidates each sending one application at a 3% offer rate.
+# How often is binary thinking wrong?
 
 # %%
-# TODO: Simulate N_SIMS single-application outcomes at P_SINGLE.
+# TODO: Simulate 100 single-application outcomes at a 3% offer rate.
 #       Compute the empirical offer rate.
 #       Print what binary thinking predicts and what the simulation shows.
 single_outcomes = ...
@@ -66,10 +60,10 @@ single_outcomes = ...
 #
 # Your friend is also spamming applications to a less exciting but highly in-demand role
 # with a 55% per-application offer rate. *"That one's above 50% — it will definitely work out."*
-# Simulate 1,000 single applications at `P_HIGH` and see how often that certainty is wrong.
+# Imagine 1,000 candidates each sending one application. How often does that certainty fail?
 
 # %%
-# TODO: Simulate N_SIMS_MANY single-application outcomes at P_HIGH.
+# TODO: Simulate 1,000 single-application outcomes at a 55% offer rate.
 #       Compute the empirical failure rate.
 #       Print what binary thinking predicts and how often it is wrong.
 high_outcomes = ...
@@ -82,11 +76,11 @@ high_outcomes = ...
 # ## 3. Stack the applications
 #
 # Binary thinking about 30 applications at 3%: *"None of these will pan out."*
-# Simulate `N_SIMS` full searches — each with `N_APPS` applications — and
+# Simulate 100 full job searches — each sending 30 applications at 3% — and
 # look at the distribution of offers received.
 
 # %%
-# TODO: Simulate N_SIMS job searches, each with N_APPS applications at P_SINGLE.
+# TODO: Simulate 100 job searches of 30 applications each at a 3% offer rate.
 search_outcomes = ...
 
 # %%
@@ -98,23 +92,24 @@ search_outcomes = ...
 #
 # The histogram shows the distribution — but the number your friend cares about
 # is simpler: what fraction of those 100 searches ended with at least one offer?
-# Compare sending 1 application to sending `N_APPS`.
+# Compare sending 1 application to sending 30.
 
 # %%
 # TODO: Compute P(at least one offer) from search_outcomes and analytically.
 #       Print both values.
 
-# TODO: Build a bar chart comparing P(offer) for 1 application vs N_APPS applications.
+# TODO: Build a bar chart comparing P(offer) for 1 application vs 30 applications.
 #       Add a reference line at 0.5. Label axes and title clearly.
 
 # %% [markdown]
 # ## 5. Find your number
 #
-# How many applications does it take to reach `TARGET` confidence of at least one offer?
+# How many applications does it take to reach 90% confidence of at least one offer?
 # Solve analytically, then verify with simulation.
 
 # %%
-# TODO: Solve analytically for the minimum n where P(at least one offer) >= TARGET.
+# TODO: Solve analytically for the minimum number of applications
+#       needed to reach 90% confidence of at least one offer.
 #       Verify by simulating searches of that length.
 n_needed = ...
 
