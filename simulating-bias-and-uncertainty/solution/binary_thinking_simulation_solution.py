@@ -43,9 +43,9 @@ import matplotlib.pyplot as plt
 import math
 
 P_SINGLE = 0.03    # per-application offer probability
-P_HIGH   = 0.10    # per-application probability in a strong-candidate scenario
+P_HIGH   = 0.55    # per-application probability in a strong-candidate scenario
 N_APPS   = 30      # applications in a typical search
-N_SIMS   = 100  # simulation runs
+N_SIMS   = 1_000  # simulation runs
 TARGET   = 0.90    # target confidence of getting at least one offer
 
 RNG = np.random.default_rng(42)
