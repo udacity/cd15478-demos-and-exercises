@@ -70,7 +70,7 @@ counts  = [N_SIMS - single_outcomes.sum(), single_outcomes.sum()]
 fig, ax = plt.subplots(figsize=(5, 3.5))
 bars = ax.bar(labels, counts, color=['#cccccc', '#e07b54'], edgecolor='white', width=0.5)
 ax.bar_label(bars, fmt=lambda v: f'{int(v):,}\n({v/N_SIMS:.1%})', padding=4, fontsize=10)
-ax.set(title=f'{N_SIMS} single applications at {P_SINGLE:.0%}',
+ax.set(title=f'{N_SIMS} simulated candidates,\neach applying once at {P_SINGLE:.0%}',
        ylabel='Number of simulations', ylim=(0, N_SIMS * 1.15))
 ax.annotate('Binary thinking said\nthis bar was empty',
             xy=(1, counts[1]), xytext=(1.35, counts[1] + N_SIMS * 0.04),
@@ -100,7 +100,7 @@ counts2 = [high_outcomes.sum(), N_SIMS_MANY - high_outcomes.sum()]
 fig, ax = plt.subplots(figsize=(5, 3.5))
 bars = ax.bar(labels2, counts2, color=['#cccccc', '#e07b54'], edgecolor='white', width=0.5)
 ax.bar_label(bars, fmt=lambda v: f'{int(v):,}\n({v/N_SIMS_MANY:.0%})', padding=4, fontsize=10)
-ax.set(title=f'{N_SIMS_MANY:,} single applications at {P_HIGH:.0%}',
+ax.set(title=f'{N_SIMS_MANY:,} simulated candidates,\neach applying once at {P_HIGH:.0%}',
        ylabel='Number of simulations', ylim=(0, N_SIMS_MANY * 1.15))
 ax.annotate('Binary thinking said\nthis bar was empty',
             xy=(1, counts2[1]), xytext=(1.35, counts2[1] + N_SIMS_MANY * 0.04),
