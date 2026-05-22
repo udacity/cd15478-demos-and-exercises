@@ -232,9 +232,9 @@ print(f"Payoff-aware strategy average season profit:  ${payoff_avg:,.0f}K")
 print(f"Consistent gap:                               ${payoff_avg - binary_avg:,.0f}K per season")
 
 # %% [markdown]
-# The ~$775K gap is not luck — it's the sum of four genres the 50% rule rejected, each
+# The $775K gap is not luck — it's the sum of four genres the 50% rule rejected, each
 # of which covers its costs on its own. The payoff-aware strategy captures them every
-# season. R&B adds only ~$56K individually, but the 50% rule discards it every time
+# season. R&B adds only $56K individually, but the 50% rule discards it every time
 # simply because 37% sounds unlikely.
 
 # %% [markdown]
@@ -247,7 +247,7 @@ print(f"Consistent gap:                               ${payoff_avg - binary_avg:
 # and 37% as impossible. Neither is true.
 #
 # **Why the average profit matters:** The simulated season (step 5) was one random
-# draw that varied. The arithmetic in step 6 is the same every time — ~$775K per
+# draw that varied. The arithmetic in step 6 is the same every time — $775K per
 # season in foregone profit from four genres the 50% rule silently skipped. That gap
 # is the cost of using the wrong threshold.
 #
