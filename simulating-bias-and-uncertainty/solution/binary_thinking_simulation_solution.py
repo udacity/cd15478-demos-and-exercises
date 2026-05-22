@@ -43,12 +43,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-P_SINGLE    = 0.03    # per-application offer probability (sports journalism)
-P_HIGH      = 0.55    # per-application probability (in-demand role)
-N_APPS      = 30      # applications in a full search
-N_SIMS      = 100     # simulation runs
-N_SIMS_MANY = 1_000   # simulation runs for the higher-probability scenario
-TARGET      = 0.90    # target confidence of getting at least one offer
 
 RNG = np.random.default_rng(42)
 
@@ -56,24 +50,24 @@ RNG = np.random.default_rng(42)
 # ## 1. The bias in action — one application at 3%
 
 # %%
-single_outcomes = RNG.binomial(1, P_SINGLE, N_SIMS)
+single_outcomes = RNG.binomial(1, 0.03, 100)
 empirical_rate  = single_outcomes.mean()
 
 print(f"Binary thinking: '3% < 50% — it won't happen'")
-print(f"Simulation ({N_SIMS} tries): offer received {empirical_rate:.1%} of the time")
+print(f"Simulation ({100} tries): offer received {empirical_rate:.1%} of the time")
 print(f"Binary thinking was wrong on roughly 1 in every {round(1/empirical_rate) if empirical_rate > 0 else 'N/A'} applications")
 
 # %%
 labels  = ['No offer', 'Offer']
-counts  = [N_SIMS - single_outcomes.sum(), single_outcomes.sum()]
+counts  = [100 - single_outcomes.sum(), single_outcomes.sum()]
 
 fig, ax = plt.subplots(figsize=(5, 3.5))
 bars = ax.bar(labels, counts, color=['#cccccc', '#e07b54'], edgecolor='white', width=0.5)
-ax.bar_label(bars, fmt=lambda v: f'{int(v):,}\n({v/N_SIMS:.1%})', padding=4, fontsize=10)
-ax.set(title=f'{N_SIMS} simulated candidates,\neach applying once at {P_SINGLE:.0%}',
-       ylabel='Number of simulations', ylim=(0, N_SIMS * 1.15))
+ax.bar_label(bars, fmt=lambda v: f'{int(v):,}\n({v/100:.1%})', padding=4, fontsize=10)
+ax.set(title=f'{100} simulated candidates,\neach applying once at {0.03:.0%}',
+       ylabel='Number of simulations', ylim=(0, 100 * 1.15))
 ax.annotate('Binary thinking said\nthis bar was empty',
-            xy=(1, counts[1]), xytext=(1.35, counts[1] + N_SIMS * 0.04),
+            xy=(1, counts[1]), xytext=(1.35, counts[1] + 100 * 0.04),
             arrowprops=dict(arrowstyle='->', color='#e07b54'), color='#e07b54', fontsize=9)
 plt.tight_layout()
 plt.show()
@@ -86,24 +80,24 @@ plt.show()
 # ## 2. The overconfidence mirror — spamming applications at 55%
 
 # %%
-high_outcomes = RNG.binomial(1, P_HIGH, N_SIMS_MANY)
+high_outcomes = RNG.binomial(1, 0.55, 1_000)
 failure_rate  = 1 - high_outcomes.mean()
 
 print(f"Binary thinking: '55% > 50% — it will definitely work out'")
-print(f"Simulation ({N_SIMS_MANY:,} tries): no offer {failure_rate:.0%} of the time")
+print(f"Simulation ({1_000:,} tries): no offer {failure_rate:.0%} of the time")
 print(f"Binary thinking was wrong roughly 1 in every {round(1/failure_rate):.0f} applications")
 
 # %%
 labels2 = ['Offer', 'No offer']
-counts2 = [high_outcomes.sum(), N_SIMS_MANY - high_outcomes.sum()]
+counts2 = [high_outcomes.sum(), 1_000 - high_outcomes.sum()]
 
 fig, ax = plt.subplots(figsize=(5, 3.5))
 bars = ax.bar(labels2, counts2, color=['#cccccc', '#e07b54'], edgecolor='white', width=0.5)
-ax.bar_label(bars, fmt=lambda v: f'{int(v):,}\n({v/N_SIMS_MANY:.0%})', padding=4, fontsize=10)
-ax.set(title=f'{N_SIMS_MANY:,} simulated candidates,\neach applying once at {P_HIGH:.0%}',
-       ylabel='Number of simulations', ylim=(0, N_SIMS_MANY * 1.15))
+ax.bar_label(bars, fmt=lambda v: f'{int(v):,}\n({v/1_000:.0%})', padding=4, fontsize=10)
+ax.set(title=f'{1_000:,} simulated candidates,\neach applying once at {0.55:.0%}',
+       ylabel='Number of simulations', ylim=(0, 1_000 * 1.15))
 ax.annotate('Binary thinking said\nthis bar was empty',
-            xy=(1, counts2[1]), xytext=(1.35, counts2[1] + N_SIMS_MANY * 0.04),
+            xy=(1, counts2[1]), xytext=(1.35, counts2[1] + 1_000 * 0.04),
             arrowprops=dict(arrowstyle='->', color='#e07b54'), color='#e07b54', fontsize=9)
 plt.tight_layout()
 plt.show()
@@ -116,13 +110,13 @@ plt.show()
 # ## 3. Stack the applications
 
 # %%
-search_outcomes = RNG.binomial(N_APPS, P_SINGLE, N_SIMS)
+search_outcomes = RNG.binomial(30, 0.03, 100)
 p_at_least_one  = (search_outcomes >= 1).mean()
-analytical      = 1 - (1 - P_SINGLE) ** N_APPS
+analytical      = 1 - (1 - 0.03) ** 30
 
-print(f"Binary thinking: '3% × {N_APPS} applications — none will pan out'")
+print(f"Binary thinking: '3% × {30} applications — none will pan out'")
 print(f"Simulation:  P(at least one offer) = {p_at_least_one:.1%}")
-print(f"Analytical:  1 - (1 - {P_SINGLE})^{N_APPS} = {analytical:.1%}")
+print(f"Analytical:  1 - (1 - {0.03})^{30} = {analytical:.1%}")
 
 # %%
 bins = range(0, 8)
@@ -131,7 +125,7 @@ fig, ax = plt.subplots(figsize=(7, 3.5))
 n, _, patches = ax.hist(search_outcomes, bins=bins, align='left', rwidth=0.7,
                          color='#cccccc', edgecolor='white')
 patches[0].set_facecolor('#e07b54')
-ax.set(title=f'Offers from {N_APPS} applications at {P_SINGLE:.0%} — {N_SIMS} searches',
+ax.set(title=f'Offers from {30} applications at {0.03:.0%} — {100} searches',
        xlabel='Offers received', ylabel='Number of searches')
 ax.annotate('Binary thinking\npredicted only this',
             xy=(0.45, n[0] * 0.5), xytext=(2, n[0] * 0.75),
@@ -148,10 +142,10 @@ plt.show()
 # ## 4. The full picture
 
 # %%
-p_one  = P_SINGLE
-p_many = 1 - (1 - P_SINGLE) ** N_APPS
+p_one  = 0.03
+p_many = 1 - (1 - 0.03) ** 30
 
-labels4 = ['Send 1 application', f'Send {N_APPS} applications']
+labels4 = ['Send 1 application', f'Send {30} applications']
 probs4  = [p_one, p_many]
 
 fig, ax = plt.subplots(figsize=(6, 4))
@@ -169,12 +163,12 @@ plt.show()
 # ## 5. Find your number
 
 # %%
-n_needed = math.ceil(math.log(1 - TARGET) / math.log(1 - P_SINGLE))
-print(f"Analytical: {n_needed} applications for {TARGET:.0%} confidence at p = {P_SINGLE:.0%}")
+n_needed = math.ceil(math.log(1 - 0.90) / math.log(1 - 0.03))
+print(f"Analytical: {n_needed} applications for {0.90:.0%} confidence at p = {0.03:.0%}")
 
-sim_probs     = [(RNG.binomial(n, P_SINGLE, N_SIMS) >= 1).mean() for n in range(1, n_needed + 3)]
-sim_crossover = next(n for n, p in enumerate(sim_probs, 1) if p >= TARGET)
-print(f"Simulation confirms: {TARGET:.0%} confidence reached at {sim_crossover} applications")
+sim_probs     = [(RNG.binomial(n, 0.03, 100) >= 1).mean() for n in range(1, n_needed + 3)]
+sim_crossover = next(n for n, p in enumerate(sim_probs, 1) if p >= 0.90)
+print(f"Simulation confirms: {0.90:.0%} confidence reached at {sim_crossover} applications")
 
 # %% [markdown]
 # Your friend needs roughly 76 applications to hit 90% confidence at 3% per application.
