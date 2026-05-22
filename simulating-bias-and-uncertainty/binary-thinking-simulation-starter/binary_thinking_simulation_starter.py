@@ -21,10 +21,11 @@
 # **binary thinking** — collapsing a probability into a yes/no prediction before the
 # outcome has occurred. It feels natural, but it leads to systematically wrong decisions.
 #
-# **The scenario.** You have just finished a data analytics program and you are job searching.
-# Each application has roughly a 20% chance of converting to an offer. Binary thinking says:
-# *"20% is below 50% — it probably won't work."* This exercise will show you, through
-# simulation, exactly how wrong that reasoning is.
+# **The scenario.** A friend of yours wants to break into sports journalism. After some
+# research, you find that candidates who apply to open roles at sports outlets have roughly
+# a 3% chance of receiving an offer. Your friend is discouraged: *"3% is basically zero —
+# why bother applying?"* This exercise will show, through simulation, exactly why that
+# reasoning is wrong.
 
 # %% [markdown]
 # ## Setup
@@ -34,19 +35,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-P_SINGLE = 0.03    # per-application offer probability
-P_HIGH   = 0.55    # per-application probability in a strong-candidate scenario
-N_APPS   = 30      # applications in a typical search
-N_SIMS   = 1_000  # simulation runs
-TARGET   = 0.90    # target confidence of getting at least one offer
+P_SINGLE    = 0.03    # per-application offer probability (sports journalism)
+P_HIGH      = 0.55    # per-application probability (in-demand role)
+N_APPS      = 30      # applications in a full search
+N_SIMS      = 100     # simulation runs
+N_SIMS_MANY = 1_000   # simulation runs for the higher-probability scenario
+TARGET      = 0.90    # target confidence of getting at least one offer
 
 RNG = np.random.default_rng(42)
 
 # %% [markdown]
-# ## 1. The bias in action — one application at 20%
+# ## 1. The bias in action — one application at 3%
 #
-# Binary thinking predicts: *"20% is below 50% — it won't happen."*
-# Simulate 10,000 single applications at `P_SINGLE` and measure how often that prediction is wrong.
+# Binary thinking predicts: *"3% is basically zero — it won't happen."*
+# Simulate 100 single applications at `P_SINGLE` and measure how often that prediction is wrong.
 
 # %%
 # TODO: Simulate N_SIMS single-application outcomes at P_SINGLE.
@@ -55,13 +57,14 @@ RNG = np.random.default_rng(42)
 single_outcomes = ...
 
 # %% [markdown]
-# ## 2. The overconfidence mirror — one application at 75%
+# ## 2. The overconfidence mirror — spamming applications at 55%
 #
-# Binary thinking predicts: *"75% is above 50% — it will happen."*
-# Simulate 10,000 single applications at `P_HIGH` and count how often that prediction fails.
+# Your friend is also spamming applications to a less exciting but highly in-demand role
+# with a 55% per-application offer rate. *"That one's above 50% — it will definitely work out."*
+# Simulate 1,000 single applications at `P_HIGH` and see how often that certainty is wrong.
 
 # %%
-# TODO: Simulate N_SIMS single-application outcomes at P_HIGH.
+# TODO: Simulate N_SIMS_MANY single-application outcomes at P_HIGH.
 #       Compute the empirical failure rate.
 #       Print what binary thinking predicts and how often it is wrong.
 high_outcomes = ...
@@ -69,8 +72,8 @@ high_outcomes = ...
 # %% [markdown]
 # ## 3. Stack the applications
 #
-# Binary thinking about 10 applications at 20%: *"None of these will pan out."*
-# Simulate `N_SIMS` full job searches — each with `N_APPS` applications — and
+# Binary thinking about 30 applications at 3%: *"None of these will pan out."*
+# Simulate `N_SIMS` full searches — each with `N_APPS` applications — and
 # compute P(at least one offer).
 
 # %%
@@ -82,12 +85,13 @@ search_outcomes = ...
 # %% [markdown]
 # ## 4. The full picture
 #
-# Plot P(at least one offer) as a function of applications sent, for both
-# `P_SINGLE` and `P_HIGH`. Add a horizontal reference line at `TARGET`.
+# Binary thinking says 3% means the dream job won't happen. Show what changes
+# when your friend sends `N_APPS` applications instead of one.
 
 # %%
-# TODO: For n = 1 to 20, compute P(at least one offer) for P_SINGLE and P_HIGH.
-#       Plot both curves. Add a reference line at TARGET. Label axes and add a legend.
+# TODO: Compute P(at least one offer) for 1 application and for N_APPS applications.
+#       Build a bar chart comparing the two. Add a reference line at 0.5.
+#       Label axes and title clearly.
 
 # %% [markdown]
 # ## 5. Find your number
