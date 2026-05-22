@@ -2,17 +2,16 @@
 
 ## Scenario
 
-You're a decision analyst at **Pitch & Slate Music**, a fictional music streaming platform. Pitch & Slate Music's
-Growth team runs genre-focused promotion campaigns each season — curating playlists, booking
-in-app placements, and pushing tracks through the recommendation engine. Each campaign targets
-one genre (Pop, Latin, R&B, Rap, Rock, or EDM) and has a measurable outcome: a promoted
-track either breaks into regular listener rotation ("hits") or doesn't ("misses"). Each genre
-targets a distinct listener audience, so a genre's 100 promotional slots can't be reallocated
-to another — the decision per genre is simply whether to fill the slots it offers or leave
-them empty.
+You're a decision analyst at **Pitch & Slate Music**, a fictional music streaming platform.
+Each season, the Growth team decides which genres to promote — Pop, Latin, R&B, Rap, Rock,
+or EDM. For each genre they choose to promote, they push 100 tracks through curated playlists,
+in-app placements, and the recommendation engine. Each promoted track either breaks into
+regular listener rotation ("hits") or doesn't ("misses").
 
-A genre's **hit rate** is the share of its tracks that cross the popularity threshold — a
-measure of how often a promoted track in that genre hits.
+A genre's **hit rate** is the estimated probability that a promoted track in that genre hits,
+based on the historical popularity distribution of tracks in that genre. Each genre targets a
+distinct listener audience, so promotional slots aren't interchangeable — the decision per
+genre is simply whether to run a campaign or skip it.
 
 A new analyst joining the team has a question: *why don't we just run campaigns for every
 genre with a hit rate above 50%? Those are the likely winners.* It's an intuitive rule, and
