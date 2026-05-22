@@ -55,7 +55,7 @@ empirical_rate  = single_outcomes.mean()
 
 print(f"Binary thinking: '3% < 50% — it won't happen'")
 print(f"Simulation ({100} tries): offer received {empirical_rate:.1%} of the time")
-print(f"Binary thinking was wrong on roughly 1 in every {round(1/empirical_rate) if empirical_rate > 0 else 'N/A'} applications")
+print(f"Simulation: offer received {empirical_rate:.1%} of the time — not zero")
 
 # %%
 labels  = ['No offer', 'Offer']
