@@ -160,19 +160,28 @@ print(f"Bootstrap SE: ${boots.std(ddof=1):,.0f}")
 # ## 7. Naive vs. IPW comparison
 
 # %%
-# TODO: Print a clear side-by-side comparison:
-#       Naive lift and IPW lift.
-#       Explain in 1–2 sentences why they differ.
+# TODO: Build a comparison DataFrame with three rows: Naive, IPW-corrected, AIPW.
+#       Display it as a table.
 
 # %% [markdown]
 # ## 8. Cost-benefit model
 
 # %%
-# TODO: Compute corrected_roi and naive_roi using COST_PER_PARTICIPANT and LTV_MULT.
+# TODO: Compute naive_roi, ipw_roi, and aipw_roi using COST_PER_PARTICIPANT and LTV_MULT.
 #   ROI = (lift × LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
-corrected_roi = ...
-naive_roi     = ...
+# TODO: Also compute ci_low_roi and ci_high_roi from the bootstrap CI endpoints.
+naive_roi   = ...
+ipw_roi     = ...
+aipw_roi    = ...
+ci_low_roi  = ...
+ci_high_roi = ...
 
-print(f"Corrected ROI: {corrected_roi:.1%}")
-print(f"Naive ROI:     {naive_roi:.1%}")
+print(f"Naive ROI:          {naive_roi:.0%}")
+print(f"IPW ROI:            {ipw_roi:.0%}")
+print(f"AIPW ROI:           {aipw_roi:.0%}")
+print(f"Bootstrap 95% CI:   [{ci_low_roi:.0%}, {ci_high_roi:.0%}]")
+
+# TODO: In 2–3 sentences, interpret the results. Are IPW and AIPW consistent in direction?
+#       Is the CI narrow enough to make a confident budget decision?
+#       What would you recommend as the next step?
 

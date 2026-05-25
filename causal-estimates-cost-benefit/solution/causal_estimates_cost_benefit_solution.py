@@ -191,27 +191,38 @@ print(f"Bootstrap SE:     ${boots.std(ddof=1):,.0f}")
 
 # %%
 comparison = pd.DataFrame({
-    "Estimate":     ["Naive", "IPW-corrected"],
-    "Earnings lift": [f"${naive_lift:+,.0f}", f"${ipw_point:+,.0f}"],
+    "Estimate":     ["Naive", "IPW-corrected", "AIPW (doubly-robust)"],
+    "Earnings lift": [f"${naive_lift:+,.0f}", f"${ipw_point:+,.0f}", f"${aipw_point:+,.0f}"],
 })
 comparison
 
 # %% [markdown]
 # The naive estimate is negative because treated participants started with much lower
-# pre-program earnings — the comparison group is wealthier on average. IPW re-weights
-# the comparison to match on observable characteristics and flips the sign to positive.
+# pre-program earnings — the comparison group is wealthier on average. IPW and AIPW
+# both flip the sign to positive, consistent in direction though different in magnitude.
 
 # %% [markdown]
 # ## 8. Cost-benefit model
 
 # %%
-corrected_roi = (ipw_point    * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
-naive_roi     = (naive_lift   * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
+naive_roi     = (naive_lift  * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
+ipw_roi       = (ipw_point   * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
+aipw_roi      = (aipw_point  * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
+ci_low_roi    = (ci[0]       * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
+ci_high_roi   = (ci[1]       * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
 
-print(f"Corrected ROI: {corrected_roi:.1%}")
-print(f"Naive ROI:     {naive_roi:.1%}")
+print(f"Naive ROI:          {naive_roi:.0%}")
+print(f"IPW ROI:            {ipw_roi:.0%}")
+print(f"AIPW ROI:           {aipw_roi:.0%}")
+print(f"Bootstrap 95% CI:   [{ci_low_roi:.0%}, {ci_high_roi:.0%}]")
 
 # %% [markdown]
-# The two estimates span a wide range of ROI conclusions — from "shut it down" (naive)
-# to "marginal or positive" (IPW-corrected). The key lesson: the business decision depends
-# entirely on which causal estimate you use, which makes methodological rigor non-optional.
+# IPW and AIPW both point to a positive ROI, but the bootstrap CI spans from deeply
+# negative to strongly positive. The direction of the effect is consistent across methods;
+# the magnitude is not. This level of uncertainty is too wide to base a budget decision on.
+#
+# **Recommendation:** the observational data provides enough signal to justify continuing
+# the program in the near term, but not enough to size it or expand it confidently.
+# The right next step is a randomized experiment — randomly assign eligible participants
+# to the program or a waitlist control — to pin down the true effect size with a
+# confidence interval narrow enough to act on.
