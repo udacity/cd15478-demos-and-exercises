@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.19.1
+#       jupytext_version: 1.19.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -16,13 +16,12 @@
 # %% [markdown]
 # # From Causal Estimates to ROI: Evaluating a Career Skills Program
 #
-# **Scenario.** Lift & Launch Works, a fictional nonprofit, offered a career skills program
+# **Scenario.** Lift & Launch Works, a nonprofit, offered a career skills program
 # primarily to disadvantaged workers — people with lower pre-program earnings. That
 # targeting creates confounding: participants had lower baseline earnings, so a simple
 # comparison makes the program look harmful when it isn't. You'll use IPW to correct
 # for the bias and translate the causal estimate into a cost-benefit ROI.
 #
-# Data: LaLonde (1986) job training study via the MatchIt R package (public domain).
 # See `INSTRUCTIONS.md` and `data/README.md` for details.
 
 # %% [markdown]
@@ -35,12 +34,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import statsmodels.api as sm
 
-DATA_PATH            = "data/lalonde_participants.csv"
+DATA_PATH            = "data/program_participants.csv"
 COST_PER_PARTICIPANT = 250    # $ to deliver the program to one participant
 LTV_MULT             = 2      # earnings effect assumed to persist for 2 years
 EXPERIMENTAL_BENCH   = 1_794  # known causal effect from the randomized NSW experiment ($)
 
-COVARIATES = ["age", "educ", "married", "nodegree", "re74", "re75"]
+COVARIATES = ["age", "educ", "married", "nodegree", "earnings_pre1", "earnings_pre2"]
 RNG = np.random.default_rng(42)
 
 # %% [markdown]
@@ -50,7 +49,7 @@ RNG = np.random.default_rng(42)
 # TODO: Load the CSV into `df`. Display the first few rows.
 df = ...
 
-# TODO: Compute the naive difference-in-means on `re78`.
+# TODO: Compute the naive difference-in-means on `earnings_post`.
 naive_lift = ...
 print(f"Naive earnings lift: ${naive_lift:+,.0f}")
 
@@ -96,11 +95,11 @@ print(f"Propensity scores: min={ps.min():.3f}, max={ps.max():.3f}, mean={ps.mean
 # ## 5. IPW estimate
 
 # %%
-# TODO: Implement ipw_estimate(df, ps, outcome="re78", treat="treat").
+# TODO: Implement ipw_estimate(df, ps, outcome="earnings_post", treat="treat").
 #       Weights: 1/ps for treated, 1/(1-ps) for control.
 #       Return the weighted treated mean minus weighted control mean.
 def ipw_estimate(df: pd.DataFrame, ps: np.ndarray,
-                 outcome: str = "re78", treat: str = "treat") -> float:
+                 outcome: str = "earnings_post", treat: str = "treat") -> float:
     """IPW-corrected average treatment effect."""
     ...
 
@@ -117,7 +116,7 @@ print(f"IPW earnings lift: ${ipw_point:+,.0f}")
 # model or the outcome model is correctly specified — not necessarily both.
 #
 # Steps:
-# 1. Fit an OLS outcome model of `re78` on the same covariates plus a
+# 1. Fit an OLS outcome model of `earnings_post` on the same covariates plus a
 #    treatment indicator.
 # 2. Generate counterfactual predictions: what would each person earn
 #    under T=1 (`mu1`) and under T=0 (`mu0`)?
@@ -132,11 +131,11 @@ print(f"IPW earnings lift: ${ipw_point:+,.0f}")
 # use logistic regression instead of OLS for the outcome model.*
 
 # %%
-# TODO: Fit an OLS outcome model of `re78` on COVARIATES + race dummies +
+# TODO: Fit an OLS outcome model of `earnings_post` on COVARIATES + race dummies +
 #       `treat` indicator. Use sm.OLS.
 #       Build X_out: same constant + COVARIATES + race_d + df[["treat"]].
 
-# TODO: Generate mu1 and mu0 (predicted re78 with treat=1 and treat=0).
+# TODO: Generate mu1 and mu0 (predicted earnings_post with treat=1 and treat=0).
 
 # TODO: Compute aipw_point using the formula above.
 aipw_point = ...

@@ -2,20 +2,13 @@
 
 ## Scenario
 
-You are a data scientist at **Lift & Launch Works**, a fictional nonprofit workforce development
-organization. Over the past several years, Lift & Launch Works has run an online career skills
-program designed to boost participants' long-term earnings. The program was offered
-primarily to economically disadvantaged workers — people with low pre-program earnings who
-needed a boost most. That targeting decision, though well-intentioned, creates a problem:
-because participants started out with lower baseline earnings than non-participants, a simple
+You are a data scientist at **Lift & Launch Works**, a workforce development nonprofit.
+Over the past several years, Lift & Launch Works has run an online career skills program
+designed to boost participants' long-term earnings. The program was offered primarily to
+economically disadvantaged workers — people with low pre-program earnings who needed a
+boost most. That targeting decision, though well-intentioned, creates a problem: because
+participants started out with lower baseline earnings than non-participants, a simple
 comparison makes the program look *harmful*.
-
-The dataset comes from the LaLonde (1986) job training study — a classic observational
-causal inference benchmark used in economics and data science education — curated by Ho,
-Imai, King, and Stuart (2011) and available as the `lalonde` dataset in the MatchIt R
-package (public domain). Lift & Launch Works is fictional; the underlying data and research design
-are real. The treated participants received a real training program; the comparison group
-is drawn from the CPS general population survey.
 
 Your job: correct for the confounding, translate the corrected estimate into a
 cost-benefit calculation, and report a defensible ROI figure.
@@ -25,9 +18,9 @@ cost-benefit calculation, and report a defensible ROI figure.
 A completed Jupyter notebook (start from `causal_estimates_cost_benefit_starter.ipynb`) that:
 
 1. Loads the data and computes the **naive difference-in-means** between treated and control
-   groups on the `re78` earnings outcome.
+   groups on the `earnings_post` outcome.
 2. Checks **covariate imbalance** using standardized mean differences for `age`, `educ`,
-   `re74`, and `re75`. Identifies which features show the largest imbalance.
+   `earnings_pre1`, and `earnings_pre2`. Identifies which features show the largest imbalance.
 3. Fits a **propensity score model** (logistic regression on the four features plus race
    dummies) and produces trimmed propensity scores.
 4. Verifies **overlap** with a KDE plot of propensity scores by treatment group.
@@ -65,16 +58,11 @@ module covers how to build these inputs from first principles.
 
 ## Resources you may find useful
 
-- [Inverse Probability Weighting — Stanford Encyclopedia](https://plato.stanford.edu/entries/causation-probabilistic/) — conceptual overview
 - [statsmodels Logit](https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.Logit.html) — for the propensity model
 - [seaborn.kdeplot](https://seaborn.pydata.org/generated/seaborn.kdeplot.html) — for the overlap check
-- [LaLonde (1986)](https://www.jstor.org/stable/1806062) — original study
-- [MatchIt package documentation](https://cran.r-project.org/package=MatchIt) — dataset source
 
 ## Note on the data
 
-`data/lalonde_participants.csv` contains the LaLonde (1986) observational job training
-dataset as curated in the MatchIt R package (Ho et al. 2011, CC0). The treated group
-received a real job training program; the comparison group is drawn from the CPS general
-population survey. The scenario company **Lift & Launch Works** is fictional; the underlying
-causal structure and data are real. See `data/README.md` for the full citation.
+`data/program_participants.csv` contains program participant data combining treated participants
+who received the career skills program and a comparison group from a general population survey.
+See `data/README.md` for column descriptions.

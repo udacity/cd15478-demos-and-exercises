@@ -16,13 +16,13 @@ analyst would recommend shutting down a program that genuinely helps participant
 ## Key steps
 
 1. **Naive estimate** — Simple `.mean()` difference. Result: −$635. The control group
-   (CPS) has substantially higher pre-program earnings (re74, re75), making treated
+   (CPS) has substantially higher pre-program earnings (earnings_pre1, earnings_pre2), making treated
    participants look worse even post-program.
 
-2. **SMD check** — `re74` (SMD ≈ −0.60) and `re75` (SMD ≈ −0.29) show the largest
+2. **SMD check** — `earnings_pre1` (SMD ≈ −0.60) and `earnings_pre2` (SMD ≈ −0.29) show the largest
    imbalance. These are the primary confounders. `age` also shows imbalance (−0.24).
 
-3. **Propensity model** — Logistic regression on age, educ, married, nodegree, re74, re75,
+3. **Propensity model** — Logistic regression on age, educ, married, nodegree, earnings_pre1, earnings_pre2,
    plus race dummies. Clip propensity scores to [0.02, 0.98] to avoid extreme weights.
 
 4. **Overlap check** — KDE plot shows two overlapping distributions; IPW is appropriate.

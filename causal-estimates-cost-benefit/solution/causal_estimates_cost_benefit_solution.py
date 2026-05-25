@@ -39,12 +39,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import statsmodels.api as sm
 
-DATA_PATH            = "../causal-estimates-cost-benefit-starter/data/lalonde_participants.csv"
+DATA_PATH            = "../causal-estimates-cost-benefit-starter/data/program_participants.csv"
 COST_PER_PARTICIPANT = 250
 LTV_MULT             = 2
 EXPERIMENTAL_BENCH   = 1_794
 
-COVARIATES = ["age", "educ", "married", "nodegree", "re74", "re75"]
+COVARIATES = ["age", "educ", "married", "nodegree", "earnings_pre1", "earnings_pre2"]
 RNG = np.random.default_rng(42)
 
 # %% [markdown]
@@ -55,8 +55,8 @@ df = pd.read_csv(DATA_PATH)
 df.head()
 
 # %%
-naive_lift = (df.loc[df.treat == 1, "re78"].mean()
-              - df.loc[df.treat == 0, "re78"].mean())
+naive_lift = (df.loc[df.treat == 1, "earnings_post"].mean()
+              - df.loc[df.treat == 0, "earnings_post"].mean())
 print(f"Naive earnings lift: ${naive_lift:+,.0f}")
 print(f"Treatment rate: {df['treat'].mean():.1%}")
 
@@ -83,7 +83,7 @@ balance = pd.DataFrame(
 balance
 
 # %% [markdown]
-# `re74` (SMD = −0.60) and `re75` (SMD = −0.29) show large imbalance: treated participants
+# `earnings_pre1` (SMD = −0.60) and `earnings_pre2` (SMD = −0.29) show large imbalance: treated participants
 # had substantially lower pre-program earnings than controls. This is the primary source
 # of confounding.
 
@@ -116,7 +116,7 @@ plt.show()
 
 # %%
 def ipw_estimate(df: pd.DataFrame, ps: np.ndarray,
-                 outcome: str = "re78", treat: str = "treat") -> float:
+                 outcome: str = "earnings_post", treat: str = "treat") -> float:
     """IPW-corrected average treatment effect."""
     w = np.where(df[treat] == 1, 1 / ps, 1 / (1 - ps))
     t = df[treat] == 1
@@ -139,19 +139,19 @@ print(f"IPW earnings lift: ${ipw_point:+,.0f}")
 X_out = sm.add_constant(
     pd.concat([df[COVARIATES].astype(float), race_d, df[["treat"]].astype(float)], axis=1)
 )
-om = sm.OLS(df["re78"], X_out).fit()
+om = sm.OLS(df["earnings_post"], X_out).fit()
 
 X_t1 = X_out.copy(); X_t1["treat"] = 1.0
 X_t0 = X_out.copy(); X_t0["treat"] = 0.0
 mu1 = om.predict(X_t1).values
 mu0 = om.predict(X_t0).values
 
-y = df["re78"].values
+y = df["earnings_post"].values
 t = df["treat"].values
 
 aipw_point = ((t / ps * (y - mu1) + mu1) - ((1 - t) / (1 - ps) * (y - mu0) + mu0)).mean()
 
-print(f"Naive estimate: ${df[df.treat==1]['re78'].mean()-df[df.treat==0]['re78'].mean():+,.0f}")
+print(f"Naive estimate: ${df[df.treat==1]['earnings_post'].mean()-df[df.treat==0]['earnings_post'].mean():+,.0f}")
 print(f"IPW estimate:   ${ipw_point:+,.0f}")
 print(f"AIPW estimate:  ${aipw_point:+,.0f}")
 print(f"Experimental benchmark: $+1,794")
