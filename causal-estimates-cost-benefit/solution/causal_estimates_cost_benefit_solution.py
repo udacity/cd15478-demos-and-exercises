@@ -24,8 +24,6 @@
 # and reveals a positive earnings lift. The corrected estimate then feeds a cost-benefit
 # ROI calculation.
 #
-# Data: LaLonde (1986) / MatchIt (Ho et al. 2011), public domain.
-#
 # ## What this notebook delivers
 #
 # - Naive vs. IPW earnings lift with 95% bootstrap CI.
