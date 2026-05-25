@@ -70,7 +70,5 @@ analyst would recommend shutting down a program that genuinely helps participant
 - `sm.Logit(...).fit(disp=0)` with propensity scores clipped to [0.02, 0.98].
 
 **What's deliberately scoped out:**
-- The survey adjustment (stated-to-revealed ratio) in the project is specific to Nimbus's
-  survey data and doesn't appear here.
 - Doubly-robust estimation is not covered — IPW is the target skill.
 - Translating the ROI into a memo is the communication module's job.

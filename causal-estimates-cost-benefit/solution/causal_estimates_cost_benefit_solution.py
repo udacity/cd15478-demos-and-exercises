@@ -161,9 +161,6 @@ print(f"AIPW estimate:  ${aipw_point:+,.0f}")
 # implies a much more favourable ROI — which is why reporting both side-by-side,
 # and acknowledging the uncertainty between them, is more honest than presenting
 # a single point estimate.
-#
-# *In the Nimbus project, the outcome (`churned_3mo`) is binary, so you would
-# use `sm.Logit` rather than `sm.OLS` for the outcome model.*
 
 # %% [markdown]
 # ## 6. Bootstrap confidence interval

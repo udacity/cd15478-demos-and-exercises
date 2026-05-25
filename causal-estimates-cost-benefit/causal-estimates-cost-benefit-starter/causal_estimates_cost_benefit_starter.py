@@ -124,9 +124,6 @@ print(f"IPW earnings lift: ${ipw_point:+,.0f}")
 #
 # Compare the AIPW estimate to the plain IPW estimate. Note in 1–2 sentences
 # whether AIPW changes the ROI conclusion relative to IPW.
-#
-# *In the Nimbus project, the outcome is binary (churned_3mo), so you would
-# use logistic regression instead of OLS for the outcome model.*
 
 # %%
 # TODO: Fit an OLS outcome model of `earnings_post` on COVARIATES + race dummies +
