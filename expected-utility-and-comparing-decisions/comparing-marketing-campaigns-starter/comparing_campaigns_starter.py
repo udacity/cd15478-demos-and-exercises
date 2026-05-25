@@ -17,7 +17,7 @@
 # # Comparing Marketing Campaigns with Expected Utility
 #
 # **Scenario.** You are the lead decision scientist at **Key & Quarter Hosts**
-# (fictional), a small short-term-rental management firm. Growth wants to launch
+# a small short-term-rental management firm. Growth wants to launch
 # a campaign next quarter to acquire new property owners. Three options are on
 # the table — *Premium Listing Push*, *Local Concierge Add-on*, and *Hold*.
 # Each pays off differently depending on how strong the broader short-term-rental
