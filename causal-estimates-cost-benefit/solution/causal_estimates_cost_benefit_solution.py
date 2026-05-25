@@ -27,7 +27,7 @@
 # ## What this notebook delivers
 #
 # - Naive vs. IPW earnings lift with 95% bootstrap CI.
-# - Cost-benefit ROI under three assumptions (naive, IPW-corrected, experimental benchmark).
+# - Cost-benefit ROI comparing naive vs. IPW-corrected estimates.
 
 # %% [markdown]
 # ## Setup
@@ -42,7 +42,6 @@ import statsmodels.api as sm
 DATA_PATH            = "../causal-estimates-cost-benefit-starter/data/program_participants.csv"
 COST_PER_PARTICIPANT = 250
 LTV_MULT             = 2
-EXPERIMENTAL_BENCH   = 1_794
 
 COVARIATES = ["age", "educ", "married", "nodegree", "earnings_pre1", "earnings_pre2"]
 RNG = np.random.default_rng(42)
@@ -154,11 +153,9 @@ aipw_point = ((t / ps * (y - mu1) + mu1) - ((1 - t) / (1 - ps) * (y - mu0) + mu0
 print(f"Naive estimate: ${df[df.treat==1]['earnings_post'].mean()-df[df.treat==0]['earnings_post'].mean():+,.0f}")
 print(f"IPW estimate:   ${ipw_point:+,.0f}")
 print(f"AIPW estimate:  ${aipw_point:+,.0f}")
-print(f"Experimental benchmark: $+1,794")
 
 # %% [markdown]
-# **AIPW ($+887) is meaningfully higher than plain IPW ($+223)**, moving
-# substantially toward the experimental benchmark ($+1,794). The outcome model
+# **AIPW ($+887) is meaningfully higher than plain IPW ($+223)**. The outcome model
 # corrects for the residual confounding that the propensity model alone did not
 # fully remove. Both estimates point to a positive earnings effect, but AIPW
 # implies a much more favourable ROI — which is why reporting both side-by-side,
@@ -194,8 +191,8 @@ print(f"Bootstrap SE:     ${boots.std(ddof=1):,.0f}")
 
 # %%
 comparison = pd.DataFrame({
-    "Estimate":     ["Naive",    "IPW-corrected", "Experimental benchmark"],
-    "Earnings lift": [f"${naive_lift:+,.0f}", f"${ipw_point:+,.0f}", f"${EXPERIMENTAL_BENCH:+,.0f}"],
+    "Estimate":     ["Naive", "IPW-corrected"],
+    "Earnings lift": [f"${naive_lift:+,.0f}", f"${ipw_point:+,.0f}"],
 })
 comparison
 
@@ -203,9 +200,6 @@ comparison
 # The naive estimate is negative because treated participants started with much lower
 # pre-program earnings — the comparison group is wealthier on average. IPW re-weights
 # the comparison to match on observable characteristics and flips the sign to positive.
-# The known experimental benchmark (+$1,794) from the randomized portion of the study
-# confirms the true causal effect is positive; our IPW estimate (+$223) is noisier and
-# lower because the CPS comparison group is a challenging control group.
 
 # %% [markdown]
 # ## 8. Cost-benefit model
@@ -218,18 +212,6 @@ print(f"Corrected ROI: {corrected_roi:.1%}")
 print(f"Naive ROI:     {naive_roi:.1%}")
 
 # %% [markdown]
-# ## 9. Validation: how does IPW compare to the experimental benchmark?
-
-# %%
-bench_roi = (EXPERIMENTAL_BENCH * LTV_MULT - COST_PER_PARTICIPANT) / COST_PER_PARTICIPANT
-print(f"Experimental-benchmark ROI: {bench_roi:.1%}")
-print()
-print(f"Naive estimate:        ${naive_lift:+,.0f}/year  → ROI {naive_roi:.0%}  (suggests shut down the program)")
-print(f"IPW-corrected:         ${ipw_point:+,.0f}/year   → ROI {corrected_roi:.0%}  (suggests program is marginal or positive)")
-print(f"Experimental benchmark: ${EXPERIMENTAL_BENCH:+,.0f}/year → ROI {bench_roi:.0%}  (strongly positive if true)")
-
-# %% [markdown]
-# The three estimates span a wide range of ROI conclusions — from "shut it down" (naive)
-# to "strongly expand" (experimental benchmark). The IPW estimate lands in the middle with
-# high uncertainty. The key lesson: the business decision depends entirely on which causal
-# estimate you use, which makes methodological rigor non-optional.
+# The two estimates span a wide range of ROI conclusions — from "shut it down" (naive)
+# to "marginal or positive" (IPW-corrected). The key lesson: the business decision depends
+# entirely on which causal estimate you use, which makes methodological rigor non-optional.

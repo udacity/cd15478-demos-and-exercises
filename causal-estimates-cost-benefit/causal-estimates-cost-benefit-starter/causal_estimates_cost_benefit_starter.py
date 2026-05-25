@@ -37,7 +37,6 @@ import statsmodels.api as sm
 DATA_PATH            = "data/program_participants.csv"
 COST_PER_PARTICIPANT = 250    # $ to deliver the program to one participant
 LTV_MULT             = 2      # earnings effect assumed to persist for 2 years
-EXPERIMENTAL_BENCH   = 1_794  # known causal effect from the randomized NSW experiment ($)
 
 COVARIATES = ["age", "educ", "married", "nodegree", "earnings_pre1", "earnings_pre2"]
 RNG = np.random.default_rng(42)
@@ -123,9 +122,8 @@ print(f"IPW earnings lift: ${ipw_point:+,.0f}")
 # 3. Compute the AIPW estimate:
 #    `AIPW = mean[(T/ps*(Y - mu1) + mu1) - ((1-T)/(1-ps)*(Y - mu0) + mu0)]`
 #
-# Compare the AIPW estimate to the plain IPW estimate and the experimental
-# benchmark ($1,794). Note in 1–2 sentences whether AIPW changes the ROI
-# conclusion relative to IPW.
+# Compare the AIPW estimate to the plain IPW estimate. Note in 1–2 sentences
+# whether AIPW changes the ROI conclusion relative to IPW.
 #
 # *In the Nimbus project, the outcome is binary (churned_3mo), so you would
 # use logistic regression instead of OLS for the outcome model.*
@@ -142,7 +140,6 @@ aipw_point = ...
 
 print(f"IPW estimate:  ${ipw_point:+,.0f}")
 print(f"AIPW estimate: ${aipw_point:+,.0f}")
-print(f"Experimental:  $+1,794")
 
 # %% [markdown]
 # ## 6. Bootstrap confidence interval
@@ -164,7 +161,7 @@ print(f"Bootstrap SE: ${boots.std(ddof=1):,.0f}")
 
 # %%
 # TODO: Print a clear side-by-side comparison:
-#       Naive lift, IPW lift, and the known experimental benchmark.
+#       Naive lift and IPW lift.
 #       Explain in 1–2 sentences why they differ.
 
 # %% [markdown]
@@ -179,12 +176,3 @@ naive_roi     = ...
 print(f"Corrected ROI: {corrected_roi:.1%}")
 print(f"Naive ROI:     {naive_roi:.1%}")
 
-# %% [markdown]
-# ## 9. Validation: how does IPW compare to the experimental benchmark?
-
-# %%
-# TODO: Compute the ROI if the true effect equals EXPERIMENTAL_BENCH.
-#       Compare to corrected_roi and naive_roi.
-bench_roi = ...
-print(f"Experimental-benchmark ROI: {bench_roi:.1%}")
-# TODO: Add 1–2 sentences interpreting the three ROI estimates.

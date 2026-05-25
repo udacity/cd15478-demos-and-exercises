@@ -6,9 +6,8 @@ This is the text companion to `causal_estimates_cost_benefit_solution.ipynb`.
 
 | Estimate | Annual earnings lift | ROI (2-yr LTV, $250 cost) |
 | --- | --- | --- |
-| Naive | −$635 | −164% |
+| Naive | −$635 | −608% |
 | IPW-corrected | +$223 | +78% |
-| Experimental benchmark | +$1,794 | +1,335% |
 
 The sign flip from the naive to the IPW estimate is the central teaching moment. A naive
 analyst would recommend shutting down a program that genuinely helps participants.
@@ -36,10 +35,7 @@ analyst would recommend shutting down a program that genuinely helps participant
    The wide CI is not a bug — it's an honest statement of uncertainty.
 
 7. **ROI translation** — `(lift × LTV_MULT − COST) / COST`. With LTV_MULT=2 and
-   COST=$250, IPW gives +78% ROI; the experimental benchmark gives +1,335%.
-
-8. **Sensitivity check** — The experimental benchmark ROI (+1,335%) vs. IPW ROI (+78%)
-   shows how much the business decision depends on which causal estimate you trust.
+   COST=$250, naive gives −608% ROI; IPW-corrected gives +78%.
 
 ## Common mistakes to flag
 

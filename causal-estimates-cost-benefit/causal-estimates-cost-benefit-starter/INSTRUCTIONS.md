@@ -31,10 +31,6 @@ A completed Jupyter notebook (start from `causal_estimates_cost_benefit_starter.
    - Cost per participant: `COST_PER_PARTICIPANT` (see constants below)
    - Effect persists for `LTV_MULT` years
    - Compute corrected ROI and compare to the ROI implied by the naive estimate.
-9. **Validation**: compare the naive estimate, IPW-corrected estimate, and the known
-   experimental benchmark ($1,794) side by side. Explain what the gap between them
-   implies for the business decision.
-
 ## Constants (stipulated)
 
 ```
@@ -53,8 +49,6 @@ module covers how to build these inputs from first principles.
 - Bootstrap must use `numpy.random.default_rng(42)` with integer resampling
   (`rng.integers(0, n, n)`), fitting a new propensity model on each resample.
 - The naive vs. IPW comparison must be printed numerically (not just shown in a plot).
-- The validation step must quantify the difference between the IPW-based ROI and
-  the experimental-benchmark ROI.
 
 ## Resources you may find useful
 
