@@ -6,24 +6,19 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.19.1
+#       jupytext_version: 1.19.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
 
-# This file is a jupytext-paired Python script export of
-# `causal_estimates_cost_benefit_solution.ipynb`. The canonical artifact for learners is
-# the notebook (.ipynb); this script is provided for code review and `git diff`
-# readability. Run `jupytext --sync` to keep the two in lockstep after edits.
-
 # %% [markdown]
 # # From Causal Estimates to ROI: Evaluating a Career Skills Program (SOLUTION)
 #
 # ## Scenario
 #
-# Lift & Launch Works, a fictional workforce development nonprofit, offered a career skills program
+# Lift & Launch Works, a workforce development nonprofit, offered a career skills program
 # to economically disadvantaged workers. Because the program targeted lower-earnings
 # participants, a naive comparison makes it look harmful. IPW corrects for that confounding
 # and reveals a positive earnings lift. The corrected estimate then feeds a cost-benefit
