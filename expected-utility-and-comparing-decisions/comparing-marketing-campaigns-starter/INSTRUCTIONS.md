@@ -30,3 +30,19 @@ A completed Jupyter notebook (start from `comparing_campaigns_starter.ipynb`) th
 8. Computes the **maximum regret** of each option across the three environments and identifies the **minimax-regret** option.
 9. Produces a side-by-side comparison of which option each of the three decision rules selects (EV-max, expected-utility-max with the certainty-equivalent in dollars, and minimax-regret). If the three rules disagree, identify in one to two sentences which decision rule you would lean on and why. **Do not yet convert this comparison into a recommendation to a stakeholder** — the skill of translating analytical output into a stakeholder-facing recommendation is a separate skill covered in other modules. Today's deliverable is the comparison itself plus your defended choice of decision rule.
 10. Adds a **segmentation-aware option** — Selective Push — to the payoff matrix and reruns all three decision rules. Selective Push targets the Premium Listing Push campaign only to markets currently showing Strong revenue signals, running Local Concierge Add-on in Average markets and Hold in Weak markets. Use the stipulated payoffs in the [Selective Push payoffs](#selective-push-payoffs) table below. Produce an updated four-option comparison table and explain in one to two sentences what the Selective Push result implies about uniform versus segmented campaign strategies.
+
+## Payoff matrix
+
+12-month incremental contribution profit ($M) relative to Hold.
+
+| Option | Strong | Average | Weak |
+| --- | ---: | ---: | ---: |
+| Premium Listing Push | +10.0 | +2.0 | −6.0 |
+| Local Concierge Add-on | +3.0 | +1.5 | 0.0 |
+| Hold | 0.0 | 0.0 | 0.0 |
+
+## Selective Push payoffs
+
+| Option | Strong | Average | Weak |
+| --- | ---: | ---: | ---: |
+| Selective Push | +6.0 | +1.5 | −1.0 |
