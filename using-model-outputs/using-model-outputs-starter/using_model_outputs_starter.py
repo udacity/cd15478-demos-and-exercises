@@ -141,7 +141,7 @@ def applicant_variance(predicted_pd: float, loan_amount: float, annual_rate: flo
     ...
 
 # %% [markdown]
-# ## 3. Apply `applicant_ev()` to the full dataset
+# ## 3. Apply both functions to the full dataset
 
 # %%
 # TODO: Add an 'ev_usd' column using applicant_ev() and a 'var_usd' column
