@@ -1,24 +1,55 @@
-# Data: `loan_applicants.csv`
+# Data: `loan_applicants.csv` and `historical_loans.csv`
 
-Simulated loan applicant data for the Ledge & Lend Group exercise.
+Simulated loan data for the Ledge & Lend Group exercise.
 
-## Variables
+---
+
+## `loan_applicants.csv`
+
+500 pending loan applications, including credit features and the outputs of two
+pre-trained credit-risk models.
 
 | Column | Description |
 | --- | --- |
 | `applicant_id` | Unique applicant identifier (CB-001 through CB-500) |
-| `predicted_pd` | Probability of default output by the credit-risk model (0 = no default, 1 = certain default) |
+| `credit_score` | Applicant credit score (540–850) |
+| `annual_income_usd` | Applicant annual income, in USD |
+| `debt_to_income_ratio` | Total monthly debt payments ÷ gross monthly income (0–1) |
+| `employment_tenure_years` | Years at current employer |
 | `loan_amount_usd` | Requested loan principal, in USD |
 | `annual_interest_rate` | Interest rate offered to the applicant, in decimal form (e.g., 0.12 = 12%) |
+| `predicted_pd` | **Model 1 output** — probability of default from the gradient boosting classifier (0–1) |
+| `predicted_lgd` | **Model 2 output** — predicted loss given default from the gradient boosting regressor (0–1); the fraction of principal expected to be lost if the borrower defaults |
 
-## Source and calibration
+### Source and calibration
 
-The 500 applicant records are simulated. The probability-of-default distribution is a Beta(2, 6) draw — a shape commonly cited in consumer-lending risk literature, with a mode near 20% and a right tail reflecting the minority of applicants who are high-risk. Loan principal values are drawn from a uniform distribution over $3,000–$25,000, consistent with the personal-loan product tier. Interest rates are a linear function of `predicted_pd` plus noise, reflecting the industry practice of risk-based pricing.
+Records are simulated. `predicted_pd` is drawn from a Beta(2, 6) distribution — a shape commonly
+cited in consumer-lending risk literature — and `annual_interest_rate` is a linear function of
+`predicted_pd` plus noise, reflecting risk-based pricing. `predicted_lgd` is calibrated so that
+higher-risk borrowers have both elevated default probability and elevated loss severity, consistent
+with empirical findings in consumer credit (FDIC SDI charge-off data, Federal Reserve G.19
+release). The prediction columns represent the outputs of the gradient boosting models described
+in the scenario.
 
-Distribution parameters are calibrated to FDIC Statistics on Depository Institutions charge-off data for consumer installment loans (Federal Reserve Statistical Release G.19, and FDIC SDI — both public domain). Actual applicant records are not real; no personal data is included.
+---
 
-The "gradient boosting classifier" described in the scenario is fictional. The `predicted_pd` column in this file represents its output.
+## `historical_loans.csv`
+
+2 000 closed loans used to train both credit-risk models. Provided so that the model
+training code in the notebook can be run end-to-end.
+
+| Column | Description |
+| --- | --- |
+| `credit_score` | Borrower credit score at origination |
+| `annual_income_usd` | Borrower annual income at origination, in USD |
+| `debt_to_income_ratio` | Debt-to-income ratio at origination |
+| `employment_tenure_years` | Years at employer at origination |
+| `defaulted` | 1 if the borrower defaulted; 0 if the loan was repaid in full |
+| `loss_given_default` | Fraction of principal lost (only observed for `defaulted == 1`; NaN otherwise) |
+
+---
 
 ## License
 
-This file was generated programmatically for this exercise and is released into the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
+Both files were generated programmatically for this exercise and are released into the
+public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
