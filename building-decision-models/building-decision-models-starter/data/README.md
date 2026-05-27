@@ -53,6 +53,5 @@ exercise notebook requires no changes.
 
 ## Scenario note
 
-The scenario company **Pace & Pivot Gear** is fictional. The underlying retail sales
-data is a benchmark for US athletic footwear demand conditions — it is not
-Pace & Pivot Gear's own sales data.
+The underlying retail sales data is a benchmark for US athletic footwear demand
+conditions — it is not Pace & Pivot Gear's own sales data.
