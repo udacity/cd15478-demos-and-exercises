@@ -1,15 +1,16 @@
-# Solution Notes — Is Your Friend Actually Good at This?
+# Solution Notes — When "Probably" Becomes "Definitely"
 
 ## Key results
 
-- Step 1: 455 out of 1,000 people lost following one pick at 55% — binary thinking was wrong 45% of the time.
-- Step 2: 414 out of 1,000 random guessers hit 55%+ over a 20-game season by pure chance (41.4%).
-- Step 3: That drops to 176 out of 1,000 (17.6%) over a 100-game season — still not convincing.
-- Step 4: Your friend needs ~170 games for their 55% to be more likely skill than luck (< 10% chance it's random).
+- Step 1: ~400 out of 1,000 days at 60% stayed dry — binary thinking wrong ~40% of the time.
+- Step 2: ~400 out of 1,000 days at 40% actually rained — same ~40% error rate on the other side.
+- Step 3: The rounding curve peaks at 50% (maximum error) and decreases slowly; at 70%, binary thinking is still wrong ~30% of the time.
+- Step 4: Over a 30-day month (forecasts 20%–80%), binary thinking gets roughly 10–12 days wrong — errors cluster near the 50% line.
 
 ## Design notes
 
-- No external data — all probabilities are stipulated. The exercise is about simulation mechanics and bias exposure.
-- Step 2 and 3 use `RNG.binomial(n, 0.50, 1_000)` to simulate coin flippers; `>= math.ceil(0.55 * n)` checks for 55%+.
-- Step 4 uses a loop over season lengths with 5,000 simulations each for stable estimates.
-- The two-claim structure (single game + skill question) mirrors the two directions binary thinking fails: overconfidence on a single outcome, and overconfidence in a small sample.
+- No external data — all probabilities are simulated. The exercise is about the mechanics of probability rounding, not data wrangling.
+- The 60%/40% symmetry in steps 1–2 is the central insight: forecasts that feel opposite produce identical error rates under binary thinking.
+- Step 3 uses a loop over probability levels; the branching on `p > 0.5` mirrors the exact rounding rule being critiqued.
+- Step 4's two-panel chart makes the "clustering near 50%" insight visual: orange bars in the top panel consistently appear near the dashed 50% line.
+- The exercise motivates why structured decision tools need to work with raw probabilities rather than rounded versions of them.

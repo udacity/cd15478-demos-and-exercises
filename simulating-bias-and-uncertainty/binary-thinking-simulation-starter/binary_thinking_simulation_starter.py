@@ -14,14 +14,15 @@
 # ---
 
 # %% [markdown]
-# # Is Your Friend Actually Good at This?
+# # When "Probably" Becomes "Definitely"
+# ## Simulating the Cost of Probability Rounding
 #
-# **The scenario.** Your friend claims they correctly predicted 55% of football games
-# last season and made good money doing it. They have a pick for this weekend and want
-# you to follow it.
+# When a weather app says **60% chance of rain**, most people round up mentally: *"It's going to rain."*
+# When it says **40%**, they round down: *"It won't rain."*
 #
-# Binary thinking says: *"55% is above 50% — they know what they're doing, and I'll
-# probably win."* This exercise runs the numbers on both claims.
+# This feels like common sense — it turns a messy number into a clear action. But rounding comes with a hidden, predictable cost.
+#
+# This exercise simulates what happens when you treat probabilities as binary facts, and shows how the error rate follows directly from the math.
 
 # %% [markdown]
 # ## Setup
@@ -29,73 +30,110 @@
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
-import math
 
 RNG = np.random.default_rng(42)
 
 # %% [markdown]
-# ## 1. One game — taking his word for it
+# ## 1. Rounding up: "60% means it will rain"
 #
-# Assume your friend's 55% is completely real. Simulate 1,000 people each following
-# one pick at 55%. How many lose? Build a bar chart showing the result.
+# The app shows **60% chance of rain**. Binary thinking rounds up: *"It's going to rain — I'll cancel the picnic."*
+#
+# Simulate 1,000 days where the true rain probability is 60%.
+# How many of those days stay dry — making binary thinking wrong?
 
 # %%
-# TODO: Simulate 1,000 single-game outcomes at a 55% win rate.
-#       Print what binary thinking predicts and what the simulation shows.
+n_days = 1_000
+p_rain = 0.60
+
+# TODO: Simulate n_days outcomes where each day has probability p_rain of rain.
+#       Count rainy and dry days.
+#       Print what binary thinking predicts vs. what the simulation shows.
 outcomes = ...
 
 # %%
-# TODO: Build a bar chart showing losses vs wins.
-#       Annotate the loss bar to show what binary thinking missed.
+# TODO: Build a bar chart with two bars: "Rainy (binary right)" and "Dry (binary wrong)".
+#       Color the "wrong" bar orange (#e07b54) and the "right" bar gray (#cccccc).
+#       Annotate each bar with its count and percentage.
 
 # %% [markdown]
-# ## 2. The coin flipper problem — 20-game season
+# ## 2. Rounding down: "40% means it won't rain"
 #
-# Is your friend actually skilled, or just lucky? Simulate 1,000 people who pick
-# games randomly (50/50) over a 20-game season. How many hit 55% or better by
-# pure chance? (55% of 20 games = 11 correct.)
+# Now the app shows **40% chance of rain**. Binary thinking rounds down: *"It probably won't rain — no need for an umbrella."*
+#
+# Simulate 1,000 days at 40% true rain probability.
+# How many of those days actually rain — leaving you without an umbrella?
 
 # %%
-# TODO: Simulate 1,000 random guessers predicting 20 games each at 50%.
-#       Count how many hit 11+ correct (55%+). Print the result.
-random_correct = ...
+p_rain_low = 0.40
+
+# TODO: Simulate n_days outcomes at p_rain_low. Count rainy and dry days.
+#       Print what binary thinking predicts vs. reality.
+outcomes_low = ...
 
 # %%
-# TODO: Plot a histogram of correct predictions across all 1,000 guessers.
-#       Highlight bars at 11+ correct in orange. Add a vertical line at 10.5.
-#       Annotate the orange zone.
+# TODO: Build the same bar chart as section 1, but for the 40% case.
+#       This time "Dry" is binary-right and "Rainy" is binary-wrong (orange).
 
 # %% [markdown]
-# ## 3. Does the season length matter? — 100 games
+# ## 3. The rounding curve — error rate at every probability
 #
-# Repeat the simulation with 100 games per season instead of 20.
-# How often does a random guesser still hit 55%+ (55 correct out of 100)?
+# Sections 1 and 2 showed two specific points. Now let's see the full picture.
+#
+# For any forecast probability `p`:
+# - If `p > 0.50` → binary thinking predicts rain → wrong when it stays dry, probability `1 - p`
+# - If `p ≤ 0.50` → binary thinking predicts dry → wrong when it rains, probability `p`
+#
+# Simulate 1,000 days at each probability level from 5% to 95%.
+# Plot the binary-thinking error rate across the full range.
 
 # %%
-# TODO: Simulate 1,000 random guessers predicting 100 games each at 50%.
-#       Count how many hit 55+ correct. Print the result.
-random_correct_100 = ...
+probabilities = [p / 100 for p in range(5, 96, 5)]
+error_rates   = []
 
-# %%
-# TODO: Plot a histogram of correct predictions. Highlight 55+ in orange.
-#       Add a vertical line at 54.5.
+# TODO: Loop over probabilities. For each p:
+#         - Simulate 1,000 days at that probability.
+#         - Compute the binary-thinking error rate:
+#             if p > 0.5: binary predicts rain → error rate = fraction of dry days
+#             if p ≤ 0.5: binary predicts dry  → error rate = fraction of rainy days
+#         - Append to error_rates.
+# Then plot error_rates vs. probabilities (as percentages).
+# Add a vertical dashed line at 50% and label the axes.
 
 # %% [markdown]
-# ## 4. How many games make 55% convincing?
+# ## 4. A month of forecasts — where does rounding go wrong?
 #
-# Simulate coin flippers for season lengths from 10 to 300 games (in steps of 5).
-# For each length, compute the fraction of random guessers who hit 55%+.
-# Plot the curve and mark the point where that fraction drops below 10%.
+# Real forecasts change day to day. Simulate a 30-day month where each day's true rain probability is drawn uniformly between 20% and 80%.
+#
+# For each day:
+# 1. Simulate whether it actually rains.
+# 2. Record what a binary thinker would predict (rain if forecast > 50%, dry otherwise).
+# 3. Count and visualize the binary thinker's errors.
 
 # %%
-# TODO: For each season length in range(10, 301, 5):
-#       simulate 5,000 coin flippers and compute the fraction hitting 55%+.
-#       Find the first season length where that fraction drops below 10%.
-#       Plot the curve with a 10% reference line and mark the threshold.
-season_lengths = range(10, 301, 5)
+n_forecast_days = 30
+
+# TODO: Draw n_forecast_days true probabilities from Uniform(0.20, 0.80).
+#       Simulate whether it actually rained each day.
+#       Compute binary_predictions: 1 if forecast > 0.50, else 0.
+#       Count and print binary_errors.
+true_probs      = ...
+actually_rained = ...
+
+# %%
+days   = range(1, n_forecast_days + 1)
+colors = ['#e07b54' if err else '#cccccc'
+          for err in (binary_predictions != actually_rained)]
+
+# TODO: Build a two-panel chart (sharex=True):
+#   Top panel: bar chart of forecast probabilities per day, colored orange where
+#              binary thinking was wrong and gray where it was right.
+#              Add a horizontal dashed line at 50%.
+#   Bottom panel: bar chart of actual rain outcomes, with a step line overlaid
+#                 showing binary_predictions. Add a legend.
 
 # %% [markdown]
 # ## 5. Takeaway
 #
-# *TODO: Write 2–3 sentences. What are the two things that went wrong with the
-# original reasoning? Use specific numbers from steps 1–4.*
+# *TODO: Write 2–3 sentences. What are the two things that went wrong with binary thinking?
+# Use specific numbers from steps 1–4 — what is the error rate for a 60% forecast?
+# A 40% forecast? Where do errors cluster in a month of forecasts?*
