@@ -18,7 +18,7 @@
 # ## Simulating the Cost of Probability Rounding
 #
 # When a weather app says **60% chance of rain**, most people round up mentally: *"It's going to rain."*
-# When it says **40%**, they round down: *"It won't rain."*
+# When it says **35%**, they round down: *"It won't rain."*
 #
 # This feels like common sense — it turns a messy number into a clear action. But rounding comes with a hidden, predictable cost.
 #
@@ -56,15 +56,15 @@ outcomes = ...
 #       Annotate each bar with its count and percentage.
 
 # %% [markdown]
-# ## 2. Rounding down: "40% means it won't rain"
+# ## 2. Rounding down: "35% means it won't rain"
 #
-# Now the app shows **40% chance of rain**. Binary thinking rounds down: *"It probably won't rain — no need for an umbrella."*
+# Now the app shows **35% chance of rain**. Binary thinking rounds down: *"It probably won't rain — no need for an umbrella."*
 #
-# Simulate 1,000 days at 40% true rain probability.
+# Simulate 1,000 days at 35% true rain probability.
 # How many of those days actually rain — leaving you without an umbrella?
 
 # %%
-p_rain_low = 0.40
+p_rain_low = 0.35
 
 # TODO: Simulate n_days outcomes at p_rain_low. Count rainy and dry days.
 #       Print what binary thinking predicts vs. reality.
@@ -75,65 +75,87 @@ outcomes_low = ...
 #       This time "Dry" is binary-right and "Rainy" is binary-wrong (orange).
 
 # %% [markdown]
-# ## 3. The rounding curve — error rate at every probability
+# ## 3. The cost of getting it wrong — errors aren't equal
 #
-# Sections 1 and 2 showed two specific points. Now let's see the full picture.
+# The error rate treats every wrong prediction as equally bad. But the two types of mistake have very different costs:
 #
-# For any forecast probability `p`:
-# - If `p > 0.50` → binary thinking predicts rain → wrong when it stays dry, probability `1 - p`
-# - If `p ≤ 0.50` → binary thinking predicts dry → wrong when it rains, probability `p`
+# - **Caught without an umbrella** (predicted dry, it rained): ruined commute, soaked bag — call it **$15**
+# - **Carried an umbrella for nothing** (predicted rain, it stayed dry): minor inconvenience — call it **$5**
 #
-# Simulate 1,000 days at each probability level from 5% to 95%.
-# Plot the binary-thinking error rate across the full range.
+# Given those costs, what's the expected cost per day of binary thinking? And what threshold would a cost-aware decision-maker actually use?
 
 # %%
+cost_wet     = 15   # cost when caught without umbrella in rain
+cost_useless =  5   # cost of carrying umbrella on a dry day
+
 probabilities = [p / 100 for p in range(5, 96, 5)]
-error_rates   = []
+binary_costs  = []
+optimal_costs = []
+
+# TODO: Derive the cost-aware optimal threshold.
+#       Hint: bring umbrella when  p × cost_wet > (1-p) × cost_useless
+#       Solve for p and assign to optimal_threshold.
+optimal_threshold = ...
 
 # TODO: Loop over probabilities. For each p:
-#         - Simulate 1,000 days at that probability.
-#         - Compute the binary-thinking error rate:
-#             if p > 0.5: binary predicts rain → error rate = fraction of dry days
-#             if p ≤ 0.5: binary predicts dry  → error rate = fraction of rainy days
-#         - Append to error_rates.
-# Then plot error_rates vs. probabilities (as percentages).
-# Add a vertical dashed line at 50% and label the axes.
+#         - Simulate 1,000 days.
+#         - Compute binary_cost:
+#             if p > 0.5: predicted rain → wrong when dry → cost = dry_count × (-cost_useless)
+#             else:       predicted dry  → wrong when rain → cost = rainy_count × (-cost_wet)
+#           Append cost / 1_000 to binary_costs.
+#         - Compute opt_cost using optimal_threshold the same way.
+#           Append to optimal_costs.
+# Then print the optimal threshold and plot both cost curves vs. probability.
+# Shade the gap between 25% and 50% where the strategies differ.
 
 # %% [markdown]
-# ## 4. A month of forecasts — where does rounding go wrong?
+# ## 4. The forecaster's wet bias — and whether it accidentally helps
 #
-# Real forecasts change day to day. Simulate a 30-day month where each day's true rain probability is drawn uniformly between 20% and 80%.
+# Forecasters face the same asymmetric cost structure as users, but from the opposite side: underpredicting rain (leaving users soaked and angry) costs them more reputationally than overpredicting (users carry an unnecessary umbrella and shrug). So some forecast providers apply a **wet bias** — deliberately inflating rain probabilities, especially at the low end. A model estimate of 5% might be published as ~20%.
 #
-# For each day:
-# 1. Simulate whether it actually rains.
-# 2. Record what a binary thinker would predict (rain if forecast > 50%, dry otherwise).
-# 3. Count and visualize the binary thinker's errors.
+# Simulate three strategies across all probability levels and compare their expected daily cost:
+# 1. **Binary thinking on true probabilities** — threshold at 50%
+# 2. **Binary thinking on wet-biased forecast** — threshold at 50%, applied to inflated numbers
+# 3. **Cost-optimal strategy** — threshold at 25%, applied to true probabilities
 
 # %%
-n_forecast_days = 30
+inflation = 0.15   # wet bias factor: true 5% → reported ~19%
 
-# TODO: Draw n_forecast_days true probabilities from Uniform(0.20, 0.80).
-#       Simulate whether it actually rained each day.
-#       Compute binary_predictions: 1 if forecast > 0.50, else 0.
-#       Count and print binary_errors.
-true_probs      = ...
-actually_rained = ...
+probabilities       = [p / 100 for p in range(5, 96, 5)]
+binary_true_costs   = []
+binary_biased_costs = []
+optimal_costs_s4    = []
+
+# TODO: For each p in probabilities:
+#   1. Simulate 1,000 days at true probability p.
+#   2. Compute biased_p = min(1.0, p + inflation * (1 - p))
+#   3. Compute expected cost for each of three strategies (same pattern as section 3):
+#        Strategy 1: binary on p         — bring umbrella if p > 0.5
+#        Strategy 2: binary on biased_p  — bring umbrella if biased_p > 0.5
+#        Strategy 3: cost-optimal on p   — bring umbrella if p > optimal_threshold
+#      For each: cost = dry_count × (-cost_useless) if bringing umbrella,
+#                       rainy_count × (-cost_wet) if not.
+#   4. Append cost / 1_000 to the respective list.
+#
+# Then derive biased_effective_threshold algebraically:
+#   biased_p > 0.5  →  p + inflation*(1-p) > 0.5  →  solve for p
+# Print all three effective thresholds.
+biased_effective_threshold = ...
 
 # %%
-days   = range(1, n_forecast_days + 1)
-colors = ['#e07b54' if err else '#cccccc'
-          for err in (binary_predictions != actually_rained)]
-
-# TODO: Build a two-panel chart (sharex=True):
-#   Top panel: bar chart of forecast probabilities per day, colored orange where
-#              binary thinking was wrong and gray where it was right.
-#              Add a horizontal dashed line at 50%.
-#   Bottom panel: bar chart of actual rain outcomes, with a step line overlaid
-#                 showing binary_predictions. Add a legend.
+# TODO: Plot all three cost curves on a single chart.
+#       Colors: orange (#e07b54) for binary-true,
+#               purple (#c084fc) for binary-biased,
+#               steelblue for cost-optimal.
+#       Add vertical dashed lines at each strategy's effective threshold.
+#       Label x-axis "True rain probability (%)" and y-axis "Expected cost ($)".
+#       Add a legend and a light horizontal line at y=0.
 
 # %% [markdown]
 # ## 5. Takeaway
 #
-# *TODO: Write 2–3 sentences. What are the two things that went wrong with binary thinking?
-# Use specific numbers from steps 1–4 — what is the error rate for a 60% forecast?
-# A 40% forecast? Where do errors cluster in a month of forecasts?*
+# *TODO: Write 3–4 sentences covering the three layers of distortion. Use specific numbers:
+# what is the wet bias inflation factor, what does it do to a 5% estimate, what is the
+# cost-optimal threshold and why, and what is the wet-biased effective threshold?
+# End with one sentence connecting this pattern to a non-weather domain (finance, health,
+# project planning).*

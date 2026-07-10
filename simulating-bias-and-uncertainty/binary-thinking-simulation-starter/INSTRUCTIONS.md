@@ -15,20 +15,20 @@ A completed Jupyter notebook that:
 1. Simulates 1,000 days at 60% rain probability and shows how many stay dry —
    making binary thinking wrong.
 2. Simulates 1,000 days at 40% and shows the symmetric error on the other side.
-3. Sweeps all probability levels from 5% to 95% and plots the binary-thinking error
-   rate as a curve.
-4. Simulates a 30-day month with varied daily forecasts and visualizes which days
-   trip up binary thinking.
+3. Derives the cost-aware decision threshold and plots the expected cost per day for
+   binary thinking vs. the optimal threshold across all probability levels.
+4. Models a forecaster's wet bias, simulates three decision strategies across all
+   probability levels, and compares their expected daily cost.
 5. Writes a takeaway identifying the key flaws in binary thinking, with specific
    numbers from steps 1–4.
 
 ## Requirements
 
 - Steps 1 and 2 must use `RNG.binomial` to simulate outcomes and produce bar charts.
-- Step 3 must produce a line chart of error rate vs. forecast probability with a
-  vertical reference line at 50%.
-- Step 4 must produce a two-panel chart: forecast probabilities (colored by error)
-  in the top panel, actual outcomes vs. binary predictions in the bottom panel.
+- Step 3 must derive the optimal threshold algebraically, simulate expected costs
+  at each probability level, and plot both cost curves with the gap shaded.
+- Step 4 must derive `biased_effective_threshold` algebraically, simulate all three
+  strategies, and plot their cost curves with threshold lines marked.
 - The takeaway must cite specific numbers from at least two steps.
 - The notebook must run top to bottom without errors.
 
