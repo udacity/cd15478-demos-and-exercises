@@ -2,31 +2,33 @@
 
 ## Scenario
 
-You are the demand planning analyst at **Grain & Gather Grocers**, a fictional grocery chain piloting a new
-"Chef's Select Kit" subscription add-on. Customers pre-order weekly meal kits at checkout for
-pickup the following week. Grain & Gather Grocers must commit their order to the supplier two weeks in advance,
-before seeing actual pickup demand — which means pre-ordering too many leads to food waste and
-pre-ordering too few leaves customers without their kits.
+You are the demand planning analyst at **Chapter & Craft**, a fictional bookstore and hobby
+retail chain piloting a new "Curated Reader's Box" — a themed book-and-craft-kit subscription.
+Customers reserve a box each week at checkout during an 8-week pilot. Chapter & Craft must place
+its box-assembly order (book copies plus kit components) with suppliers two weeks in advance of
+ship date, before seeing that week's final reservation count — which means over-ordering wastes
+inventory and under-ordering leaves subscribers without a box.
 
 The key unknown is **mean weekly demand per store** (in units). You don't know this before the
-pilot, but you do have an industry benchmark from real US grocery sales data to set a starting
-point. As pilot stores report weekly scan data, you'll update your belief twice — first after
-the pilot's first four weeks, then again after weeks five through eight — using the
+pilot, but you do have an industry benchmark from real US retail sales data to set a starting
+point. As pilot stores report weekly reservation counts, you'll update your belief twice — first
+after the pilot's first four weeks, then again after weeks five through eight — using the
 Normal-Normal conjugate update. Each update sharpens your belief and shifts your recommended
 pre-order quantity.
 
-To anchor the starting point, the file `data/grocery_industry_benchmarks.csv` contains real
-monthly US grocery store sales from [FRED](https://fred.stlouisfed.org/series/MRTSSM4451USS)
-(US Census Bureau Monthly Retail Trade Survey, NAICS 4451, public domain). From those sales
-figures you'll derive the prior mean. The prior standard deviation is set wider than historical
-sales variability to reflect new-product uncertainty.
+To anchor the starting point, the file `data/hobby_book_industry_benchmarks.csv` contains real
+monthly US sporting goods, hobby, musical instrument, and book store sales from
+[FRED](https://fred.stlouisfed.org/series/MRTSSM451USS) (US Census Bureau Monthly Retail Trade
+Survey, NAICS 451, public domain). From those sales figures you'll derive the prior mean. The
+prior standard deviation is set wider than historical sales variability to reflect new-product
+uncertainty.
 
 ## What you'll deliver
 
 A completed Jupyter notebook (start from `bayesian_updating_starter.ipynb`) that:
 
-1. Loads the FRED grocery sales data and derives the prior mean demand from it. Uses the
-   provided constants for prior standard deviation and average meal-kit price.
+1. Loads the FRED hobby/book sales data and derives the prior mean demand from it. Uses the
+   provided constants for prior standard deviation and average box price.
 2. Loads the pilot scan data and separates it into two batches (weeks 1–4 and weeks 5–8).
 3. Computes batch-level likelihood parameters for each batch: the sample mean and standard
    error of the weekly unit counts.

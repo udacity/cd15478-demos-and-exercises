@@ -16,11 +16,11 @@
 # %% [markdown]
 # # Updating Demand Beliefs with Bayesian Methods
 #
-# **Scenario.** Grain & Gather Grocers, a fictional grocery chain, is piloting a Chef's Select Kit
-# add-on. They must pre-order from the supplier two weeks in advance. The key unknown is
-# mean weekly demand per store. You'll build the Normal-Normal conjugate update to revise
-# that belief twice as pilot scan data comes in, and translate each updated belief into
-# a recommended pre-order quantity.
+# **Scenario.** Chapter & Craft, a fictional bookstore and hobby retail chain, is piloting a
+# Curated Reader's Box subscription. They must place their box-assembly order with suppliers
+# two weeks in advance. The key unknown is mean weekly demand per store. You'll build the
+# Normal-Normal conjugate update to revise that belief twice as pilot scan data comes in, and
+# translate each updated belief into a recommended pre-order quantity.
 #
 # See `INSTRUCTIONS.md` for the full prompt and `data/README.md` for the dataset citation.
 
@@ -33,37 +33,37 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
 
-BENCH_PATH  = "data/grocery_industry_benchmarks.csv"
+BENCH_PATH  = "data/hobby_book_industry_benchmarks.csv"
 PILOT_PATH  = "data/pilot_scan_data.csv"
 
-N_US_GROCERY_STORES = 38_000   # approximate count of US grocery stores (US Census)
-MEAL_KIT_SHARE      = 0.003    # meal kits ≈ 0.3% of grocery spend (USDA ERS estimate)
-AVG_MEAL_PRICE      = 12.0     # average Grain & Gather Grocers premium kit price ($)
-PRIOR_SD            = 25.0     # units — wider than historical variability; new-product uncertainty
-Q_BUFFER            = 0.5      # pre-order buffer: Q = posterior_mean + Q_BUFFER × posterior_sd
+N_US_HOBBY_BOOK_STORES = 25_000  # approximate count of US sporting goods/hobby/book stores (US Census)
+BOX_SHARE              = 0.008   # curated boxes ≈ 0.8% of category spend (illustrative estimate)
+AVG_BOX_PRICE          = 24.0    # average Chapter & Craft box price ($)
+PRIOR_SD               = 7.0     # units — wider than historical variability; new-product uncertainty
+Q_BUFFER               = 0.5     # pre-order buffer: Q = posterior_mean + Q_BUFFER × posterior_sd
 
 # %% [markdown]
-# ## 1. Derive the prior mean from real grocery sales data
+# ## 1. Derive the prior mean from real hobby/book sales data
 #
-# Load the FRED monthly grocery sales data and compute the average weekly per-store sales
-# for recent years. Use the meal-kit share and average price to derive prior mean demand
-# in units per store per week.
+# Load the FRED monthly sporting goods/hobby/book store sales data and compute the average
+# weekly per-store sales for recent years. Use the box share and average price to derive prior
+# mean demand in units per store per week.
 
 # %%
 # TODO: Load the benchmark CSV into a DataFrame called `bench`.
 bench = ...
 
-# TODO: Compute `avg_monthly_usd_m` — average monthly grocery sales in $M for 2022-2024.
+# TODO: Compute `avg_monthly_usd_m` — average monthly hobby/book store sales in $M for 2022-2024.
 avg_monthly_usd_m = ...
 
-# TODO: Derive `prior_mu` — mean weekly meal-kit units per store.
-#   Step 1: weekly sales per store = (avg monthly $) / N_US_GROCERY_STORES / 4.33 weeks
-#   Step 2: weekly meal-kit $ per store = weekly_sales × MEAL_KIT_SHARE
-#   Step 3: units = meal_kit_$ / AVG_MEAL_PRICE
+# TODO: Derive `prior_mu` — mean weekly box units per store.
+#   Step 1: weekly sales per store = (avg monthly $) / N_US_HOBBY_BOOK_STORES / 4.33 weeks
+#   Step 2: weekly box $ per store = weekly_sales × BOX_SHARE
+#   Step 3: units = box_$ / AVG_BOX_PRICE
 #   Then apply an early-stage discount: multiply by 0.75 (new program, narrower reach)
 prior_mu = ...
 
-print(f"Avg monthly US grocery sales (2022-24): ${avg_monthly_usd_m:,.0f}M")
+print(f"Avg monthly US hobby/book store sales (2022-24): ${avg_monthly_usd_m:,.0f}M")
 print(f"Derived prior_mu: {prior_mu:.1f} units/store/week")
 print(f"Prior: Demand ~ Normal({prior_mu:.1f}, {PRIOR_SD:.1f}²)")
 
@@ -149,8 +149,8 @@ print(f"  Sd reduced from {post1_sd:.2f} → {post2_sd:.2f}")
 # ## 8. Recommended pre-order quantity Q under each belief state
 #
 # Q = posterior_mean + Q_BUFFER × posterior_sd
-# Grain & Gather Grocers wants a small buffer above the mean to limit stockouts, but not so large
-# they risk heavy food waste.
+# Chapter & Craft wants a small buffer above the mean to limit stockouts, but not so large
+# they risk heavy inventory waste.
 
 # %%
 # TODO: Compute Q_prior, Q_post1, Q_post2 and print them.

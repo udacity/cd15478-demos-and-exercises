@@ -6,9 +6,9 @@ This is the text companion to `bayesian_updating_solution.ipynb`.
 
 | Belief state | Mean (units) | SD (units) | Q recommended |
 | --- | --- | --- | --- |
-| Prior | ~83 | 25.0 | ~95 |
-| Posterior 1 (after weeks 1–4) | ~94 | ~6.6 | ~97 |
-| Posterior 2 (after weeks 5–8) | ~105 | ~3.0 | ~107 |
+| Prior | ~19 | 7.0 | ~22 |
+| Posterior 1 (after weeks 1–4) | ~24 | ~1.5 | ~25 |
+| Posterior 2 (after weeks 5–8) | ~27 | ~0.7 | ~28 |
 
 Q rises monotonically as data accumulates, and the safety buffer shrinks because the
 posterior is tighter. The exercise stops at producing the updated Q — not a stakeholder
@@ -16,13 +16,13 @@ recommendation about whether to expand the program.
 
 ## Key steps
 
-1. **Prior derivation from FRED data** — Monthly grocery sales (MRTSSM4451USS) averaged
-   ~$72.7B in 2022–2024. Divided by ~38,000 US stores and 4.33 weeks gives ~$442K/store/week.
-   At 0.3% meal-kit share and $12/kit → ~110 units/week. Multiplied by 0.75 (early-stage
-   discount) → **prior_mu ≈ 83**. prior_sd = 25 is set wider than observed sales variability
-   to reflect the genuine uncertainty of a new product launch. (This figure moves slightly
-   as FRED appends new monthly releases — re-run the notebook's derivation cell for the
-   exact current value rather than treating 83 as fixed.)
+1. **Prior derivation from FRED data** — Monthly sporting goods/hobby/book store sales
+   (MRTSSM451USS) averaged ~$8.11B in 2022–2024. Divided by ~25,000 US stores and 4.33 weeks
+   gives ~$75.0K/store/week. At 0.8% box share and $24/box → ~25 units/week. Multiplied by
+   0.75 (early-stage discount) → **prior_mu ≈ 18.7**. prior_sd = 7.0 is set wider than
+   observed sales variability to reflect the genuine uncertainty of a new product launch.
+   (This figure moves slightly as FRED appends new monthly releases — re-run the notebook's
+   derivation cell for the exact current value rather than treating 18.7 as fixed.)
 
 2. **Splitting batches** — `pilot[pilot["week"] <= 4]` and `pilot[pilot["week"] > 4]`.
    Straightforward; common mistake is using `< 4` and missing week 4.
@@ -45,13 +45,13 @@ recommendation about whether to expand the program.
    both batches to the prior simultaneously — that's not sequential updating.
 
 6. **Three-distribution plot** — `scipy.stats.norm.pdf(xs, mu, sd)` for each belief state.
-   Use a common x-axis range (0–160 covers all three distributions without clipping).
+   Use a common x-axis range (0–50 covers all three distributions without clipping).
 
-7. **Q = mean + 0.5 × sd** — Q rises from ~95 → 97 → 107; the buffer term (0.5 × sd)
-   shrinks from 12.5 → 3.3 → 1.5. Both the center and the buffer move.
+7. **Q = mean + 0.5 × sd** — Q rises from ~22 → 25 → 28; the buffer term (0.5 × sd)
+   shrinks from 3.5 → 0.8 → 0.4. Both the center and the buffer move.
 
-8. **Sensitivity check** — With doubled prior_sd (50), the prior contributes less precision,
-   so Posterior 1 shifts closer to the batch-1 likelihood mean (~95). The numerics illustrate
+8. **Sensitivity check** — With doubled prior_sd (14), the prior contributes less precision,
+   so Posterior 1 shifts closer to the batch-1 likelihood mean (~24.5). The numerics illustrate
    that a diffuse prior "gets out of the way" faster.
 
 ## Common mistakes to flag
@@ -63,7 +63,7 @@ recommendation about whether to expand the program.
   `sqrt(n_weeks)`. Since each week's mean is one data point in the likelihood, the SE of
   those weekly means is `std(weekly_means) / sqrt(n_weeks)`.
 - **Hardcoding prior_mu** — the requirement is to derive it from the FRED data. Learners
-  who write `prior_mu = 83` directly without the derivation lose the connection to real data.
+  who write `prior_mu = 18.7` directly without the derivation lose the connection to real data.
 - **Not showing the distribution plot** — the three overlaid curves are the visual payoff
   of the exercise. Missing them means the learner hasn't seen belief sharpening visually.
 
