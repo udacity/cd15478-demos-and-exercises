@@ -14,10 +14,10 @@
 # ---
 
 # %% [markdown]
-# # From Causal Estimates to ROI: Evaluating a Career Skills Program
+# # From Causal Estimates to ROI: Evaluating a Job-Readiness Training Program
 #
-# **Scenario.** Lift & Launch Works, a nonprofit, offered a career skills program
-# primarily to disadvantaged workers — people with lower pre-program earnings. That
+# **Scenario.** Lift & Launch Works, a nonprofit, offered a job-readiness training program
+# primarily to workers with unstable employment histories — people with lower pre-program earnings. That
 # targeting creates confounding: participants had lower baseline earnings, so a simple
 # comparison makes the program look harmful when it isn't. You'll use IPW to correct
 # for the bias and translate the causal estimate into a cost-benefit ROI.

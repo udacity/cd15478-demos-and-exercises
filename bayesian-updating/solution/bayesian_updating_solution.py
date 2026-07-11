@@ -23,7 +23,7 @@
 #
 # ## Scenario
 #
-# Grain & Gather Grocers, a fictional grocery chain, pilots a Premium Meal Kit add-on and must
+# Grain & Gather Grocers, a fictional grocery chain, pilots a Chef's Select Kit add-on and must
 # pre-order from their supplier two weeks in advance. The key unknown is mean weekly
 # demand per store. Using real US grocery sales data (FRED MRTSSM4451USS) to set a
 # prior, and simulated pilot scan data for two sequential updates, you'll implement

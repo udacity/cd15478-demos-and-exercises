@@ -14,12 +14,12 @@
 # ---
 
 # %% [markdown]
-# # From Causal Estimates to ROI: Evaluating a Career Skills Program (SOLUTION)
+# # From Causal Estimates to ROI: Evaluating a Job-Readiness Training Program (SOLUTION)
 #
 # ## Scenario
 #
-# Lift & Launch Works, a workforce development nonprofit, offered a career skills program
-# to economically disadvantaged workers. Because the program targeted lower-earnings
+# Lift & Launch Works, a workforce development nonprofit, offered a job-readiness training program
+# to workers with unstable employment histories. Because the program targeted lower-earnings
 # participants, a naive comparison makes it look harmful. IPW corrects for that confounding
 # and reveals a positive earnings lift. The corrected estimate then feeds a cost-benefit
 # ROI calculation.

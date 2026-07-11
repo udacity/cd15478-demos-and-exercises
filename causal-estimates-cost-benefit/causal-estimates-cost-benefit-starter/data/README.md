@@ -1,15 +1,15 @@
-# Data: Career Skills Program Participants
+# Data: Job-Readiness Training Program Participants
 
 ## File
 
-`program_participants.csv` — 614 participants from a career skills program study,
+`program_participants.csv` — 614 participants from a job-readiness training program study,
 combining treated participants who received the program and a comparison group.
 
 ## Columns
 
 | Column | Description |
 | --- | --- |
-| `treat` | 1 = received career skills program; 0 = control (comparison group) |
+| `treat` | 1 = received job-readiness training program; 0 = control (comparison group) |
 | `age` | Age in years |
 | `educ` | Years of education |
 | `race` | Race/ethnicity: `"black"`, `"hispan"`, `"white"` |
@@ -22,12 +22,12 @@ combining treated participants who received the program and a comparison group.
 ## Dataset structure
 
 The 614 rows combine:
-- **185 treated participants** from a randomized experiment — they received the career skills program.
+- **185 treated participants** from a randomized experiment — they received the job-readiness training program.
 - **429 comparison participants** drawn from a general population survey — not randomized into the program.
 
 This mixture creates **confounding by baseline earnings**: comparison group participants have much higher
 pre-program earnings (`earnings_pre1`, `earnings_pre2`) than the treated group, because the program
-deliberately targeted economically disadvantaged workers. A naive comparison makes the
+deliberately targeted workers with unstable employment histories. A naive comparison makes the
 program appear harmful when it is not.
 
 The known experimental estimate from the randomized portion of the study alone is approximately

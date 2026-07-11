@@ -16,7 +16,7 @@
 # %% [markdown]
 # # Updating Demand Beliefs with Bayesian Methods
 #
-# **Scenario.** Grain & Gather Grocers, a fictional grocery chain, is piloting a Premium Meal Kit
+# **Scenario.** Grain & Gather Grocers, a fictional grocery chain, is piloting a Chef's Select Kit
 # add-on. They must pre-order from the supplier two weeks in advance. The key unknown is
 # mean weekly demand per store. You'll build the Normal-Normal conjugate update to revise
 # that belief twice as pilot scan data comes in, and translate each updated belief into

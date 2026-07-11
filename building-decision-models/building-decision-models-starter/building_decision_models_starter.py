@@ -16,10 +16,10 @@
 # %% [markdown]
 # # Structuring and Solving a Product Launch Decision
 #
-# **Scenario.** Pace & Pivot Gear's Head of Strategy has described three options for the
-# Apex Trainer launch in plain English — not as a table. Your job is to turn her
-# verbal description into a Python decision model: define the structure, write the
-# payoff function, build the tree, and solve it.
+# **Scenario.** Trailmark Outdoor Co.'s VP of Product Strategy has described three
+# options for the Ridge Runner launch in plain English — not as a table. Your job is
+# to turn that description into a Python decision model: define the structure, write
+# the payoff function, build the tree, and solve it under two decision rules.
 #
 # See `INSTRUCTIONS.md` for the scenario narrative and `data/README.md` for the
 # dataset citation.
@@ -79,14 +79,14 @@ for state, prob in STATES.items():
 # %%
 fig, ax = plt.subplots(figsize=(9, 4.5))
 ax.set_xlim(0, 10); ax.set_ylim(0, 5); ax.axis("off")
-ax.set_title("Influence diagram — Pace & Pivot Gear Apex Trainer launch decision", pad=10)
+ax.set_title("Influence diagram — Trailmark Outdoor Co. Ridge Runner launch decision", pad=10)
 
 # Decision node — rectangle (top-left)
 ax.add_patch(mpatches.FancyBboxPatch(
     (0.3, 2.8), 2.8, 1.6, boxstyle="square,pad=0.05",
     fc="#dde8ff", ec="#555", lw=1.5, zorder=2))
 ax.text(1.7, 3.8, "Launch Option", ha="center", va="center", fontsize=9, fontweight="bold")
-ax.text(1.7, 3.3, "Full / Regional / Hold", ha="center", va="center", fontsize=8, color="#333")
+ax.text(1.7, 3.3, "National / Regional Test / Hold", ha="center", va="center", fontsize=8, color="#333")
 ax.text(1.7, 2.95, "Decision node", ha="center", va="center", fontsize=7.5, color="#666", style="italic")
 
 # Uncertainty node — oval (top-right)
@@ -114,13 +114,14 @@ plt.show()
 
 # %% [markdown]
 # *TODO: There is no arrow between the Decision node and the Chance node. In 1–2
-# sentences, what does that absence assume about the relationship between Pace & Pivot Gear's
-# launch choice and the demand environment? When might that assumption be wrong?*
+# sentences, what does that absence assume about the relationship between Trailmark
+# Outdoor Co.'s launch choice and the demand environment? When might that assumption
+# be wrong?*
 
 # %% [markdown]
 # ## 3. Define the structure
 #
-# Read the Head of Strategy's description in `INSTRUCTIONS.md` and define:
+# Read the VP of Product Strategy's description in `INSTRUCTIONS.md` and define:
 # - `OPTIONS` — a list of the three option names, exactly as strings
 # - Module-level constants for each option's cost and revenue by state
 
@@ -129,11 +130,11 @@ OPTIONS = ...  # TODO: fill in from the narrative
 
 # TODO: Define business parameters as module-level constants.
 #       Name them clearly so option_profit can reference them by name.
-FULL_LAUNCH_COST_M  = ...
-FULL_LAUNCH_REV_M   = ...
+NATIONAL_LAUNCH_COST_M = ...
+NATIONAL_LAUNCH_REV_M  = ...
 
-REGIONAL_COST_M     = ...
-REGIONAL_REV_M      = ...
+REGIONAL_TEST_COST_M   = ...
+REGIONAL_TEST_REV_M    = ...
 
 # %% [markdown]
 # ## 4. Implement `option_profit`
@@ -145,14 +146,14 @@ REGIONAL_REV_M      = ...
 # %%
 def option_profit(option: str, demand_state: str) -> float:
     """Net 12-month profit ($M) for a given option and demand state."""
-    # TODO: implement for "Full Launch", "Regional Rollout", and "Hold"
+    # TODO: implement for "National Launch", "Regional Test Launch", and "Hold"
     ...
 
 
 # Quick sanity check — uncomment once the function is implemented:
-# print(option_profit("Full Launch", "High"))    # should be ~11.4
-# print(option_profit("Regional Rollout", "Low")) # should be ~0.3
-# print(option_profit("Hold", "Base"))            # should be 0.0
+# print(option_profit("National Launch", "High"))       # should be ~12.3
+# print(option_profit("Regional Test Launch", "Low"))   # should be ~0.45
+# print(option_profit("Hold", "Base"))                  # should be 0.0
 
 # %% [markdown]
 # ## 5. Build the payoff matrix
@@ -179,25 +180,54 @@ print(ev.round(2))
 print(f"\nEV-maximizing option: {ev.idxmax()}  (${ev.max():.2f}M)")
 
 # %% [markdown]
-# ## 7. Minimax regret
+# ## 7. Expected CRRA utility
+#
+# A risk-neutral decision maker maximises expected value. A risk-averse one maximises
+# **expected utility** — a concave transformation of payoff that penalises losses more
+# heavily than equally-sized gains.
+#
+# Use **CRRA (Constant Relative Risk Aversion)** utility with risk aversion
+# coefficient γ = 2, evaluated at total wealth rather than incremental profit:
+#
+# `u(profit) = ((W + profit)^(1 − γ) − 1) / (1 − γ)`
+#
+# The wealth baseline W = $20M represents Trailmark Outdoor Co.'s assumed existing
+# scale. Applying utility to (W + profit) rather than to raw profit keeps the function
+# well-defined even when incremental profit is negative, and means risk aversion is
+# measured relative to the firm's total position — not just the project in isolation.
 
 # %%
-# TODO: Compute the regret matrix and max_regret per option.
-regret     = ...
-max_regret = ...
+GAMMA    = 2.0
+WEALTH_M = 20.0   # Trailmark Outdoor Co.'s assumed baseline wealth ($M)
 
-print("Max regret per option ($M):")
-print(max_regret.round(2))
-print(f"\nMinimax-regret option: {max_regret.idxmin()}  "
-      f"(max regret ${max_regret.min():.2f}M)")
+# TODO: Implement the CRRA utility function.
+def utility(profit_m: float) -> float:
+    """CRRA utility evaluated at (WEALTH_M + profit_m)."""
+    ...
+
+# TODO: Compute `eu` — a pd.Series of expected utility per option — by
+#       probability-weighting `utility(option_profit(opt, s))` over states.
+eu = ...
+
+# TODO: Convert `eu` to a certainty-equivalent profit `ce` by inverting the
+#       CRRA function: ce_wealth = (eu * (1 - GAMMA) + 1) ** (1 / (1 - GAMMA));
+#       ce = ce_wealth - WEALTH_M
+ce = ...
+
+print(f"EV-maximizing option: {ev.idxmax()}  (EV = ${ev.max():.2f}M)")
+print(f"CE-maximizing option: {ce.idxmax()}  (CE = ${ce.max():.2f}M)")
 
 # %% [markdown]
-# ## 8. Decision tree visualization
+# ## 8. Decision tree — backward induction (rollback)
 #
 # Draw the tree: one root decision node, one branch per option, one sub-branch per
-# demand state, and a payoff label at each leaf. Use `boxstyle="round"` for the node
-# boxes. When you're done, compare this tree to the influence diagram in step 2 —
-# the diagram showed the structure; the tree enumerates all the paths through it.
+# demand state. Roll back both EV and the certainty-equivalent profit to the decision
+# node for each option, and highlight which option each criterion recommends.
+#
+# When you're done, compare this tree to the influence diagram in step 2 — the diagram
+# showed the structure; the tree performs the rollback. In 1–2 sentences, explain what
+# it means that EV and certainty-equivalent profit disagree here.
 
 # %%
-# TODO: Build the matplotlib tree diagram.
+# TODO: Build the matplotlib decision tree with EV and CE rolled back to the
+#       decision node, highlighting the EV-optimal and CE-optimal branches.

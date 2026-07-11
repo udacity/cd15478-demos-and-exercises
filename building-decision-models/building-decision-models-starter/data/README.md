@@ -54,4 +54,4 @@ exercise notebook requires no changes.
 ## Scenario note
 
 The underlying retail sales data is a benchmark for US athletic footwear demand
-conditions — it is not Pace & Pivot Gear's own sales data.
+conditions — it is not Trailmark Outdoor Co.'s own sales data.

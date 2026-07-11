@@ -6,7 +6,7 @@ This is the text companion to `bayesian_updating_solution.ipynb`.
 
 | Belief state | Mean (units) | SD (units) | Q recommended |
 | --- | --- | --- | --- |
-| Prior | 80 | 25.0 | 92 |
+| Prior | ~83 | 25.0 | ~95 |
 | Posterior 1 (after weeks 1–4) | ~94 | ~6.6 | ~97 |
 | Posterior 2 (after weeks 5–8) | ~105 | ~3.0 | ~107 |
 
@@ -19,8 +19,10 @@ recommendation about whether to expand the program.
 1. **Prior derivation from FRED data** — Monthly grocery sales (MRTSSM4451USS) averaged
    ~$72.7B in 2022–2024. Divided by ~38,000 US stores and 4.33 weeks gives ~$442K/store/week.
    At 0.3% meal-kit share and $12/kit → ~110 units/week. Multiplied by 0.75 (early-stage
-   discount) → **prior_mu ≈ 80**. prior_sd = 25 is set wider than observed sales variability
-   to reflect the genuine uncertainty of a new product launch.
+   discount) → **prior_mu ≈ 83**. prior_sd = 25 is set wider than observed sales variability
+   to reflect the genuine uncertainty of a new product launch. (This figure moves slightly
+   as FRED appends new monthly releases — re-run the notebook's derivation cell for the
+   exact current value rather than treating 83 as fixed.)
 
 2. **Splitting batches** — `pilot[pilot["week"] <= 4]` and `pilot[pilot["week"] > 4]`.
    Straightforward; common mistake is using `< 4` and missing week 4.
@@ -45,7 +47,7 @@ recommendation about whether to expand the program.
 6. **Three-distribution plot** — `scipy.stats.norm.pdf(xs, mu, sd)` for each belief state.
    Use a common x-axis range (0–160 covers all three distributions without clipping).
 
-7. **Q = mean + 0.5 × sd** — Q rises from 92 → 97 → 107; the buffer term (0.5 × sd)
+7. **Q = mean + 0.5 × sd** — Q rises from ~95 → 97 → 107; the buffer term (0.5 × sd)
    shrinks from 12.5 → 3.3 → 1.5. Both the center and the buffer move.
 
 8. **Sensitivity check** — With doubled prior_sd (50), the prior contributes less precision,
@@ -61,7 +63,7 @@ recommendation about whether to expand the program.
   `sqrt(n_weeks)`. Since each week's mean is one data point in the likelihood, the SE of
   those weekly means is `std(weekly_means) / sqrt(n_weeks)`.
 - **Hardcoding prior_mu** — the requirement is to derive it from the FRED data. Learners
-  who write `prior_mu = 80` directly without the derivation lose the connection to real data.
+  who write `prior_mu = 83` directly without the derivation lose the connection to real data.
 - **Not showing the distribution plot** — the three overlaid curves are the visual payoff
   of the exercise. Missing them means the learner hasn't seen belief sharpening visually.
 

@@ -19,33 +19,33 @@
 # readability. Run `jupytext --sync` to keep the two in lockstep after edits.
 
 # %% [markdown]
-# # Comparing Marketing Campaigns with Expected Utility (SOLUTION)
+# # Comparing Growth Campaigns with Expected Utility (SOLUTION)
 #
 # ## Scenario
 #
-# You are the lead decision scientist at **Key & Quarter Hosts**, a small
+# You are the lead decision scientist at **Fernbrook Stays**, a small
 # short-term-rental management firm that lists properties on Airbnb-style
-# platforms. The Head of Growth wants to launch a campaign next quarter to
-# attract new property owners onto the Key & Quarter Hosts platform, and has put three
+# platforms. The VP of Growth wants to launch a campaign next quarter to
+# attract new property owners onto the Fernbrook Stays platform, and has put three
 # options on the table:
 #
-# - **Premium Listing Push** — invest in professional photography, premium
-#   listing positioning, and paid placement on aggregator sites. Expensive,
+# - **Featured Placement Push** — invest in professional photography, top-of-search
+#   placement, and paid listing on aggregator sites. Expensive,
 #   with high upside if the broader short-term-rental market is strong but a
 #   sizeable loss if the market softens.
-# - **Local Concierge Add-on** — bundle Key & Quarter Hosts listings with a local
+# - **Neighborhood Concierge Bundle** — bundle Fernbrook Stays listings with a local
 #   concierge service (airport pickup, restaurant booking, late-night
 #   support). Modest budget, modest upside, modest downside.
 # - **Hold** — defer the campaign one quarter and reinvest the budget into
 #   existing-host retention.
 #
-# Key & Quarter Hosts operates across a set of mid-tier short-term-rental markets. The
+# Fernbrook Stays operates across a set of mid-tier short-term-rental markets. The
 # campaign is a *single firm-wide choice* — whichever option the team picks
-# runs across Key & Quarter Hosts's whole portfolio next quarter; we are not choosing
+# runs across Fernbrook Stays's whole portfolio next quarter; we are not choosing
 # different campaigns for different cities. How well that single choice
 # performs depends on **the demand cycle the short-term-rental industry is
 # in over the next three months** — a Strong-demand, Average, or Weak-demand
-# environment that affects all of Key & Quarter Hosts's markets at once. The cycle is
+# environment that affects all of Fernbrook Stays's markets at once. The cycle is
 # uncertain (we decide the campaign now; the cycle reveals itself later),
 # but it is not a coin flip — there is a real distribution we can estimate
 # from data.
@@ -66,13 +66,13 @@
 # per-listing monthly revenue proxy — for each city, tertile-bin the
 # eighteen cities into Strong / Average / Weak environments, and use the
 # empirical share of cities in each bin as the prior on what kind of
-# environment Key & Quarter Hosts will face next quarter. The cities themselves are
-# not Key & Quarter Hosts's markets; they are a benchmark for what "a Strong market"
+# environment Fernbrook Stays will face next quarter. The cities themselves are
+# not Fernbrook Stays's markets; they are a benchmark for what "a Strong market"
 # or "a Weak market" looks like in numbers.
 #
 # ## What this notebook delivers
 #
-# The Head of Growth has asked the team to run the numbers — expected value,
+# The VP of Growth has asked the team to run the numbers — expected value,
 # expected utility under risk aversion, and minimax regret — and to identify
 # which decision rule the team would lean on if forced to commit today. A
 # full stakeholder-facing recommendation is a separate skill covered in other
@@ -80,7 +80,6 @@
 #
 # 1. The side-by-side comparison of what each decision rule selects.
 # 2. A 1–2 sentence defended choice of decision rule.
-#    the next quarter looks like the cross-city baseline?"*
 
 # %% [markdown]
 # ## Setup
@@ -154,9 +153,9 @@ print(f"Sum: {p.sum():.3f}")
 # %%
 payoffs = pd.DataFrame(
     {
-        "Strong":  {"Premium Listing Push": 10.0, "Local Concierge Add-on": 3.0, "Hold": 0.0},
-        "Average": {"Premium Listing Push":  2.0, "Local Concierge Add-on": 1.5, "Hold": 0.0},
-        "Weak":    {"Premium Listing Push": -6.0, "Local Concierge Add-on": 0.0, "Hold": 0.0},
+        "Strong":  {"Featured Placement Push": 9.0, "Neighborhood Concierge Bundle": 2.7, "Hold": 0.0},
+        "Average": {"Featured Placement Push": 2.2, "Neighborhood Concierge Bundle": 1.4, "Hold": 0.0},
+        "Weak":    {"Featured Placement Push": -5.5, "Neighborhood Concierge Bundle": 0.2, "Hold": 0.0},
     }
 )
 print("Payoff matrix ($M incremental profit):")
@@ -208,10 +207,10 @@ print(f"\nUtility-maximizing option: {expected_utility.idxmax()}  "
       f"(CE = ${certainty_equivalent[expected_utility.idxmax()]:.2f}M)")
 
 # %% [markdown]
-# Notice that *Premium Listing Push* has the highest **expected profit** but
-# *Local Concierge Add-on* has the highest **certainty-equivalent profit**.
-# A risk-averse decision-maker would trade away ~$0.5M of expected profit to
-# avoid the -$6M downside in a Weak environment.
+# Notice that *Featured Placement Push* has the highest **expected profit** but
+# *Neighborhood Concierge Bundle* has the highest **certainty-equivalent profit**.
+# A risk-averse decision-maker would trade away expected profit to
+# avoid the -$5.5M downside in a Weak environment.
 
 # %% [markdown]
 # ## 8. Minimax regret per option
@@ -246,16 +245,16 @@ comparison = pd.DataFrame(
 print(comparison)
 
 # %% [markdown]
-# **The three rules do not agree.** EV-max picks Premium Listing Push,
-# minimax-regret picks Premium Listing Push, but expected CRRA utility (γ = 2)
-# picks Local Concierge Add-on. The disagreement is real: Premium has the
-# higher expected profit but a heavier tail in a Weak market — its
-# certainty-equivalent profit ($1.17M) is lower than Local Concierge's
-# ($1.47M) once the −$6M downside is priced in.
+# **The three rules do not fully agree.** EV-max picks Featured Placement Push,
+# minimax-regret also picks Featured Placement Push, but expected CRRA utility (γ = 2)
+# picks Neighborhood Concierge Bundle. The disagreement is real: Featured Placement Push has
+# the higher expected profit but a heavier tail in a Weak market — its
+# certainty-equivalent profit is lower than Neighborhood Concierge Bundle's
+# once the -$5.5M downside is priced in.
 #
 # **The decision rule I would lean on is expected CRRA utility.** With γ = 2,
-# the gap between Premium's EV ($2.0M) and Local Concierge's EV ($1.5M) does
-# not justify the −$6M downside in a Weak quarter for a firm of Key & Quarter Hosts's
+# the gap between Featured Placement Push's EV and Neighborhood Concierge Bundle's EV does
+# not justify the -$5.5M downside in a Weak quarter for a firm of Fernbrook Stays's
 # scale. A risk-neutral decision-maker should lean on EV-max instead.
 #
 # This deliverable stops at *defending a decision rule*. Translating the
@@ -264,17 +263,17 @@ print(comparison)
 # the communication-focused modules.
 
 # %% [markdown]
-# ## 10. Segmentation-aware option: Selective Push
+# ## 10. Segmentation-aware option: Targeted Placement Push
 #
-# Every option so far commits Key & Quarter Hosts to the *same campaign across its entire
-# portfolio*. But Key & Quarter Hosts can observe which markets are currently Strong, Average,
+# Every option so far commits Fernbrook Stays to the *same campaign across its entire
+# portfolio*. But Fernbrook Stays can observe which markets are currently Strong, Average,
 # or Weak using the Inside Airbnb data — and could target its spend accordingly.
 #
-# **Selective Push**: run Premium Listing Push only in currently-Strong markets,
-# Local Concierge Add-on in Average markets, and Hold in Weak markets.
+# **Targeted Placement Push**: run Featured Placement Push only in currently-Strong markets,
+# Neighborhood Concierge Bundle in Average markets, and Hold in Weak markets.
 
 # %%
-payoffs.loc["Selective Push"] = {"Strong": 6.0, "Average": 1.5, "Weak": -1.0}
+payoffs.loc["Targeted Placement Push"] = {"Strong": 5.5, "Average": 1.4, "Weak": -0.9}
 print("Updated payoff matrix ($M):")
 print(payoffs)
 
@@ -301,14 +300,13 @@ comparison4 = pd.DataFrame(
 print(comparison4)
 
 # %% [markdown]
-# **All three rules now agree on Selective Push** (EV = $2.17M, CE = $2.01M,
-# max regret = $4.0M — better than every other option on every criterion).
-# The uniform options force Key & Quarter Hosts to either accept the full -$6M downside
-# (Premium) or cap the upside at $3M (Concierge). Selective Push sidesteps
-# that tradeoff: by concentrating the expensive campaign where it is most
+# **All three rules now agree on Targeted Placement Push.** The uniform options
+# force Fernbrook Stays to either accept the full -$5.5M downside
+# (Featured Placement Push) or cap the upside (Neighborhood Concierge Bundle). Targeted Placement Push
+# sidesteps that tradeoff: by concentrating the expensive campaign where it is most
 # likely to pay off and limiting exposure elsewhere, it captures most of
-# Premium's upside while cutting its worst-case loss by two-thirds.
+# Featured Placement Push's upside while cutting its worst-case loss substantially.
 #
-# This mirrors the "WTP hybrid" concept in the Nimbus project: raising price
-# only for high-willingness-to-pay segments can dominate a uniform price change
-# on all three decision metrics.
+# This mirrors a broader "segmentation beats uniform strategy" idea: targeting
+# spend using an observable signal can dominate a one-size-fits-all choice on
+# all three decision metrics at once.

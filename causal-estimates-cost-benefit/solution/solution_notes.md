@@ -41,8 +41,8 @@ analyst would recommend shutting down a program that genuinely helps participant
 
 - **Not accounting for the sign flip** — Some learners expect IPW to produce a smaller
   positive estimate; instead it flips from negative to positive. The explanation is in
-  the confounding direction: targeted-disadvantaged workers have lower baseline earnings
-  than the CPS comparison group.
+  the confounding direction: participants with unstable employment histories have lower
+  baseline earnings than the CPS comparison group.
 - **Using a single pooled weight** — Some learners write `w = 1/ps` for all observations
   instead of `1/ps` for treated and `1/(1-ps)` for control. The formula differs by group.
 - **Not fitting a new propensity model on each bootstrap resample** — If you apply the

@@ -1,14 +1,14 @@
-# From Causal Estimates to ROI: Evaluating a Career Skills Program
+# From Causal Estimates to ROI: Evaluating a Job-Readiness Training Program
 
 ## Scenario
 
 You are a data scientist at **Lift & Launch Works**, a workforce development nonprofit.
-Over the past several years, Lift & Launch Works has run an online career skills program
-designed to boost participants' long-term earnings. The program was offered primarily to
-economically disadvantaged workers — people with low pre-program earnings who needed a
-boost most. That targeting decision, though well-intentioned, creates a problem: because
-participants started out with lower baseline earnings than non-participants, a simple
-comparison makes the program look *harmful*.
+Over the past several years, Lift & Launch Works has run an online job-readiness training
+program designed to boost participants' long-term earnings. The program was offered
+primarily to workers with unstable employment histories — people with low pre-program
+earnings who needed a boost most. That targeting decision, though well-intentioned, creates
+a problem: because participants started out with lower baseline earnings than
+non-participants, a simple comparison makes the program look *harmful*.
 
 Your job: correct for the confounding, translate the corrected estimate into a
 cost-benefit calculation, and report a defensible ROI figure.
@@ -58,5 +58,5 @@ module covers how to build these inputs from first principles.
 ## Note on the data
 
 `data/program_participants.csv` contains program participant data combining treated participants
-who received the career skills program and a comparison group from a general population survey.
+who received the job-readiness training program and a comparison group from a general population survey.
 See `data/README.md` for column descriptions.

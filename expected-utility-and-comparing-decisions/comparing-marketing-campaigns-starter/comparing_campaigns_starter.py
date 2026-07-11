@@ -14,14 +14,14 @@
 # ---
 
 # %% [markdown]
-# # Comparing Marketing Campaigns with Expected Utility
+# # Comparing Growth Campaigns with Expected Utility
 #
-# **Scenario.** You are the lead decision scientist at **Key & Quarter Hosts**
-# a small short-term-rental management firm. Growth wants to launch
+# **Scenario.** You are the lead decision scientist at **Fernbrook Stays**,
+# a small short-term-rental management firm. The VP of Growth wants to launch
 # a campaign next quarter to acquire new property owners. Three options are on
-# the table — *Premium Listing Push*, *Local Concierge Add-on*, and *Hold*.
-# Each pays off differently depending on how strong the broader short-term-rental
-# market is over the next three months, which is uncertain.
+# the table — *Featured Placement Push*, *Neighborhood Concierge Bundle*, and
+# *Hold*. Each pays off differently depending on how strong the broader
+# short-term-rental market is over the next three months, which is uncertain.
 #
 # You will use **city-level Inside Airbnb summary statistics** to estimate the
 # probability of Strong / Average / Weak market environments, then compare the
@@ -199,28 +199,28 @@ comparison = ...
 # *TODO: write your 1–2 sentence defended-choice paragraph here.*
 
 # %% [markdown]
-# ## 10. Segmentation-aware option: Selective Push
+# ## 10. Segmentation-aware option: Targeted Placement Push
 #
-# So far, every option commits Key & Quarter Hosts to a *single uniform campaign* across its
-# whole portfolio. But Key & Quarter Hosts can observe which markets are *currently* in Strong,
+# So far, every option commits Fernbrook Stays to a *single uniform campaign* across its
+# whole portfolio. But Fernbrook Stays can observe which markets are *currently* in Strong,
 # Average, or Weak condition from the Inside Airbnb data — and could target its
 # campaign spend accordingly.
 #
-# **Selective Push**: run Premium Listing Push only in the currently-Strong markets,
-# Local Concierge Add-on in Average markets, and Hold in Weak markets. Use the
-# stipulated payoffs from the [Selective Push payoffs] table in `INSTRUCTIONS.md`.
+# **Targeted Placement Push**: run Featured Placement Push only in the currently-Strong markets,
+# Neighborhood Concierge Bundle in Average markets, and Hold in Weak markets. Use the
+# stipulated payoffs from the [Targeted Placement Push payoffs] table in `INSTRUCTIONS.md`.
 #
-# Add Selective Push to the payoff matrix and recompute all three decision metrics.
+# Add Targeted Placement Push to the payoff matrix and recompute all three decision metrics.
 # Then produce an updated four-option comparison table. In 1–2 sentences, explain
 # what the result implies about uniform versus segmented campaign strategies.
 
 # %%
-# TODO: Extend `payoffs` with a "Selective Push" row using the stipulated values.
-#       (Strong = +6.0, Average = +1.5, Weak = -1.0)
+# TODO: Extend `payoffs` with a "Targeted Placement Push" row using the stipulated values.
+#       (Strong = +5.5, Average = +1.4, Weak = -0.9)
 
 # TODO: Recompute ev, expected_utility, certainty_equivalent, max_regret for
 #       all four options. Build an updated comparison DataFrame.
 comparison4 = ...
 
 # %% [markdown]
-# *TODO: write your 1–2 sentence interpretation of the Selective Push result here.*
+# *TODO: write your 1–2 sentence interpretation of the Targeted Placement Push result here.*
