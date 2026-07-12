@@ -6,13 +6,14 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.19.1
+#       jupytext_version: 1.19.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
 
+# %%
 # This file is a jupytext-paired Python script export of
 # `building_decision_models_solution.ipynb`. The canonical artifact for learners is
 # the notebook (.ipynb); this script is provided for code review and `git diff`
@@ -23,12 +24,9 @@
 #
 # ## Scenario
 #
-# Trailmark Outdoor Co.'s VP of Product Strategy described three options for the Ridge
-# Runner launch verbally. This notebook turns that description into a structured Python
-# decision model: an influence diagram mapping the dependencies, OPTIONS and STATES
-# defined from the narrative, a reusable `option_profit` function, a payoff matrix built
-# by calling it, and a decision tree that rolls back both expected value and
-# certainty-equivalent profit to compare two decision rules.
+# Trailmark Outdoor Co.'s VP of Product Strategy described three launch options for the
+# Ridge Runner trail shoe verbally — a spoken walkthrough, not a structured model. This
+# notebook turns that description into one.
 
 # %% [markdown]
 # ## Setup
@@ -43,6 +41,12 @@ DATA_PATH = "../building-decision-models-starter/data/sporting_goods_sales.csv"
 
 # %% [markdown]
 # ## 1. Derive state probabilities from market data
+#
+# To estimate how likely each demand environment is, we benchmark against US sporting
+# goods retail sales data. `data/sporting_goods_sales.csv` contains monthly retail sales
+# figures from FRED (MRTSSM45111USS, public domain). We compute year-over-year growth
+# rates and use tertile binning to assign an empirical probability to each of three
+# demand states.
 
 # %%
 sales = pd.read_csv(DATA_PATH)
@@ -137,6 +141,13 @@ plt.show()
 
 # %% [markdown]
 # ## 3. Define the structure
+#
+# Trailmark's VP of Product Strategy laid out three paths. **National Launch** commits
+# $700K to national marketing and broad retail distribution — high upside in a strong
+# demand environment, but unsold-inventory markdowns can flip revenue negative in a weak
+# one. **Regional Test Launch** is a more conservative $250K play in a handful of
+# priority markets, with a narrower range of outcomes in either direction. **Hold**
+# delays to next season: no spend, no upside, no downside.
 
 # %%
 OPTIONS = ["National Launch", "Regional Test Launch", "Hold"]

@@ -6,13 +6,14 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.19.1
+#       jupytext_version: 1.19.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
 
+# %%
 # This file is a jupytext-paired Python script export of
 # `comparing_campaigns_solution.ipynb`. The canonical artifact for learners is
 # the notebook (.ipynb); this script is provided for code review and `git diff`
@@ -47,39 +48,8 @@
 # in over the next three months** — a Strong-demand, Average, or Weak-demand
 # environment that affects all of Fernbrook Stays's markets at once. The cycle is
 # uncertain (we decide the campaign now; the cycle reveals itself later),
-# but it is not a coin flip — there is a real distribution we can estimate
+# but it is not a coin flip — there is a distribution we can estimate
 # from data.
-#
-# To estimate that distribution, we use cross-city variation in current
-# Inside Airbnb data as a *stand-in* for the range of conditions any given
-# market can be in at any given time. The reasoning: eighteen real cities
-# span a wide range of revenue-proxy values today, and that cross-sectional
-# spread is a defensible empirical picture of what a Strong, Average, or
-# Weak rental environment looks like.
-#
-# The file `data/airbnb_city_stats.csv` contains city-level summary
-# statistics for 18 well-known short-term-rental markets in the format
-# published by Inside Airbnb (see `data/README.md` for the full citation).
-# For each city, we have the median nightly price, the median monthly
-# reviews per listing (Inside Airbnb's standard occupancy proxy), and a few
-# other fields. We compute `median_price × median_reviews_per_month` — a
-# per-listing monthly revenue proxy — for each city, tertile-bin the
-# eighteen cities into Strong / Average / Weak environments, and use the
-# empirical share of cities in each bin as the prior on what kind of
-# environment Fernbrook Stays will face next quarter. The cities themselves are
-# not Fernbrook Stays's markets; they are a benchmark for what "a Strong market"
-# or "a Weak market" looks like in numbers.
-#
-# ## What this notebook delivers
-#
-# The VP of Growth has asked the team to run the numbers — expected value,
-# expected utility under risk aversion, and minimax regret — and to identify
-# which decision rule the team would lean on if forced to commit today. A
-# full stakeholder-facing recommendation is a separate skill covered in other
-# course, after additional analysis steps. Today's deliverable is:
-#
-# 1. The side-by-side comparison of what each decision rule selects.
-# 2. A 1–2 sentence defended choice of decision rule.
 
 # %% [markdown]
 # ## Setup
@@ -92,6 +62,15 @@ DATA_PATH = "../comparing-marketing-campaigns-starter/data/airbnb_city_stats.csv
 
 # %% [markdown]
 # ## 1. Load the data
+#
+# The file `data/airbnb_city_stats.csv` contains city-level summary
+# statistics for 18 well-known short-term-rental markets in the format
+# published by Inside Airbnb (see `data/README.md` for the full citation).
+# For each city, we have the median nightly price, the median monthly
+# reviews per listing (Inside Airbnb's standard occupancy proxy), and a few
+# other fields. The cities themselves are not Fernbrook Stays's markets; they
+# are a benchmark for what "a Strong market" or "a Weak market" looks like
+# in numbers.
 
 # %%
 cities = pd.read_csv(DATA_PATH)
@@ -115,6 +94,15 @@ print(cities[["city", "median_price_usd", "median_reviews_per_month",
 
 # %% [markdown]
 # ## 3. Classify each city into Strong / Average / Weak by tertile
+#
+# To estimate the distribution of demand environments Fernbrook Stays might
+# face, we use cross-city variation in the Inside Airbnb data as a
+# *stand-in* for the range of conditions any given market can be in at any
+# given time — eighteen cities span a wide range of revenue-proxy values
+# today, and that cross-sectional spread is a defensible empirical picture
+# of what a Strong, Average, or Weak rental environment looks like. We
+# tertile-bin the eighteen cities into Strong / Average / Weak using the
+# revenue proxy computed above.
 
 # %%
 t33, t67 = cities["revenue_proxy"].quantile([1 / 3, 2 / 3])
@@ -145,7 +133,9 @@ print(f"Sum: {p.sum():.3f}")
 
 # %% [markdown]
 # By construction, the tertile bins each contain ~1/3 of the cities. This
-# gives a simple, defensible baseline distribution to work from.
+# gives a simple, defensible baseline distribution to work from — the
+# empirical share of cities in each bin becomes our prior on what kind of
+# environment Fernbrook Stays will face next quarter.
 
 # %% [markdown]
 # ## 5. Payoff matrix
@@ -229,6 +219,12 @@ print(f"\nMinimax-regret option: {max_regret.idxmin()}  "
 
 # %% [markdown]
 # ## 9. Compare the three decision rules
+#
+# The VP of Growth asked the team to run the numbers — expected value,
+# expected utility under risk aversion, and minimax regret — and to
+# identify which decision rule the team would lean on if forced to commit
+# today. Today's deliverable: a side-by-side comparison of what each
+# decision rule selects, plus a defended choice of decision rule.
 
 # %%
 comparison = pd.DataFrame(
