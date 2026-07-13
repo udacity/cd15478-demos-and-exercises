@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.19.1
+#       jupytext_version: 1.19.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -33,8 +33,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
 
-BENCH_PATH  = "data/hobby_book_industry_benchmarks.csv"
-PILOT_PATH  = "data/pilot_scan_data.csv"
+BENCH_PATH        = "data/hobby_book_industry_benchmarks.csv"
+PILOT_BATCH1_PATH = "data/pilot_scan_data_weeks1_4.csv"
+PILOT_BATCH2_PATH = "data/pilot_scan_data_weeks5_8.csv"
 
 N_US_HOBBY_BOOK_STORES = 25_000  # approximate count of US sporting goods/hobby/book stores (US Census)
 BOX_SHARE              = 0.008   # curated boxes ≈ 0.8% of category spend (illustrative estimate)
@@ -68,33 +69,27 @@ print(f"Derived prior_mu: {prior_mu:.1f} units/store/week")
 print(f"Prior: Demand ~ Normal({prior_mu:.1f}, {PRIOR_SD:.1f}²)")
 
 # %% [markdown]
-# ## 2. Load pilot scan data and split into two batches
+# ## 2. Load pilot data: first batch (weeks 1–4)
+#
+# Load `pilot_scan_data_weeks1_4.csv`. Weeks 5–8 haven't happened yet from the analyst's
+# point of view — that data lives in a separate file we don't touch until later.
 
 # %%
-# TODO: Load pilot_scan_data.csv into `pilot`. Display it.
-pilot = ...
-
-# TODO: Split into batch1 (weeks 1-4) and batch2 (weeks 5-8).
+# TODO: Load PILOT_BATCH1_PATH into `batch1`. Display it.
 batch1 = ...
-batch2 = ...
 
 # %% [markdown]
-# ## 3. Compute likelihood parameters for each batch
+# ## 3. Compute batch 1's likelihood parameters
 #
-# The likelihood for each batch is summarized by the sample mean and standard error of
-# the weekly unit counts.
+# The likelihood is summarized by the sample mean and standard error of the weekly
+# unit counts.
 
 # %%
 # TODO: Compute lik1_mu, lik1_sd (mean and se of mean_units_sold in batch1).
 lik1_mu = ...
 lik1_sd = ...  # standard error = std(ddof=1) / sqrt(n_weeks)
 
-# TODO: Compute lik2_mu, lik2_sd for batch2.
-lik2_mu = ...
-lik2_sd = ...
-
 print(f"Batch 1 likelihood: mu={lik1_mu:.1f}, se={lik1_sd:.2f}")
-print(f"Batch 2 likelihood: mu={lik2_mu:.1f}, se={lik2_sd:.2f}")
 
 # %% [markdown]
 # ## 4. Implement `normal_update`
@@ -128,7 +123,28 @@ print(f"Posterior 1: mu={post1_mu:.1f}, sd={post1_sd:.2f}")
 print(f"  Sd reduced from {PRIOR_SD:.1f} → {post1_sd:.2f}")
 
 # %% [markdown]
-# ## 6. Second update: Posterior 1 + batch 2
+# ## 6. Two weeks later: batch 2 arrives (weeks 5–8)
+#
+# With Posterior 1 in hand, the pilot keeps running. Now load the next four weeks of scan
+# data from a separate file — the batch that wasn't available yet when Posterior 1 was
+# computed.
+
+# %%
+# TODO: Load PILOT_BATCH2_PATH into `batch2`. Display it.
+batch2 = ...
+
+# %% [markdown]
+# ## 7. Compute batch 2's likelihood parameters
+
+# %%
+# TODO: Compute lik2_mu, lik2_sd (mean and se of mean_units_sold in batch2).
+lik2_mu = ...
+lik2_sd = ...
+
+print(f"Batch 2 likelihood: mu={lik2_mu:.1f}, se={lik2_sd:.2f}")
+
+# %% [markdown]
+# ## 8. Second update: Posterior 1 + batch 2
 
 # %%
 # TODO: Compute post2_mu, post2_sd using normal_update.
@@ -138,7 +154,7 @@ print(f"Posterior 2: mu={post2_mu:.1f}, sd={post2_sd:.2f}")
 print(f"  Sd reduced from {post1_sd:.2f} → {post2_sd:.2f}")
 
 # %% [markdown]
-# ## 7. Plot all three belief distributions
+# ## 9. Plot all three belief distributions
 
 # %%
 # TODO: Plot prior, Posterior 1, and Posterior 2 as Normal pdfs on one axes.
@@ -146,7 +162,7 @@ print(f"  Sd reduced from {post1_sd:.2f} → {post2_sd:.2f}")
 #       Use scipy.stats.norm.pdf to compute the y-values.
 
 # %% [markdown]
-# ## 8. Recommended pre-order quantity Q under each belief state
+# ## 10. Recommended pre-order quantity Q under each belief state
 #
 # Q = posterior_mean + Q_BUFFER × posterior_sd
 # Chapter & Craft wants a small buffer above the mean to limit stockouts, but not so large

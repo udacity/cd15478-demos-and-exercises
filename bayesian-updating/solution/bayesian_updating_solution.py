@@ -6,13 +6,14 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.19.1
+#       jupytext_version: 1.19.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
 
+# %%
 # This file is a jupytext-paired Python script export of
 # `bayesian_updating_solution.ipynb`. The canonical artifact for learners is
 # the notebook (.ipynb); this script is provided for code review and `git diff`
@@ -25,18 +26,17 @@
 #
 # Chapter & Craft, a fictional bookstore and hobby retail chain, pilots a Curated Reader's Box
 # subscription and must pre-order from its suppliers two weeks in advance. The key unknown is
-# mean weekly demand per store. Using real US hobby/book retail sales data (FRED MRTSSM451USS) to
+# mean weekly demand per store. Using US hobby/book retail sales data (FRED MRTSSM451USS) to
 # set a prior, and simulated pilot scan data for two sequential updates, you'll implement
 # the closed-form Normal-Normal conjugate update and translate each posterior into a
 # recommended pre-order quantity.
 #
 # ## What this notebook delivers
 #
-# 1. A prior mean derived from real FRED hobby/book retail sales data.
+# 1. A prior mean derived from FRED hobby/book retail sales data.
 # 2. Two sequential Normal-Normal updates (prior → Posterior 1 → Posterior 2).
 # 3. A three-distribution plot showing belief sharpening.
 # 4. Pre-order quantities Q under each belief state.
-# 5. A sensitivity check showing how prior width affects the first update.
 #
 
 # %% [markdown]
@@ -48,8 +48,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
 
-BENCH_PATH  = "../bayesian-updating-starter/data/hobby_book_industry_benchmarks.csv"
-PILOT_PATH  = "../bayesian-updating-starter/data/pilot_scan_data.csv"
+BENCH_PATH        = "../bayesian-updating-starter/data/hobby_book_industry_benchmarks.csv"
+PILOT_BATCH1_PATH = "../bayesian-updating-starter/data/pilot_scan_data_weeks1_4.csv"
+PILOT_BATCH2_PATH = "../bayesian-updating-starter/data/pilot_scan_data_weeks5_8.csv"
 
 N_US_HOBBY_BOOK_STORES = 25_000
 BOX_SHARE              = 0.008
@@ -58,7 +59,7 @@ PRIOR_SD               = 7.0
 Q_BUFFER               = 0.5
 
 # %% [markdown]
-# ## 1. Derive the prior mean from real hobby/book sales data
+# ## 1. Derive the prior mean from hobby/book sales data
 
 # %%
 bench = pd.read_csv(BENCH_PATH)
@@ -78,28 +79,26 @@ print(f"Derived prior_mu (with early-stage discount): {prior_mu} units/store/wee
 print(f"Prior: Demand ~ Normal({prior_mu}, {PRIOR_SD}²)")
 
 # %% [markdown]
-# ## 2. Load pilot scan data and split into two batches
+# ## 2. Load pilot data: first batch (weeks 1–4)
+#
+# Load `pilot_scan_data_weeks1_4.csv`. Weeks 5–8 haven't happened yet from the analyst's
+# point of view — that data lives in a separate file we don't touch until later.
 
 # %%
-pilot = pd.read_csv(PILOT_PATH)
-pilot
-
-# %%
-batch1 = pilot[pilot["week"] <= 4]
-batch2 = pilot[pilot["week"] > 4]
+batch1 = pd.read_csv(PILOT_BATCH1_PATH)
+batch1
 
 # %% [markdown]
-# ## 3. Compute likelihood parameters for each batch
+# ## 3. Compute batch 1's likelihood parameters
+#
+# The likelihood is summarized by the sample mean and standard error of the weekly
+# unit counts.
 
 # %%
 lik1_mu = batch1["mean_units_sold"].mean()
 lik1_sd = batch1["mean_units_sold"].std(ddof=1) / np.sqrt(len(batch1))
 
-lik2_mu = batch2["mean_units_sold"].mean()
-lik2_sd = batch2["mean_units_sold"].std(ddof=1) / np.sqrt(len(batch2))
-
 print(f"Batch 1 likelihood: mu={lik1_mu:.1f}, se={lik1_sd:.2f}")
-print(f"Batch 2 likelihood: mu={lik2_mu:.1f}, se={lik2_sd:.2f}")
 
 # %% [markdown]
 # ## 4. Implement `normal_update`
@@ -124,7 +123,27 @@ print(f"Posterior 1: mu={post1_mu:.1f}, sd={post1_sd:.2f}")
 print(f"  Sd reduced: {PRIOR_SD:.1f} → {post1_sd:.2f}")
 
 # %% [markdown]
-# ## 6. Second update: Posterior 1 + batch 2
+# ## 6. Two weeks later: batch 2 arrives (weeks 5–8)
+#
+# With Posterior 1 in hand, the pilot keeps running. Now load the next four weeks of scan
+# data from a separate file — the batch that wasn't available yet when Posterior 1 was
+# computed.
+
+# %%
+batch2 = pd.read_csv(PILOT_BATCH2_PATH)
+batch2
+
+# %% [markdown]
+# ## 7. Compute batch 2's likelihood parameters
+
+# %%
+lik2_mu = batch2["mean_units_sold"].mean()
+lik2_sd = batch2["mean_units_sold"].std(ddof=1) / np.sqrt(len(batch2))
+
+print(f"Batch 2 likelihood: mu={lik2_mu:.1f}, se={lik2_sd:.2f}")
+
+# %% [markdown]
+# ## 8. Second update: Posterior 1 + batch 2
 
 # %%
 post2_mu, post2_sd = normal_update(post1_mu, post1_sd, lik2_mu, lik2_sd)
@@ -133,7 +152,7 @@ print(f"Posterior 2: mu={post2_mu:.1f}, sd={post2_sd:.2f}")
 print(f"  Sd reduced: {post1_sd:.2f} → {post2_sd:.2f}")
 
 # %% [markdown]
-# ## 7. Plot all three belief distributions
+# ## 9. Plot all three belief distributions
 
 # %%
 xs = np.linspace(0, 50, 600)
@@ -158,7 +177,7 @@ plt.show()
 # Posterior 2, almost all probability mass is between 25 and 30 units.
 
 # %% [markdown]
-# ## 8. Recommended pre-order quantity Q
+# ## 10. Recommended pre-order quantity Q
 
 # %%
 Q_prior = prior_mu  + Q_BUFFER * PRIOR_SD

@@ -34,17 +34,19 @@ df.columns = ["date", "sales_m"]
 df[df["date"].str[:4].astype(int).between(2015, 2024)].to_csv("hobby_book_industry_benchmarks.csv", index=False)
 ```
 
-### `pilot_scan_data.csv`
+### `pilot_scan_data_weeks1_4.csv` and `pilot_scan_data_weeks5_8.csv`
 
-Weekly aggregate reservation counts reported from Chapter & Craft pilot stores, Weeks 1–8.
+Weekly aggregate reservation counts reported from Chapter & Craft pilot stores, split into
+two files by pilot week so each batch can be loaded only once it would actually be
+available — `weeks1_4` first, `weeks5_8` only after the first Bayesian update is computed.
 
 | Column | Description |
 | --- | --- |
-| `week` | Week number of the pilot (1–8) |
+| `week` | Week number of the pilot (1–4 or 5–8, depending on file) |
 | `mean_units_sold` | Average boxes reserved per store that week |
 | `n_stores` | Number of stores reporting that week |
 
-**Note:** This file was generated for this exercise to illustrate Bayesian belief
+**Note:** These files were generated for this exercise to illustrate Bayesian belief
 updating with realistic demand dynamics. The pilot started with 3 stores and grew to 8 as
 the program expanded. Weekly means are plausible for a new curated-box program in a
 specialty retail chain. The values are calibrated to converge toward a per-store demand
