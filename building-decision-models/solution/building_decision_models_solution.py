@@ -44,9 +44,9 @@ DATA_PATH = "../building-decision-models-starter/data/sporting_goods_sales.csv"
 #
 # To estimate how likely each demand environment is, we benchmark against US sporting
 # goods retail sales data. `data/sporting_goods_sales.csv` contains monthly retail sales
-# figures from FRED (MRTSSM45111USS, public domain). We compute year-over-year growth
-# rates and use tertile binning to assign an empirical probability to each of three
-# demand states.
+# figures for the sporting goods category (U.S. Census Bureau Monthly Retail Trade
+# Survey, NAICS 45111, public domain). We compute year-over-year growth rates and use
+# tertile binning to assign an empirical probability to each of three demand states.
 
 # %%
 sales = pd.read_csv(DATA_PATH)
@@ -88,7 +88,7 @@ for state, prob in STATES.items():
 #
 # - **Rectangle** — Decision node: a variable *you* control
 # - **Oval** — Uncertainty node: an uncertain variable nature controls
-# - **Rounded rectangle** — Value node: the payoff that depends on both
+# - **Octagon** — Value node: the payoff that depends on both
 
 # %%
 fig, ax = plt.subplots(figsize=(9, 4.5))
