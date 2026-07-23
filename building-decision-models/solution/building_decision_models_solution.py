@@ -13,12 +13,6 @@
 #     name: python3
 # ---
 
-# %%
-# This file is a jupytext-paired Python script export of
-# `building_decision_models_solution.ipynb`. The canonical artifact for learners is
-# the notebook (.ipynb); this script is provided for code review and `git diff`
-# readability. Run `jupytext --sync` to keep the two in lockstep after edits.
-
 # %% [markdown]
 # # Structuring and Solving a Product Launch Decision (SOLUTION)
 #
@@ -144,9 +138,9 @@ plt.show()
 # ## 3. Define the structure
 #
 # Trailmark's VP of Product Strategy laid out three paths. **National Launch** commits
-# $700K to national marketing and broad retail distribution — high upside in a strong
+# \\$700K to national marketing and broad retail distribution — high upside in a strong
 # demand environment, but unsold-inventory markdowns can flip revenue negative in a weak
-# one. **Regional Test Launch** is a more conservative $250K play in a handful of
+# one. **Regional Test Launch** is a more conservative \\$250K play in a handful of
 # priority markets, with a narrower range of outcomes in either direction. **Hold**
 # delays to next season: no spend, no upside, no downside.
 
@@ -326,8 +320,8 @@ plt.show()
 # (right to left), and the decision node takes the maximum under each criterion.
 #
 # Here the two criteria disagree. A risk-neutral decision maker rolls back EV and picks
-# **National Launch** ($3.72M). A risk-averse one rolls back CE and picks
-# **Regional Test Launch** ($2.57M) — because National Launch's large downside in a
+# **National Launch** (\\$3.72M). A risk-averse one rolls back CE and picks
+# **Regional Test Launch** (\\$2.57M) — because National Launch's large downside in a
 # Low market gets penalised heavily by CRRA utility, reducing its certainty equivalent
 # well below its expected profit. The criterion you roll back determines the
 # recommendation you get.
