@@ -6,27 +6,23 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.19.1
+#       jupytext_version: 1.19.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
 
-# This file is a jupytext-paired Python script export of
-# `monte_carlo_simulation_solution.ipynb`.
-
 # %% [markdown]
 # # Stress-Testing Fleet Electrification with Monte Carlo Simulation (SOLUTION)
 #
 # ## Scenario
 #
-# Haul & Charge Co., a fictional urban delivery company, evaluates three strategies for its
+# Haul & Charge Co., an urban delivery company, evaluates three strategies for its
 # 20-truck fleet over a 5-year horizon: Buy electric trucks outright, Lease them, or
 # Hold (keep diesel as baseline). A 10,000-draw Monte Carlo simulation across uncertain
 # electricity rates, utilization, maintenance savings, and resale values quantifies the
 # distribution of outcomes and identifies which strategy is more robust.
-#
 
 # %% [markdown]
 # ## Setup
@@ -54,7 +50,7 @@ RNG    = np.random.default_rng(42)
 OPTIONS = ["Buy", "Lease", "Hold"]
 
 # %% [markdown]
-# ## 1. Electricity rate distribution from EIA data
+# ## 1. Electricity rate distribution
 
 # %%
 rates = pd.read_csv(DATA_PATH, parse_dates=["date"])
@@ -162,7 +158,7 @@ print(f"P(Lease NPV > 0): {p_lease_pos:.1%}")
 # ## 8. Interpretation
 
 # %% [markdown]
-# **Lease is the stronger strategy** on both mean NPV (~$899K vs. ~$818K for Buy) and
+# **Lease is the stronger strategy** on both mean NPV (~\\$899K vs. ~\\$818K for Buy) and
 # downside risk (lower SD, never goes negative in the simulation). Buy wins in only
 # ~26% of simulations — specifically in scenarios where the year-5 resale value is
 # high enough to offset the larger upfront capital commitment. If Haul & Charge Co. expects
