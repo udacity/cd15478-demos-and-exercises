@@ -24,9 +24,10 @@
 #
 # ## Scenario
 #
-# Trailmark Outdoor Co.'s VP of Product Strategy described three launch options for the
-# Ridge Runner trail shoe verbally — a spoken walkthrough, not a structured model. This
-# notebook turns that description into one.
+# Trailmark Outdoor Co. needs to decide how to launch its new Ridge Runner trail shoe —
+# go national, test it regionally first, or hold off entirely. Its VP of Product Strategy
+# described those three options verbally, on a call — a spoken walkthrough, not a
+# structured model. This notebook turns that description into one.
 
 # %% [markdown]
 # ## Setup
@@ -45,8 +46,8 @@ DATA_PATH = "../building-decision-models-starter/data/sporting_goods_sales.csv"
 # To estimate how likely each demand environment is, we benchmark against US sporting
 # goods retail sales data. `data/sporting_goods_sales.csv` contains monthly retail sales
 # figures for the sporting goods category (U.S. Census Bureau Monthly Retail Trade
-# Survey, NAICS 45111, public domain). We compute year-over-year growth rates and use
-# tertile binning to assign an empirical probability to each of three demand states.
+# Survey, public domain). We compute year-over-year growth rates and use tertile binning
+# to assign an empirical probability to each of three demand states.
 
 # %%
 sales = pd.read_csv(DATA_PATH)
