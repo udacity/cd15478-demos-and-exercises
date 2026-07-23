@@ -10,7 +10,7 @@ ship date, before seeing that week's final reservation count — which means ove
 inventory and under-ordering leaves subscribers without a box.
 
 The key unknown is **mean weekly demand per store** (in units). You don't know this before the
-pilot, but you do have an industry benchmark from real US retail sales data to set a starting
+pilot, but you do have an industry benchmark from US retail sales data to set a starting
 point. As pilot stores report weekly reservation counts, you'll update your belief twice — first
 after the pilot's first four weeks, then again after weeks five through eight — using the
 Normal-Normal conjugate update. Each update sharpens your belief and shifts your recommended
@@ -22,18 +22,17 @@ and use only weeks 1–4 to compute Posterior 1, and don't touch the weeks 5–8
 that update is done. Loading both upfront would make the first update look like it already
 knew what batch 2 would show.
 
-To anchor the starting point, the file `data/hobby_book_industry_benchmarks.csv` contains real
-monthly US sporting goods, hobby, musical instrument, and book store sales from
-[FRED](https://fred.stlouisfed.org/series/MRTSSM451USS) (US Census Bureau Monthly Retail Trade
-Survey, NAICS 451, public domain). From those sales figures you'll derive the prior mean. The
-prior standard deviation is set wider than historical sales variability to reflect new-product
-uncertainty.
+To anchor the starting point, the file `data/hobby_book_industry_benchmarks.csv` contains
+monthly US sporting goods, hobby, musical instrument, and book store sales (US Census Bureau
+Monthly Retail Trade Survey, public domain — see `data/README.md` for the full citation).
+From those sales figures you'll derive the prior mean. The prior standard deviation is set
+wider than historical sales variability to reflect new-product uncertainty.
 
 ## What you'll deliver
 
 A completed Jupyter notebook (start from `bayesian_updating_starter.ipynb`) that:
 
-1. Loads the FRED hobby/book sales data and derives the prior mean demand from it. Uses the
+1. Loads the hobby/book sales data and derives the prior mean demand from it. Uses the
    provided constants for prior standard deviation and average box price.
 2. Loads `pilot_scan_data_weeks1_4.csv`, the first batch of pilot data.
 3. Computes batch 1's likelihood parameters: the sample mean and standard error of the

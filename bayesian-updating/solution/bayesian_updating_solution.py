@@ -26,14 +26,14 @@
 #
 # Chapter & Craft, a fictional bookstore and hobby retail chain, pilots a Curated Reader's Box
 # subscription and must pre-order from its suppliers two weeks in advance. The key unknown is
-# mean weekly demand per store. Using US hobby/book retail sales data (FRED MRTSSM451USS) to
-# set a prior, and simulated pilot scan data for two sequential updates, you'll implement
-# the closed-form Normal-Normal conjugate update and translate each posterior into a
-# recommended pre-order quantity.
+# mean weekly demand per store. Using US hobby/book retail sales data to set a prior, and
+# simulated pilot scan data for two sequential updates, you'll implement the closed-form
+# Normal-Normal conjugate update and translate each posterior into a recommended pre-order
+# quantity.
 #
 # ## What this notebook delivers
 #
-# 1. A prior mean derived from FRED hobby/book retail sales data.
+# 1. A prior mean derived from hobby/book retail sales data.
 # 2. Two sequential Normal-Normal updates (prior → Posterior 1 → Posterior 2).
 # 3. A three-distribution plot showing belief sharpening.
 # 4. Pre-order quantities Q under each belief state.

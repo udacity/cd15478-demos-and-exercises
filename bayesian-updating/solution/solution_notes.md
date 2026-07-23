@@ -16,13 +16,14 @@ recommendation about whether to expand the program.
 
 ## Key steps
 
-1. **Prior derivation from FRED data** — Monthly sporting goods/hobby/book store sales
-   (MRTSSM451USS) averaged ~$8.11B in 2022–2024. Divided by ~25,000 US stores and 4.33 weeks
+1. **Prior derivation from benchmark data** — Monthly sporting goods/hobby/book store sales
+   averaged ~$8.11B in 2022–2024. Divided by ~25,000 US stores and 4.33 weeks
    gives ~$75.0K/store/week. At 0.8% box share and $24/box → ~25 units/week. Multiplied by
    0.75 (early-stage discount) → **prior_mu ≈ 18.7**. prior_sd = 7.0 is set wider than
    observed sales variability to reflect the genuine uncertainty of a new product launch.
-   (This figure moves slightly as FRED appends new monthly releases — re-run the notebook's
-   derivation cell for the exact current value rather than treating 18.7 as fixed.)
+   (This figure moves slightly as the benchmark dataset appends new monthly releases —
+   re-run the notebook's derivation cell for the exact current value rather than treating
+   18.7 as fixed.)
 
 2. **Splitting batches** — `pilot[pilot["week"] <= 4]` and `pilot[pilot["week"] > 4]`.
    Straightforward; common mistake is using `< 4` and missing week 4.
@@ -62,8 +63,9 @@ recommendation about whether to expand the program.
 - **Using SEM incorrectly** — dividing by `sqrt(total_observations)` instead of
   `sqrt(n_weeks)`. Since each week's mean is one data point in the likelihood, the SE of
   those weekly means is `std(weekly_means) / sqrt(n_weeks)`.
-- **Hardcoding prior_mu** — the requirement is to derive it from the FRED data. Learners
-  who write `prior_mu = 18.7` directly without the derivation lose the connection to real data.
+- **Hardcoding prior_mu** — the requirement is to derive it from the benchmark data. Learners
+  who write `prior_mu = 18.7` directly without the derivation lose the connection to the
+  underlying data.
 - **Not showing the distribution plot** — the three overlaid curves are the visual payoff
   of the exercise. Missing them means the learner hasn't seen belief sharpening visually.
 

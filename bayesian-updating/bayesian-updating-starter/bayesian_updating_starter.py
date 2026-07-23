@@ -44,11 +44,17 @@ PRIOR_SD               = 7.0     # units — wider than historical variability; 
 Q_BUFFER               = 0.5     # pre-order buffer: Q = posterior_mean + Q_BUFFER × posterior_sd
 
 # %% [markdown]
-# ## 1. Derive the prior mean from real hobby/book sales data
+# ## 1. Derive the prior mean from hobby/book sales data
 #
-# Load the FRED monthly sporting goods/hobby/book store sales data and compute the average
-# weekly per-store sales for recent years. Use the box share and average price to derive prior
-# mean demand in units per store per week.
+# Load the monthly sporting goods/hobby/book store sales data and compute the average
+# monthly hobby/book store sales for 2022–2024. Derive `prior_mu` — mean weekly box units
+# per store:
+#
+# 1. Weekly sales per store = (avg monthly $) / `N_US_HOBBY_BOOK_STORES` / 4.33 weeks
+# 2. Weekly box $ per store = weekly sales × `BOX_SHARE`
+# 3. Units = box $ / `AVG_BOX_PRICE`
+#
+# Then apply an early-stage discount: multiply by 0.75 (new program, narrower reach).
 
 # %%
 # TODO: Load the benchmark CSV into a DataFrame called `bench`.
@@ -57,11 +63,7 @@ bench = ...
 # TODO: Compute `avg_monthly_usd_m` — average monthly hobby/book store sales in $M for 2022-2024.
 avg_monthly_usd_m = ...
 
-# TODO: Derive `prior_mu` — mean weekly box units per store.
-#   Step 1: weekly sales per store = (avg monthly $) / N_US_HOBBY_BOOK_STORES / 4.33 weeks
-#   Step 2: weekly box $ per store = weekly_sales × BOX_SHARE
-#   Step 3: units = box_$ / AVG_BOX_PRICE
-#   Then apply an early-stage discount: multiply by 0.75 (new program, narrower reach)
+# TODO: Derive `prior_mu` (see steps above).
 prior_mu = ...
 
 print(f"Avg monthly US hobby/book store sales (2022-24): ${avg_monthly_usd_m:,.0f}M")
@@ -82,12 +84,12 @@ batch1 = ...
 # ## 3. Compute batch 1's likelihood parameters
 #
 # The likelihood is summarized by the sample mean and standard error of the weekly
-# unit counts.
+# unit counts: `se = std(ddof=1) / sqrt(n_weeks)`.
 
 # %%
 # TODO: Compute lik1_mu, lik1_sd (mean and se of mean_units_sold in batch1).
 lik1_mu = ...
-lik1_sd = ...  # standard error = std(ddof=1) / sqrt(n_weeks)
+lik1_sd = ...
 
 print(f"Batch 1 likelihood: mu={lik1_mu:.1f}, se={lik1_sd:.2f}")
 
@@ -155,11 +157,12 @@ print(f"  Sd reduced from {post1_sd:.2f} → {post2_sd:.2f}")
 
 # %% [markdown]
 # ## 9. Plot all three belief distributions
+#
+# Plot the prior, Posterior 1, and Posterior 2 as Normal pdfs on one set of axes, using
+# `scipy.stats.norm.pdf` for the y-values. Add a legend and labeled axes.
 
 # %%
-# TODO: Plot prior, Posterior 1, and Posterior 2 as Normal pdfs on one axes.
-#       Add a legend and labeled axes.
-#       Use scipy.stats.norm.pdf to compute the y-values.
+# TODO: Plot the three distributions.
 
 # %% [markdown]
 # ## 10. Recommended pre-order quantity Q under each belief state

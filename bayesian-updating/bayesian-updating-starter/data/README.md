@@ -50,4 +50,5 @@ available — `weeks1_4` first, `weeks5_8` only after the first Bayesian update 
 updating with realistic demand dynamics. The pilot started with 3 stores and grew to 8 as
 the program expanded. Weekly means are plausible for a new curated-box program in a
 specialty retail chain. The values are calibrated to converge toward a per-store demand
-level moderately above the FRED-derived, discounted prior of ~18.7 units/week.
+level moderately above the discounted prior of ~18.7 units/week derived from the benchmark
+data above.
