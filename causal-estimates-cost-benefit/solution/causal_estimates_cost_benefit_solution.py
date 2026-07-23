@@ -155,7 +155,7 @@ print(f"IPW estimate:   ${ipw_point:+,.0f}")
 print(f"AIPW estimate:  ${aipw_point:+,.0f}")
 
 # %% [markdown]
-# **AIPW ($+887) is meaningfully higher than plain IPW ($+223)**. The outcome model
+# **AIPW (\\$+887) is meaningfully higher than plain IPW (\\$+223)**. The outcome model
 # corrects for the residual confounding that the propensity model alone did not
 # fully remove. Both estimates point to a positive earnings effect, but AIPW
 # implies a much more favourable ROI — which is why reporting both side-by-side,
