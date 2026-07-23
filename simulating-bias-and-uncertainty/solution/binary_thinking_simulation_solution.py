@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.19.1
+#       jupytext_version: 1.19.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -170,14 +170,14 @@ plt.tight_layout()
 plt.show()
 
 # %% [markdown]
-# The two curves diverge in the **25%–50% range**. There, binary thinking predicts "dry" and pays $15 whenever it rains. A cost-aware thinker brings the umbrella in that range and pays only $5 on dry days.
+# The two curves diverge in the **25%–50% range**. There, binary thinking predicts "dry" and pays \\$15 whenever it rains. A cost-aware thinker brings the umbrella in that range and pays only \\$5 on dry days.
 #
 # The optimal threshold isn't 50% — it's wherever expected costs balance: `p × $15 = (1-p) × $5` → `p = 25%`. Binary thinking misses this because it treats the decision as symmetric when the costs are not.
 #
 # Here's what makes this interesting: **forecasters face the same cost asymmetry, but from the other side.** Getting blamed for underpredicting rain costs them more reputationally than overpredicting. So some providers deliberately inflate their probabilities — especially at the low end. Section 4 examines what that does to your umbrella decision.
 
 # %% [markdown]
-# ## 4. The forecaster's wet bias — and whether it accidentally helps
+# ## 4. The forecaster's rain bias — and whether it accidentally helps
 #
 # Forecasters face the same asymmetric cost structure as users, but from the opposite side: underpredicting rain (leaving users soaked and angry) costs them more reputationally than overpredicting (users carry an unnecessary umbrella and shrug). So some forecast providers apply a **wet bias** — deliberately inflating rain probabilities, especially at the low end. A model estimate of 5% might be published as ~20%.
 #
@@ -258,7 +258,7 @@ plt.show()
 #
 # 2. **Binary thinking rounds** whatever you see into "yes" or "no" at 50% — discarding the actual number entirely.
 #
-# 3. **Costs are asymmetric**, so the correct threshold isn't 50%. When getting soaked costs $15 and carrying a useless umbrella costs $5, the break-even is 25%. The wet bias partially compensates by shifting the effective threshold to ~41% — but doesn't close the gap to optimal.
+# 3. **Costs are asymmetric**, so the correct threshold isn't 50%. When getting soaked costs \\$15 and carrying a useless umbrella costs \\$5, the break-even is 25%. The wet bias partially compensates by shifting the effective threshold to ~41% — but doesn't close the gap to optimal.
 #
 # The same pattern appears wherever probability gets communicated: a 35% chance a project slips, a 40% chance a treatment works, a 30% chance of a recession. Treating "under 50%" as "won't happen" throws away real information and leads to poor preparation for outcomes that are genuinely likely enough to plan for.
 #
